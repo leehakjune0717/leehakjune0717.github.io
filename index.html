@@ -1,0 +1,1004 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>피드 첫장 커버 메이커</title>
+<meta name="description" content="사진과 제목만 바꾸면 인스타그램 피드 첫 장이 항상 같은 스타일로 나오는 커버 메이커.">
+<meta property="og:title" content="피드 첫장 커버 메이커">
+<meta property="og:description" content="사진을 올리고 제목 두 줄만 적으면 커버가 완성됩니다.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+  :root{color-scheme:light dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
+  body{margin:0;font:14px system-ui,-apple-system,sans-serif;background:#F6F3EE;}
+  img{max-width:100%;}
+  [hidden]{display:none!important;}
+</style>
+</head>
+<body>
+<style>
+  :root{
+    --ground:#F6F3EE;
+    --panel:#FFFFFF;
+    --panel-2:#EFEAE2;
+    --ink:#1B1815;
+    --ink-2:#6B635A;
+    --line:#DCD5CA;
+    --accent:#9A6B3C;
+    --accent-soft:#F0E4D6;
+    --stage:#DAD3C8;
+    --shadow:0 18px 40px -24px rgba(40,30,18,.55);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#131211;
+      --panel:#1C1A18;
+      --panel-2:#252220;
+      --ink:#EFEAE3;
+      --ink-2:#9C948A;
+      --line:#332F2B;
+      --accent:#D2A06A;
+      --accent-soft:#2A241E;
+      --stage:#0C0B0A;
+      --shadow:0 18px 40px -24px rgba(0,0,0,.8);
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#131211;
+    --panel:#1C1A18;
+    --panel-2:#252220;
+    --ink:#EFEAE3;
+    --ink-2:#9C948A;
+    --line:#332F2B;
+    --accent:#D2A06A;
+    --accent-soft:#2A241E;
+    --stage:#0C0B0A;
+    --shadow:0 18px 40px -24px rgba(0,0,0,.8);
+  }
+
+  body{
+    background:var(--ground);
+    color:var(--ink);
+    font-family:"Noto Sans KR",system-ui,-apple-system,"Malgun Gothic",sans-serif;
+    font-size:14px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:1180px;
+    margin:0 auto;
+    padding-inline:20px;
+    padding-block:34px 60px;
+  }
+
+  header.masthead{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:14px;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--line);
+  }
+  .masthead h1{
+    font-family:"Instrument Serif",Georgia,serif;
+    font-weight:400;
+    font-size:clamp(30px,5vw,44px);
+    line-height:1.05;
+    margin:0;
+    letter-spacing:-.01em;
+    text-wrap:balance;
+  }
+  .masthead h1 em{font-style:italic;color:var(--accent);}
+  .masthead p{
+    margin:0;
+    color:var(--ink-2);
+    max-width:42ch;
+    font-size:13px;
+  }
+
+  .layout{
+    display:grid;
+    grid-template-columns:minmax(0,420px) minmax(0,1fr);
+    gap:30px;
+    align-items:start;
+    margin-top:28px;
+  }
+  @media (max-width:860px){
+    .layout{grid-template-columns:minmax(0,1fr);}
+  }
+
+  /* ---- stage ---- */
+  .stage{
+    position:sticky;
+    top:env(safe-area-inset-top,0px);
+    background:var(--stage);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:18px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+  @media (max-width:860px){ .stage{position:static;} }
+  #preview{
+    display:block;
+    width:100%;
+    max-width:100%;
+    height:auto;
+    background:#111;
+    box-shadow:var(--shadow);
+    cursor:pointer;
+  }
+  .dropzone{position:relative;}
+  .upload-cta{
+    position:absolute;
+    left:50%;
+    top:58%;
+    transform:translate(-50%,-50%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
+    padding:22px 26px;
+    background:rgba(18,15,12,.62);
+    backdrop-filter:blur(2px);
+    outline:2px dashed rgba(255,255,255,.45);
+    outline-offset:-8px;
+    color:#fff;
+    text-align:center;
+    pointer-events:none;
+    max-width:80%;
+  }
+  .upload-cta strong{font-size:15px;font-weight:700;letter-spacing:.02em;}
+  .upload-cta span{font-size:12px;color:rgba(255,255,255,.72);line-height:1.5;}
+  .upload-cta button{
+    pointer-events:auto;
+    font:inherit;
+    font-weight:700;
+    font-size:13px;
+    padding:10px 20px;
+    border:0;
+    border-radius:3px;
+    background:#fff;
+    color:#1B1815;
+    cursor:pointer;
+  }
+  .dropzone.over::after{
+    content:"사진 놓기";
+    position:absolute;inset:0;
+    display:grid;place-items:center;
+    background:rgba(20,16,12,.72);
+    color:#fff;
+    font-weight:700;
+    letter-spacing:.08em;
+    outline:2px dashed rgba(255,255,255,.7);
+    outline-offset:-10px;
+  }
+  .stage-foot{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .stage-note{
+    font-size:11.5px;
+    color:var(--ink-2);
+    letter-spacing:.02em;
+  }
+
+  /* ---- controls ---- */
+  .panels{display:flex;flex-direction:column;gap:18px;min-width:0;}
+  section.panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:20px;
+  }
+  .panel > h2{
+    margin:0 0 4px;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+  .panel > .sub{
+    margin:0 0 16px;
+    font-size:12px;
+    color:var(--ink-2);
+  }
+  .locked{background:var(--panel-2);}
+  .grid{display:grid;gap:14px;}
+  .grid.two{grid-template-columns:1fr 1fr;}
+  @media (max-width:520px){ .grid.two{grid-template-columns:1fr;} }
+
+  label.field{display:flex;flex-direction:column;gap:6px;min-width:0;}
+  label.field > span{
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    color:var(--ink-2);
+  }
+  input[type="text"],select{
+    font:inherit;
+    font-size:14px;
+    color:var(--ink);
+    background:var(--ground);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:9px 10px;
+    width:100%;
+    min-width:0;
+  }
+  input[type="text"]:focus-visible,select:focus-visible,button:focus-visible,input[type="range"]:focus-visible{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+  }
+  input[type="range"]{width:100%;accent-color:var(--accent);}
+  .rangerow{display:flex;align-items:center;gap:10px;}
+  .rangerow output{
+    font-variant-numeric:tabular-nums;
+    font-size:12px;
+    color:var(--ink-2);
+    min-width:3.2em;
+    text-align:right;
+  }
+
+  .seg{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden;}
+  .seg button{
+    flex:1;
+    font:inherit;
+    font-size:12.5px;
+    padding:8px 4px;
+    background:var(--ground);
+    color:var(--ink-2);
+    border:0;
+    border-right:1px solid var(--line);
+    cursor:pointer;
+  }
+  .seg button:last-child{border-right:0;}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:#fff;font-weight:700;}
+
+  button.act{
+    font:inherit;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:.02em;
+    padding:11px 18px;
+    border-radius:3px;
+    border:1px solid var(--accent);
+    background:var(--accent);
+    color:#fff;
+    cursor:pointer;
+  }
+  button.act.ghost{background:transparent;color:var(--ink);border-color:var(--line);}
+  button.act:disabled{opacity:.5;cursor:default;}
+
+  .logo-bay{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:16px;
+    margin-top:18px;
+    padding-top:16px;
+    border-top:1px solid var(--line);
+  }
+  .logo-chip{
+    width:132px;
+    height:72px;
+    flex:0 0 auto;
+    display:grid;
+    place-items:center;
+    background:#2E2E2E;
+    border:1px solid var(--line);
+    border-radius:3px;
+    overflow:hidden;
+    padding:8px;
+  }
+  .logo-chip img{max-width:100%;max-height:100%;object-fit:contain;}
+  .logo-chip span{font-size:11px;letter-spacing:.1em;color:rgba(255,255,255,.45);}
+  .logo-ctl{flex:1 1 200px;min-width:0;}
+
+  .checkline{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink);}
+  .checkline input{accent-color:var(--accent);width:16px;height:16px;}
+
+  .recipe{
+    margin-top:26px;
+    border-top:1px solid var(--line);
+    padding-top:20px;
+  }
+  .recipe h2{
+    font-family:"Instrument Serif",Georgia,serif;
+    font-weight:400;
+    font-size:22px;
+    margin:0 0 12px;
+  }
+  .recipe ol{margin:0;padding-left:1.1em;color:var(--ink-2);font-size:13px;display:grid;gap:7px;max-width:62ch;}
+  .recipe ol b{color:var(--ink);font-weight:500;}
+  .toast{
+    font-size:12px;
+    color:var(--ink-2);
+    min-height:1.4em;
+  }
+  .toast[data-tone="warn"]{color:var(--accent);}
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <h1>피드 첫 장, <em>한 벌로</em> 통일하기</h1>
+    <p>사진과 제목만 바꾸면 커버 스타일은 항상 그대로. 아래 스타일 설정은 저장돼서 다음 게시물에도 똑같이 적용됩니다.</p>
+  </header>
+
+  <div class="layout">
+    <div class="stage">
+      <div class="dropzone" id="dropzone">
+        <canvas id="preview" width="1080" height="1350" role="img" aria-label="커버 미리보기"></canvas>
+        <div class="upload-cta" id="cta">
+          <strong>내 사진 올리기</strong>
+          <button type="button" id="btn-pick">사진 고르기</button>
+          <span>끌어다 놓기 · 복사한 사진 붙여넣기(Ctrl+V)도 됩니다</span>
+        </div>
+      </div>
+      <div class="stage-foot">
+        <button class="act" id="btn-save" type="button">PNG 저장</button>
+        <button class="act ghost" id="btn-photo" type="button">사진 바꾸기</button>
+        <input type="file" id="file" accept="image/*" hidden>
+      </div>
+      <p class="stage-note" id="dims">1080 × 1350 px · 미리보기를 클릭하거나 사진을 끌어다 놓으세요</p>
+      <p class="toast" id="toast"></p>
+    </div>
+
+    <div class="panels">
+      <section class="panel">
+        <h2>이번 게시물</h2>
+        <p class="sub">매번 바뀌는 부분입니다.</p>
+        <div class="grid">
+          <label class="field">
+            <span>첫째 줄</span>
+            <input type="text" id="line1" maxlength="24" value="신사동 상가주택">
+          </label>
+          <label class="field">
+            <span>둘째 줄</span>
+            <input type="text" id="line2" maxlength="24" value="40PY 리모델링">
+          </label>
+        </div>
+        <div class="grid two" style="margin-top:14px">
+          <label class="field">
+            <span>사진 세로 위치</span>
+            <span class="rangerow"><input type="range" id="focal" min="0" max="100" value="50"><output id="focal-out">50%</output></span>
+          </label>
+          <label class="field">
+            <span>사진 확대</span>
+            <span class="rangerow"><input type="range" id="zoom" min="100" max="180" value="100"><output id="zoom-out">1.00×</output></span>
+          </label>
+        </div>
+      </section>
+
+      <section class="panel locked">
+        <h2>고정 스타일</h2>
+        <p class="sub">한 번 정하면 모든 커버에 그대로 적용됩니다.</p>
+
+        <div class="grid two">
+          <label class="field">
+            <span>서명 (제목 아래)</span>
+            <input type="text" id="byline" maxlength="30" value="BY MYOWNDESIGN">
+          </label>
+          <label class="field">
+            <span>비율</span>
+            <select id="ratio">
+              <option value="4:5" selected>4:5 세로 (1080×1350)</option>
+              <option value="1:1">1:1 정사각 (1080×1080)</option>
+              <option value="9:16">9:16 스토리 (1080×1920)</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="logo-bay">
+          <div class="logo-chip" id="logo-chip"><span id="logo-empty">로고 없음</span></div>
+          <div class="logo-ctl">
+            <div class="stage-foot">
+              <button class="act ghost" id="btn-logo" type="button">로고 올리기</button>
+              <button class="act ghost" id="btn-logo-clear" type="button">지우기</button>
+              <input type="file" id="logofile" accept="image/*" hidden>
+            </div>
+            <p class="sub" style="margin:8px 0 0">PNG·JPG 모두 됩니다. 한 번 올리면 저장돼서 다음 커버에도 계속 들어갑니다.</p>
+          </div>
+        </div>
+
+        <div class="grid two" style="margin-top:14px">
+          <label class="field">
+            <span>로고 크기</span>
+            <span class="rangerow"><input type="range" id="logosize" min="10" max="45" value="26"><output id="logosize-out">26%</output></span>
+          </label>
+          <label class="field">
+            <span>로고 위치</span>
+            <select id="logopos">
+              <option value="right" selected>오른쪽 아래</option>
+              <option value="center">가운데 아래</option>
+              <option value="left">왼쪽 아래</option>
+            </select>
+          </label>
+        </div>
+        <div class="grid two" style="margin-top:12px">
+          <label class="checkline"><input type="checkbox" id="logowhite" checked> 로고를 흰색으로 (어두운 사진용)</label>
+          <label class="checkline"><input type="checkbox" id="logoshadow" checked> 로고 뒤 그림자</label>
+        </div>
+
+        <div class="grid two" style="margin-top:16px">
+          <label class="field">
+            <span>정렬</span>
+            <span class="seg" id="align">
+              <button type="button" data-v="left" aria-pressed="true">왼쪽</button>
+              <button type="button" data-v="center" aria-pressed="false">가운데</button>
+            </span>
+          </label>
+          <label class="field">
+            <span>어둡기</span>
+            <span class="rangerow"><input type="range" id="scrim" min="0" max="100" value="62"><output id="scrim-out">62%</output></span>
+          </label>
+          <label class="field">
+            <span>제목 크기</span>
+            <span class="rangerow"><input type="range" id="tsize" min="60" max="120" value="100"><output id="tsize-out">100%</output></span>
+          </label>
+          <label class="field">
+            <span>제목 굵기</span>
+            <span class="seg" id="weight">
+              <button type="button" data-v="500" aria-pressed="false">보통</button>
+              <button type="button" data-v="700" aria-pressed="true">굵게</button>
+              <button type="button" data-v="900" aria-pressed="false">아주 굵게</button>
+            </span>
+          </label>
+        </div>
+
+        <div class="grid two" style="margin-top:16px">
+          <label class="checkline"><input type="checkbox" id="arrow" checked> 넘기기 화살표</label>
+          <label class="checkline"><input type="checkbox" id="rule" checked> 제목 위 가는 선</label>
+          <label class="checkline"><input type="checkbox" id="grain" checked> 필름 그레인</label>
+          <label class="checkline"><input type="checkbox" id="dots"> 슬라이드 점 표시</label>
+        </div>
+
+        <div class="stage-foot" style="margin-top:18px">
+          <button class="act ghost" id="btn-reset" type="button">기본값으로</button>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="recipe">
+    <h2>피드 전체를 한 벌로 맞추는 방법</h2>
+    <ol>
+      <li><b>고정 스타일은 건드리지 않습니다.</b> 워터마크·서명·정렬·어둡기가 매번 같아야 격자에서 한 시리즈로 읽힙니다.</li>
+      <li><b>사진은 항상 같은 성격으로.</b> 넓은 장면, 정면에 가까운 시선, 위쪽 1/3은 비어 있는 컷 — 제목이 앉을 자리입니다.</li>
+      <li><b>제목은 두 줄, 각 12자 내외.</b> 첫 줄은 장소나 평수, 둘째 줄은 무엇을 했는지.</li>
+      <li><b>2장부터는 커버 없이</b> 사진만 이어 붙이고, 마지막 장에 문의 정보를 둡니다.</li>
+    </ol>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var KEY = "feedcover.style.v2";
+  var LOGOKEY = "feedcover.logo.v1";
+  var canvas = document.getElementById("preview");
+  var ctx = canvas.getContext("2d");
+  var toastEl = document.getElementById("toast");
+  var photo = null;          // HTMLImageElement
+  var logo = null;           // HTMLImageElement
+  var logoPrepared = null;   // recolored offscreen canvas
+  var logoPreparedWhite = null;
+  var fontsReady = false;
+
+  var RATIOS = { "4:5":[1080,1350], "1:1":[1080,1080], "9:16":[1080,1920] };
+
+  var S = {
+    line1:"신사동 상가주택", line2:"40PY 리모델링",
+    byline:"BY MYOWNDESIGN",
+    ratio:"4:5", align:"left", scrim:62, tsize:100, weight:"700",
+    arrow:true, rule:true, grain:true, dots:false,
+    logosize:26, logopos:"right", logowhite:true, logoshadow:true,
+    focal:50, zoom:100
+  };
+
+  function toast(msg, tone){
+    toastEl.textContent = msg || "";
+    if (tone) toastEl.setAttribute("data-tone", tone); else toastEl.removeAttribute("data-tone");
+  }
+
+  /* ---------- persistence (style only) ---------- */
+  var STYLE_KEYS = ["byline","ratio","align","scrim","tsize","weight","arrow","rule","grain","dots",
+                    "logosize","logopos","logowhite","logoshadow"];
+  function saveStyle(){
+    try{
+      var o = {};
+      STYLE_KEYS.forEach(function(k){ o[k] = S[k]; });
+      localStorage.setItem(KEY, JSON.stringify(o));
+    }catch(e){}
+  }
+  function loadStyle(){
+    try{
+      var raw = localStorage.getItem(KEY);
+      if(!raw) return;
+      var o = JSON.parse(raw);
+      STYLE_KEYS.forEach(function(k){ if(o && o[k] !== undefined) S[k] = o[k]; });
+    }catch(e){}
+  }
+
+  /* ---------- logo ---------- */
+  /* Trim the flat background, then optionally repaint the mark white so it
+     reads on a dark photo. Works for both transparent and white-backed files. */
+  function prepareLogo(){
+    logoPrepared = null; logoPreparedWhite = null;
+    if(!logo) return;
+    var iw = logo.naturalWidth, ih = logo.naturalHeight;
+    if(!iw || !ih) return;
+    var max = 1400, sc = Math.min(1, max/Math.max(iw,ih));
+    var w = Math.max(1, Math.round(iw*sc)), h = Math.max(1, Math.round(ih*sc));
+
+    var c = document.createElement("canvas");
+    c.width = w; c.height = h;
+    var g = c.getContext("2d", {willReadFrequently:true});
+    g.drawImage(logo, 0, 0, w, h);
+
+    var img;
+    try { img = g.getImageData(0,0,w,h); }
+    catch(e){ logoPrepared = c; logoPreparedWhite = c; return; }
+    var d = img.data;
+
+    // bounding box of everything that is not near-white and not transparent
+    var minX=w, minY=h, maxX=-1, maxY=-1;
+    for(var y=0;y<h;y++){
+      for(var x=0;x<w;x++){
+        var i=(y*w+x)*4, a=d[i+3];
+        if(a<12) continue;
+        var lum=0.2126*d[i]+0.7152*d[i+1]+0.0722*d[i+2];
+        if(lum>243) continue;
+        if(x<minX)minX=x; if(x>maxX)maxX=x;
+        if(y<minY)minY=y; if(y>maxY)maxY=y;
+      }
+    }
+    if(maxX<0){ minX=0; minY=0; maxX=w-1; maxY=h-1; }
+    var pad = Math.round(Math.max(w,h)*0.01);
+    minX=Math.max(0,minX-pad); minY=Math.max(0,minY-pad);
+    maxX=Math.min(w-1,maxX+pad); maxY=Math.min(h-1,maxY+pad);
+    var cw=maxX-minX+1, ch=maxY-minY+1;
+
+    // as-is, cropped (white background stays white — fine on a light photo)
+    var plain = document.createElement("canvas");
+    plain.width=cw; plain.height=ch;
+    plain.getContext("2d").drawImage(c, minX, minY, cw, ch, 0, 0, cw, ch);
+    logoPrepared = plain;
+
+    // white version: alpha follows how dark the pixel was
+    var wcv = document.createElement("canvas");
+    wcv.width=cw; wcv.height=ch;
+    var wg = wcv.getContext("2d");
+    var out = wg.createImageData(cw, ch);
+    var od = out.data;
+    for(var yy=0;yy<ch;yy++){
+      for(var xx=0;xx<cw;xx++){
+        var si=((yy+minY)*w+(xx+minX))*4, di=(yy*cw+xx)*4;
+        var sa=d[si+3];
+        var l=0.2126*d[si]+0.7152*d[si+1]+0.0722*d[si+2];
+        var ink=Math.max(0, 255-l)/255;
+        od[di]=255; od[di+1]=255; od[di+2]=255;
+        od[di+3]=Math.round(sa*Math.min(1, ink*1.25));
+      }
+    }
+    wg.putImageData(out,0,0);
+    logoPreparedWhite = wcv;
+  }
+
+  function getLogoArt(){
+    if(!logo) return null;
+    if(!logoPrepared) prepareLogo();
+    return S.logowhite ? (logoPreparedWhite || logoPrepared) : logoPrepared;
+  }
+
+  function setLogoFromSrc(src, persist){
+    var img = new Image();
+    img.onload = function(){
+      logo = img;
+      prepareLogo();
+      var chip = document.getElementById("logo-chip");
+      chip.innerHTML = "";
+      var thumb = new Image();
+      thumb.src = src;
+      thumb.alt = "올린 로고";
+      chip.appendChild(thumb);
+      if (persist){
+        try { localStorage.setItem(LOGOKEY, src); }
+        catch(e){ toast("로고가 커서 이 브라우저에 저장되진 않았습니다. 커버에는 정상으로 들어갑니다.","warn"); }
+      }
+      render();
+    };
+    img.onerror = function(){ toast("로고 파일을 읽지 못했습니다.","warn"); };
+    img.src = src;
+  }
+
+  /* ---------- drawing ---------- */
+  function fitFont(text, weight, maxWidth, startPx){
+    var px = startPx;
+    for(var i=0;i<60 && px>10;i++){
+      ctx.font = weight + " " + px + 'px "Noto Sans KR", system-ui, sans-serif';
+      if (ctx.measureText(text).width <= maxWidth) break;
+      px -= Math.max(1, Math.round(px*0.035));
+    }
+    return px;
+  }
+
+  function drawPlaceholder(W,H){
+    var g = ctx.createLinearGradient(0,0,W*0.6,H);
+    g.addColorStop(0,"#5d5751"); g.addColorStop(0.55,"#3d3936"); g.addColorStop(1,"#242220");
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+    // suggestion of a room: floor plane + a window of light
+    ctx.fillStyle = "rgba(0,0,0,.28)";
+    ctx.beginPath(); ctx.moveTo(0,H*0.70); ctx.lineTo(W,H*0.62); ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath(); ctx.fill();
+    var lg = ctx.createLinearGradient(W*0.62,H*0.18,W*0.95,H*0.66);
+    lg.addColorStop(0,"rgba(255,246,232,.34)"); lg.addColorStop(1,"rgba(255,246,232,0)");
+    ctx.fillStyle = lg; ctx.fillRect(W*0.60,H*0.16,W*0.36,H*0.52);
+  }
+
+  function drawPhoto(W,H){
+    var iw = photo.naturalWidth, ih = photo.naturalHeight;
+    var scale = Math.max(W/iw, H/ih) * (S.zoom/100);
+    var dw = iw*scale, dh = ih*scale;
+    var dx = (W - dw)/2;
+    var dy = (H - dh) * (S.focal/100);
+    if (dh <= H) dy = (H-dh)/2;
+    ctx.drawImage(photo, dx, dy, dw, dh);
+  }
+
+  function drawGrain(W,H){
+    var step = 3, a = 0.045;
+    ctx.save();
+    for(var y=0;y<H;y+=step){
+      for(var x=0;x<W;x+=step){
+        var n = Math.random();
+        if(n > 0.72){
+          ctx.fillStyle = "rgba(255,255,255," + (a*n).toFixed(3) + ")";
+          ctx.fillRect(x,y,step,step);
+        } else if (n < 0.14){
+          ctx.fillStyle = "rgba(0,0,0," + (a*(1-n)).toFixed(3) + ")";
+          ctx.fillRect(x,y,step,step);
+        }
+      }
+    }
+    ctx.restore();
+  }
+
+  function render(){
+    var dims = RATIOS[S.ratio] || RATIOS["4:5"];
+    var W = dims[0], H = dims[1];
+    if (canvas.width !== W || canvas.height !== H){ canvas.width = W; canvas.height = H; }
+    var s = W/1080;
+
+    ctx.clearRect(0,0,W,H);
+    if (photo) drawPhoto(W,H); else drawPlaceholder(W,H);
+
+    // top scrim for the title, gentle bottom scrim for the wordmark
+    var top = S.scrim/100;
+    var g = ctx.createLinearGradient(0,0,0,H*0.66);
+    g.addColorStop(0,"rgba(12,10,9," + (top*0.95).toFixed(3) + ")");
+    g.addColorStop(0.45,"rgba(12,10,9," + (top*0.45).toFixed(3) + ")");
+    g.addColorStop(1,"rgba(12,10,9,0)");
+    ctx.fillStyle = g; ctx.fillRect(0,0,W,H*0.66);
+
+    var bg = ctx.createLinearGradient(0,H*0.72,0,H);
+    bg.addColorStop(0,"rgba(12,10,9,0)");
+    bg.addColorStop(1,"rgba(12,10,9," + (top*0.55).toFixed(3) + ")");
+    ctx.fillStyle = bg; ctx.fillRect(0,H*0.70,W,H*0.30);
+
+    if (S.grain) drawGrain(W,H);
+
+    var margin = Math.round(88*s);
+    var centered = S.align === "center";
+    var anchorX = centered ? W/2 : margin;
+    ctx.textAlign = centered ? "center" : "left";
+    ctx.textBaseline = "alphabetic";
+
+    // hairline
+    var y = Math.round(H*0.115);
+    if (S.rule){
+      ctx.fillStyle = "rgba(255,255,255,.55)";
+      var rw = Math.round(W*0.30);
+      ctx.fillRect(centered ? Math.round(W/2 - rw/2) : margin, y, rw, Math.max(1, Math.round(2*s)));
+      y += Math.round(46*s);
+    } else {
+      y += Math.round(18*s);
+    }
+
+    // title
+    var arrowW = (S.arrow && !centered) ? Math.round(210*s) : 0;
+    var maxW = W - margin*2 - arrowW;
+    var base = Math.round(H*0.072 * (S.tsize/100));
+    var t1 = String(S.line1||""), t2 = String(S.line2||"");
+    var px = base;
+    if (t1) px = Math.min(px, fitFont(t1, S.weight, centered ? W-margin*2 : maxW, base));
+    if (t2) px = Math.min(px, fitFont(t2, S.weight, maxW, base));
+    ctx.font = S.weight + " " + px + 'px "Noto Sans KR", system-ui, sans-serif';
+
+    ctx.save();
+    ctx.shadowColor = "rgba(0,0,0,.35)";
+    ctx.shadowBlur = Math.round(24*s);
+    ctx.fillStyle = "#ffffff";
+    var lh = Math.round(px*1.2);
+    var y1 = y + px;
+    if (t1) ctx.fillText(t1, anchorX, y1);
+    var y2 = y1 + (t1 ? lh : 0);
+    if (t2) ctx.fillText(t2, anchorX, y2);
+    ctx.restore();
+
+    var lastY = t2 ? y2 : y1;
+    var w2 = t2 ? ctx.measureText(t2).width : (t1 ? ctx.measureText(t1).width : 0);
+
+    // swipe arrow
+    if (S.arrow){
+      ctx.save();
+      ctx.strokeStyle = "rgba(255,255,255,.92)";
+      ctx.lineWidth = Math.max(2, Math.round(4*s));
+      ctx.lineCap = "square";
+      var ax1, ax2, ay;
+      if (centered){
+        ay = lastY + Math.round(px*0.85);
+        ax1 = Math.round(W/2 - 70*s); ax2 = Math.round(W/2 + 70*s);
+      } else {
+        ay = lastY - Math.round(px*0.30);
+        ax1 = Math.round(Math.max(margin + w2 + 56*s, W - margin - 170*s));
+        ax2 = Math.round(W - margin);
+      }
+      if (ax2 - ax1 > 50*s){
+        ctx.beginPath(); ctx.moveTo(ax1, ay); ctx.lineTo(ax2, ay); ctx.stroke();
+        var hd = Math.round(22*s);
+        ctx.beginPath();
+        ctx.moveTo(ax2 - hd, ay - hd); ctx.lineTo(ax2, ay); ctx.lineTo(ax2 - hd, ay + hd);
+        ctx.stroke();
+      }
+      ctx.restore();
+      if (centered) lastY += Math.round(px*0.85);
+    }
+
+    // byline
+    if (S.byline){
+      ctx.fillStyle = "rgba(255,255,255,.82)";
+      ctx.font = 'italic 400 ' + Math.round(px*0.36) + 'px "Instrument Serif", "Noto Sans KR", serif';
+      ctx.fillText(S.byline, anchorX, lastY + Math.round(px*0.72));
+    }
+
+    // corner logo
+    var art = getLogoArt();
+    if (art){
+      var lw = W * (S.logosize/100);
+      var lh2 = lw * (art.height / art.width);
+      var lx;
+      if (S.logopos === "left") lx = margin;
+      else if (S.logopos === "center") lx = Math.round(W/2 - lw/2);
+      else lx = Math.round(W - margin - lw);
+      var ly = Math.round(H - Math.round(H*0.058) - lh2);
+      ctx.save();
+      if (S.logoshadow){
+        ctx.shadowColor = "rgba(0,0,0,.45)";
+        ctx.shadowBlur = Math.round(26*s);
+      }
+      ctx.drawImage(art, lx, ly, lw, lh2);
+      ctx.restore();
+    }
+
+    // carousel dots
+    if (S.dots){
+      var n = 8, r = Math.max(3, Math.round(6*s)), gap = Math.round(20*s);
+      var totalW = (n-1)*gap;
+      var cx = W/2 - totalW/2, cy = H - Math.round(26*s);
+      for (var i=0;i<n;i++){
+        ctx.beginPath();
+        ctx.fillStyle = i===0 ? "rgba(255,255,255,.95)" : "rgba(255,255,255,.4)";
+        ctx.arc(cx + i*gap, cy, r, 0, Math.PI*2);
+        ctx.fill();
+      }
+    }
+
+    document.getElementById("dims").textContent =
+      W + " × " + H + " px · 미리보기를 클릭하거나 사진을 끌어다 놓으세요";
+  }
+
+  /* ---------- wiring ---------- */
+  function bindText(id, key){
+    var el = document.getElementById(id);
+    el.value = S[key];
+    el.addEventListener("input", function(){
+      S[key] = el.value;
+      if (STYLE_KEYS.indexOf(key) >= 0) saveStyle();
+      render();
+    });
+  }
+  function bindRange(id, key, fmt){
+    var el = document.getElementById(id);
+    var out = document.getElementById(id + "-out");
+    el.value = S[key];
+    out.textContent = fmt(S[key]);
+    el.addEventListener("input", function(){
+      S[key] = Number(el.value);
+      out.textContent = fmt(S[key]);
+      if (STYLE_KEYS.indexOf(key) >= 0) saveStyle();
+      render();
+    });
+  }
+  function bindCheck(id, key){
+    var el = document.getElementById(id);
+    el.checked = !!S[key];
+    el.addEventListener("change", function(){
+      S[key] = el.checked; saveStyle(); render();
+    });
+  }
+  function bindSeg(id, key){
+    var box = document.getElementById(id);
+    var btns = box.querySelectorAll("button");
+    function sync(){
+      Array.prototype.forEach.call(btns, function(b){
+        b.setAttribute("aria-pressed", String(b.dataset.v === String(S[key])));
+      });
+    }
+    box.addEventListener("click", function(ev){
+      var b = ev.target.closest("button");
+      if(!b) return;
+      S[key] = b.dataset.v; sync(); saveStyle(); render();
+    });
+    sync();
+  }
+
+  loadStyle();
+
+  bindText("line1","line1"); bindText("line2","line2");
+  bindText("byline","byline");
+  bindRange("focal","focal", function(v){ return v + "%"; });
+  bindRange("zoom","zoom", function(v){ return (v/100).toFixed(2) + "×"; });
+  bindRange("scrim","scrim", function(v){ return v + "%"; });
+  bindRange("tsize","tsize", function(v){ return v + "%"; });
+  bindRange("logosize","logosize", function(v){ return v + "%"; });
+  bindCheck("arrow","arrow"); bindCheck("rule","rule");
+  bindCheck("grain","grain"); bindCheck("dots","dots");
+  bindCheck("logowhite","logowhite"); bindCheck("logoshadow","logoshadow");
+
+  var logoposEl = document.getElementById("logopos");
+  logoposEl.value = S.logopos;
+  logoposEl.addEventListener("change", function(){ S.logopos = logoposEl.value; saveStyle(); render(); });
+
+  /* logo upload */
+  var logoFileEl = document.getElementById("logofile");
+  logoFileEl.addEventListener("change", function(){
+    var f = logoFileEl.files[0];
+    if(!f) return;
+    if(!/^image\//.test(f.type)){ toast("이미지 파일만 올릴 수 있습니다.","warn"); return; }
+    var fr = new FileReader();
+    fr.onload = function(){ setLogoFromSrc(String(fr.result), true); };
+    fr.onerror = function(){ toast("로고 파일을 읽지 못했습니다.","warn"); };
+    fr.readAsDataURL(f);
+  });
+  document.getElementById("btn-logo").addEventListener("click", function(){ logoFileEl.click(); });
+  document.getElementById("btn-logo-clear").addEventListener("click", function(){
+    logo = null; logoPrepared = null; logoPreparedWhite = null;
+    try { localStorage.removeItem(LOGOKEY); } catch(e){}
+    document.getElementById("logo-chip").innerHTML = '<span>로고 없음</span>';
+    render();
+  });
+  try {
+    var savedLogo = localStorage.getItem(LOGOKEY);
+    if (savedLogo) setLogoFromSrc(savedLogo, false);
+  } catch(e){}
+  bindSeg("align","align"); bindSeg("weight","weight");
+
+  var ratioEl = document.getElementById("ratio");
+  ratioEl.value = S.ratio;
+  ratioEl.addEventListener("change", function(){ S.ratio = ratioEl.value; saveStyle(); render(); });
+
+  /* photo input */
+  var fileEl = document.getElementById("file");
+  function loadFile(f){
+    if(!f || !/^image\//.test(f.type)){ toast("이미지 파일만 올릴 수 있습니다.","warn"); return; }
+    var url = URL.createObjectURL(f);
+    var img = new Image();
+    img.onload = function(){
+      photo = img;
+      document.getElementById("cta").hidden = true;
+      toast("");
+      render();
+    };
+    img.onerror = function(){ URL.revokeObjectURL(url); toast("사진을 읽지 못했습니다.","warn"); };
+    img.src = url;
+  }
+  fileEl.addEventListener("change", function(){ if(fileEl.files[0]) loadFile(fileEl.files[0]); });
+  document.getElementById("btn-photo").addEventListener("click", function(){ fileEl.click(); });
+  document.getElementById("btn-pick").addEventListener("click", function(){ fileEl.click(); });
+  canvas.addEventListener("click", function(){ fileEl.click(); });
+
+  /* paste an image straight from the clipboard */
+  window.addEventListener("paste", function(e){
+    var items = e.clipboardData && e.clipboardData.items;
+    if(!items) return;
+    for(var i=0;i<items.length;i++){
+      if(items[i].type && items[i].type.indexOf("image/") === 0){
+        var f = items[i].getAsFile();
+        if(f){ e.preventDefault(); loadFile(f); return; }
+      }
+    }
+  });
+
+  var dz = document.getElementById("dropzone");
+  ["dragenter","dragover"].forEach(function(t){
+    dz.addEventListener(t, function(e){ e.preventDefault(); dz.classList.add("over"); });
+  });
+  ["dragleave","drop"].forEach(function(t){
+    dz.addEventListener(t, function(e){ e.preventDefault(); dz.classList.remove("over"); });
+  });
+  dz.addEventListener("drop", function(e){
+    if (e.dataTransfer && e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]);
+  });
+
+  /* reset */
+  document.getElementById("btn-reset").addEventListener("click", function(){
+    try{ localStorage.removeItem(KEY); }catch(e){}
+    location.reload();
+  });
+
+  /* save */
+  var saveBtn = document.getElementById("btn-save");
+  saveBtn.addEventListener("click", function(){
+    saveBtn.disabled = true;
+    toast("저장 준비 중…");
+    canvas.toBlob(function(blob){
+      if(!blob){ toast("이미지를 만들지 못했습니다.","warn"); saveBtn.disabled = false; return; }
+      var name = (String(S.line1||"cover").trim().replace(/\s+/g,"-") || "cover") + "-cover.png";
+
+      function anchorSave(){
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement("a");
+        a.href = url; a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+      }
+
+      var hosted = !!(window.claude && window.claude.use);
+      if (!hosted){
+        // standalone copy in a normal browser — save directly
+        try { anchorSave(); toast("저장했습니다."); }
+        catch(e){ toast("미리보기를 우클릭해 이미지 저장을 쓰세요.","warn"); }
+        saveBtn.disabled = false;
+        return;
+      }
+
+      Promise.resolve(window.claude.use("downloads"))
+        .then(function(dl){
+          if(!dl) throw {code:"unavailable"};
+          return dl.save({filename:name, data:blob});
+        })
+        .then(function(){ toast("저장했습니다."); })
+        .catch(function(err){
+          var code = (err && err.code) || "unavailable";
+          if (code === "declined") toast("저장을 취소했습니다.");
+          else if (code === "rate_limited") toast("잠시 후 다시 눌러주세요.","warn");
+          else toast("이 화면에서는 바로 저장이 안 됩니다. 미리보기를 길게 눌러(또는 우클릭) 이미지 저장을 쓰세요.","warn");
+        })
+        .then(function(){ saveBtn.disabled = false; });
+    }, "image/png");
+  });
+
+  /* fonts, then draw */
+  render();
+  if (document.fonts && document.fonts.load){
+    Promise.all([
+      document.fonts.load('700 100px "Noto Sans KR"'),
+      document.fonts.load('900 100px "Noto Sans KR"'),
+      document.fonts.load('500 100px "Noto Sans KR"'),
+      document.fonts.load('italic 400 40px "Instrument Serif"')
+    ]).then(function(){ fontsReady = true; render(); }).catch(function(){});
+  }
+})();
+</script>
+</body>
+</html>
