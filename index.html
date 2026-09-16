@@ -328,10 +328,12 @@
   // show the uploaded logo.png when it exists, otherwise keep the typeset mark
   var img = document.getElementById("crest-img");
   var fb = document.getElementById("crest-fallback");
-  img.addEventListener("load", function(){
-    if (img.naturalWidth > 0){ img.hidden = false; fb.hidden = true; }
-  });
-  img.addEventListener("error", function(){ img.hidden = true; fb.hidden = false; });
+  function show(){ img.hidden = false; fb.hidden = true; }
+  function hide(){ img.hidden = true; fb.hidden = false; }
+  img.addEventListener("load", function(){ if (img.naturalWidth > 0) show(); });
+  img.addEventListener("error", hide);
+  // a cached image finishes before this script runs, so its load event never fires
+  if (img.complete){ if (img.naturalWidth > 0) show(); else hide(); }
 })();
 </script>
 </body>
