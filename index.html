@@ -21,36 +21,36 @@
 <body>
 <style>
   :root{
-    --sand:#EFE8DE;
-    --sand-deep:#E3D9CB;
-    --card:#FBF8F3;
-    --card-edge:#DFD5C6;
-    --ink:#2B2825;
-    --ink-soft:#7D7366;
+    --sand:#F2E7D5;
+    --sand-deep:#E7D2B4;
+    --card:#FDF7EA;
+    --card-edge:#E0CCAC;
+    --ink:#35291C;
+    --ink-soft:#8E7551;
     --bulb:#E6EBA4;
-    --bulb-edge:#C9D06F;
-    --lift:0 10px 24px -16px rgba(60,46,28,.55);
+    --bulb-edge:#C4CC63;
+    --lift:0 10px 24px -16px rgba(90,62,26,.5);
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --sand:#191614;
-      --sand-deep:#221E1A;
-      --card:#242019;
-      --card-edge:#3A342B;
-      --ink:#F0EAE0;
-      --ink-soft:#A99C8B;
+      --sand:#1C1611;
+      --sand-deep:#261D14;
+      --card:#2B2119;
+      --card-edge:#453626;
+      --ink:#F3E8D6;
+      --ink-soft:#B59C78;
       --bulb:#E6EBA4;
       --bulb-edge:#B9C05F;
       --lift:0 10px 26px -16px rgba(0,0,0,.8);
     }
   }
   :root[data-theme="dark"]{
-    --sand:#191614;
-    --sand-deep:#221E1A;
-    --card:#242019;
-    --card-edge:#3A342B;
-    --ink:#F0EAE0;
-    --ink-soft:#A99C8B;
+    --sand:#1C1611;
+    --sand-deep:#261D14;
+    --card:#2B2119;
+    --card-edge:#453626;
+    --ink:#F3E8D6;
+    --ink-soft:#B59C78;
     --bulb:#E6EBA4;
     --bulb-edge:#B9C05F;
     --lift:0 10px 26px -16px rgba(0,0,0,.8);
@@ -71,7 +71,7 @@
     max-width:430px;
     margin:0 auto;
     padding-inline:20px;
-    padding-block:0 52px;
+    padding-block:22px 52px;
     display:flex;
     flex-direction:column;
     gap:26px;
@@ -82,7 +82,6 @@
   .lamp .cord{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;opacity:.75;}
   .lamp .shade{fill:var(--ink);}
   .lamp .bulb{fill:var(--bulb);}
-  .lamp .glow{fill:var(--bulb);opacity:.16;}
 
   header.intro{
     display:flex;
@@ -262,10 +261,17 @@
 <div class="page">
 
   <svg class="lamp" viewBox="0 0 400 82" aria-hidden="true">
-    <path class="cord" d="M400 6 L268 6 Q252 6 252 22 L252 34"/>
-    <circle class="glow" cx="252" cy="58" r="17"/>
-    <path class="shade" d="M231 46 a21 15 0 0 1 42 0 z"/>
-    <circle class="bulb" cx="252" cy="54" r="9"/>
+    <defs>
+      <radialGradient id="lamp-glow">
+        <stop offset="0%" stop-color="#E6EBA4" stop-opacity=".40"/>
+        <stop offset="55%" stop-color="#E6EBA4" stop-opacity=".12"/>
+        <stop offset="100%" stop-color="#E6EBA4" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <path class="cord" d="M400 8 L268 8 Q252 8 252 24 L252 36"/>
+    <circle cx="252" cy="60" r="30" fill="url(#lamp-glow)"/>
+    <path class="shade" d="M231 48 a21 15 0 0 1 42 0 z"/>
+    <circle class="bulb" cx="252" cy="56" r="9"/>
   </svg>
 
   <header class="intro">
