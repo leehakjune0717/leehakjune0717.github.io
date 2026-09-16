@@ -10,7 +10,7 @@
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+KR:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
 <style>
   :root{color-scheme:light dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
   body{margin:0;font:15px system-ui,-apple-system,sans-serif;}
@@ -26,7 +26,7 @@
     --paper-deep:#EFE3D2;
     --card:#FFFCF6;
     --ink:#2F2723;
-    --ink-soft:#8A7A65;
+    --ink-soft:#786A58;
     --rule:#DDCDB5;
     --rule-soft:#EADDC8;
     --accent:#5E6A53;
@@ -40,7 +40,7 @@
   body{
     background:var(--paper);
     color:var(--ink);
-    font-family:"Noto Serif KR","Cormorant Garamond",Georgia,serif;
+    font-family:"Noto Sans KR",system-ui,-apple-system,sans-serif;
     font-size:15px;
     line-height:1.7;
     -webkit-font-smoothing:antialiased;
@@ -112,8 +112,8 @@
   .page.has-hero .crest{box-shadow:var(--shadow);}
   .crest img{width:100%;height:auto;display:block;}
   .crest .fallback{
-    font-family:"Cormorant Garamond",Georgia,serif;
-    font-weight:400;font-size:18px;
+    font-family:"Noto Sans KR",sans-serif;
+    font-weight:500;font-size:16px;
     letter-spacing:.16em;line-height:1.25;text-indent:.16em;
   }
   .crest .fallback small{
@@ -122,14 +122,14 @@
   }
 
   h1{
-    font-family:"Cormorant Garamond",Georgia,serif;
-    font-weight:500;
+    font-family:"Marcellus",Georgia,serif;
+    font-weight:400;
     /* wide tracking eats width fast — keep the name on one line at phone width */
     font-size:clamp(23px,7.2vw,32px);
-    letter-spacing:.22em;
+    letter-spacing:.16em;
     line-height:1.2;
     margin:0;
-    text-indent:.22em;
+    text-indent:.16em;
     white-space:nowrap;
   }
 
@@ -141,7 +141,7 @@
   .ornament b{width:5px;height:5px;transform:rotate(45deg);background:var(--accent);}
 
   .tagline{
-    margin:0;font-weight:300;font-size:14px;line-height:2;
+    margin:0;font-weight:400;font-size:15px;line-height:1.95;
     color:var(--ink-soft);letter-spacing:.01em;
   }
 
@@ -168,11 +168,11 @@
     transition:filter .2s ease, transform .2s ease;
   }
   .cta:hover,.cta:focus-visible{filter:brightness(1.05);transform:translateY(-1px);}
-  .cta .ko{display:block;font-weight:500;font-size:16px;letter-spacing:.02em;}
+  .cta .ko{display:block;font-weight:700;font-size:17px;letter-spacing:.01em;}
   .cta .en{
-    display:block;font-family:"Cormorant Garamond",Georgia,serif;
-    font-size:12px;font-weight:500;letter-spacing:.3em;text-transform:uppercase;
-    color:rgba(247,241,231,.88);margin-top:4px;text-indent:.3em;
+    display:block;font-family:"Noto Sans KR",sans-serif;
+    font-size:11.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;
+    color:rgba(247,241,231,.9);margin-top:4px;text-indent:.14em;
   }
 
   /* ---- link rows, each with room for a photo ---- */
@@ -204,11 +204,11 @@
   }
 
   .row .txt{flex:1 1 auto;min-width:0;}
-  .row .ko{display:block;font-weight:400;font-size:15.5px;letter-spacing:.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .row .ko{display:block;font-weight:500;font-size:16px;letter-spacing:.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
   .row .en{
-    display:block;font-family:"Cormorant Garamond",Georgia,serif;
-    font-size:12px;font-weight:500;letter-spacing:.26em;text-transform:uppercase;
-    color:var(--ink-soft);margin-top:2px;text-indent:.26em;
+    display:block;font-family:"Noto Sans KR",sans-serif;
+    font-size:11.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ink-soft);margin-top:2px;text-indent:.12em;
     overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   }
   .row .arrow{
@@ -225,17 +225,17 @@
     text-align:center;padding-top:10px;
   }
   footer a{
-    font-family:"Cormorant Garamond",Georgia,serif;
-    font-size:17px;font-weight:400;letter-spacing:.22em;
+    font-family:"Noto Sans KR",sans-serif;
+    font-size:17px;font-weight:500;letter-spacing:.14em;
     color:var(--ink);text-decoration:none;
     font-variant-numeric:tabular-nums lining-nums;
-    text-indent:.22em;
+    text-indent:.14em;
   }
   footer a:hover{color:var(--accent-deep);}
   footer p{
-    margin:0;font-family:"Cormorant Garamond",Georgia,serif;
-    font-size:10px;letter-spacing:.42em;text-transform:uppercase;
-    color:var(--ink-soft);text-indent:.42em;
+    margin:0;font-family:"Noto Sans KR",sans-serif;
+    font-size:10.5px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--ink-soft);text-indent:.24em;
   }
 
   a:focus-visible{outline:1px solid var(--accent-deep);outline-offset:4px;}
