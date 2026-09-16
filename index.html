@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>MY OWN DESIGN 링크</title>
-<meta name="description" content="마이온디자인 - 시공 포트폴리오, 상담문의, 인스타그램, 유튜브 링크 모음">
-<meta property="og:title" content="MY OWN DESIGN 링크">
-<meta property="og:description" content="마이온디자인 - 시공 포트폴리오, 상담문의, 인스타그램, 유튜브 링크 모음">
+<title>MY OWN DESIGN 링크 (고급형)</title>
+<meta name="description" content="마이온디자인 - 시공 포트폴리오, 상담문의, 유튜브, 인스타그램">
+<meta property="og:title" content="MY OWN DESIGN 링크 (고급형)">
+<meta property="og:description" content="마이온디자인 - 시공 포트폴리오, 상담문의, 유튜브, 인스타그램">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+KR:wght@300;400;500&display=swap">
 <style>
   :root{color-scheme:light dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
   body{margin:0;font:15px system-ui,-apple-system,sans-serif;}
@@ -20,231 +20,248 @@
 </head>
 <body>
 <style>
-  /* Deliberately single-theme: a brand page should look the same to everyone,
-     so nothing here follows the viewer's dark mode. Every colour is explicit. */
+  /* Single-theme on purpose: a brand page looks the same to everyone. */
   :root{
-    --sand:#F9F2E7;
-    --sand-deep:#F1E1C8;
+    --paper:#F7F1E7;
+    --paper-deep:#EFE3D2;
     --card:#FFFCF6;
-    --card-edge:#E9DCC5;
-    --ink:#3A2C1D;
-    --ink-soft:#9A855F;
-    --honey:#E0B269;
-    --honey-edge:#CE9A4B;
-    --bulb:#E6EBA4;
-    --bulb-edge:#C4CC63;
-    --lift:0 10px 24px -18px rgba(110,80,35,.45);
+    --ink:#2F2723;
+    --ink-soft:#8A7A65;
+    --rule:#DDCDB5;
+    --rule-soft:#EADDC8;
+    --accent:#5E6A53;
+    --accent-deep:#47513E;
+    --bulb:#EAEDA6;
+    --shadow:0 12px 30px -22px rgba(80,55,20,.55);
   }
 
   *,*::before,*::after{box-sizing:border-box;}
 
   body{
-    background:var(--sand);
-    background-image:radial-gradient(120% 68% at 50% 0%, var(--sand-deep) 0%, var(--sand) 60%);
-    background-attachment:fixed;
+    background:var(--paper);
     color:var(--ink);
-    font-family:"Noto Sans KR","Jost",system-ui,-apple-system,"Malgun Gothic",sans-serif;
+    font-family:"Noto Serif KR","Cormorant Garamond",Georgia,serif;
     font-size:15px;
-    line-height:1.6;
+    line-height:1.7;
     -webkit-font-smoothing:antialiased;
+  }
+  /* the page is lit by the lamp: one warm pool falling from where the bulb hangs */
+  body::before{
+    content:"";
+    position:fixed;inset:0;pointer-events:none;z-index:-2;
+    background:
+      radial-gradient(52% 30% at 63% 1%, rgba(234,237,166,.32) 0%, rgba(234,237,166,0) 62%),
+      radial-gradient(130% 58% at 50% 0%, var(--paper-deep) 0%, var(--paper) 56%);
+  }
+  /* a whisper of paper tooth */
+  body::after{
+    content:"";
+    position:fixed;inset:0;pointer-events:none;z-index:-1;opacity:.35;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.055'/%3E%3C/svg%3E");
   }
 
   .page{
     max-width:430px;
     margin:0 auto;
-    padding-inline:20px;
-    padding-block:20px 52px;
+    padding-inline:24px;
+    padding-block:14px 60px;
     display:flex;
     flex-direction:column;
-    gap:26px;
+    gap:30px;
   }
 
-  /* ---- hanging lamp, lifted from the wordmark ---- */
-  .lamp{display:block;width:100%;height:84px;}
-  .lamp .cord{fill:none;stroke:var(--ink);stroke-width:2.4;stroke-linecap:round;opacity:.7;}
+  /* ---- the lamp, hanging over the room below ---- */
+  .lamp{display:block;width:100%;height:94px;margin-bottom:-6px;}
+  .lamp .cord{fill:none;stroke:var(--ink);stroke-width:1.5;stroke-linecap:round;opacity:.6;}
   .lamp .shade{fill:var(--ink);}
   .lamp .bulb{fill:var(--bulb);}
+
+  /* ---- hero: shown only once hero.jpg is uploaded ---- */
+  .hero{
+    margin:0;
+    aspect-ratio:16/11;
+    max-width:100%;
+    overflow:hidden;
+    border-radius:3px;
+    background:var(--paper-deep);
+    box-shadow:var(--shadow);
+  }
+  .hero img{width:100%;height:100%;object-fit:cover;display:block;}
 
   header.intro{
     display:flex;
     flex-direction:column;
     align-items:center;
-    gap:14px;
+    gap:18px;
     text-align:center;
-    margin-top:-10px;
   }
+  /* the crest laps over the photo's lower edge, the way a plate sits on a table */
+  .page.has-hero header.intro{margin-top:-62px;}
   .crest{
-    width:132px;
-    height:132px;
-    flex:0 0 auto;
+    width:124px;
+    height:124px;
     border-radius:50%;
+    border:1px solid var(--rule);
     background:var(--card);
-    border:1px solid var(--card-edge);
-    box-shadow:var(--lift);
     display:flex;
     align-items:center;
     justify-content:center;
     padding:24px;
     overflow:hidden;
   }
+  .page.has-hero .crest{box-shadow:var(--shadow);}
   .crest img{width:100%;height:auto;display:block;}
   .crest .fallback{
-    font-family:"Jost",system-ui,sans-serif;
-    font-weight:500;
-    font-size:17px;
-    letter-spacing:.14em;
-    line-height:1.25;
-    color:var(--ink);
-    text-indent:.14em;
+    font-family:"Cormorant Garamond",Georgia,serif;
+    font-weight:400;font-size:18px;
+    letter-spacing:.16em;line-height:1.25;text-indent:.16em;
   }
   .crest .fallback small{
-    display:block;
-    font-size:8.5px;
-    letter-spacing:.42em;
-    color:var(--ink-soft);
-    margin-top:4px;
-    text-indent:.42em;
+    display:block;font-size:8.5px;letter-spacing:.44em;
+    color:var(--ink-soft);margin-top:5px;text-indent:.44em;
   }
 
   h1{
-    font-family:"Jost",system-ui,sans-serif;
-    font-weight:400;
-    font-size:27px;
-    letter-spacing:.2em;
+    font-family:"Cormorant Garamond",Georgia,serif;
+    font-weight:300;
+    /* wide tracking eats width fast — keep the name on one line at phone width */
+    font-size:clamp(21px,6.2vw,28px);
+    letter-spacing:.26em;
+    line-height:1.2;
     margin:0;
-    text-indent:.2em;
-    color:var(--ink);
+    text-indent:.26em;
+    white-space:nowrap;
   }
+
+  .ornament{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    width:132px;color:var(--rule);
+  }
+  .ornament i{flex:1 1 auto;height:1px;background:currentColor;}
+  .ornament b{width:5px;height:5px;transform:rotate(45deg);background:var(--accent);}
+
   .tagline{
-    margin:0;
-    font-size:13.5px;
-    font-weight:300;
-    color:var(--ink-soft);
-    max-width:30ch;
-    text-wrap:balance;
+    margin:0;font-weight:300;font-size:14px;line-height:2;
+    color:var(--ink-soft);letter-spacing:.01em;
   }
 
-  .socials{display:flex;justify-content:center;gap:8px;}
+  .socials{display:flex;justify-content:center;gap:22px;}
   .socials a{
-    width:42px;height:42px;
-    display:grid;place-items:center;
-    border-radius:50%;
-    color:var(--ink);
-    border:1px solid transparent;
-    transition:background .18s ease, border-color .18s ease;
+    color:var(--ink-soft);display:grid;place-items:center;padding:4px;
+    transition:color .2s ease;
   }
-  .socials a:hover,.socials a:focus-visible{
-    background:var(--card);
-    border-color:var(--card-edge);
+  .socials a:hover,.socials a:focus-visible{color:var(--ink);}
+  .socials svg{
+    width:19px;height:19px;fill:none;stroke:currentColor;
+    stroke-width:1.15;stroke-linecap:round;stroke-linejoin:round;
   }
-  .socials svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;}
 
-  .links{display:flex;flex-direction:column;gap:11px;}
-  .link{
-    display:flex;
-    align-items:center;
-    gap:13px;
-    padding:17px 18px;
+  /* ---- the one filled object on the page ---- */
+  .cta{
+    display:block;text-align:center;text-decoration:none;
+    padding:19px 20px;
+    border-radius:3px;
+    background:linear-gradient(180deg,#6B775E 0%,var(--accent) 55%,#515C46 100%);
+    border:1px solid var(--accent-deep);
+    color:#F7F1E7;
+    box-shadow:var(--shadow);
+    transition:filter .2s ease, transform .2s ease;
+  }
+  .cta:hover,.cta:focus-visible{filter:brightness(1.05);transform:translateY(-1px);}
+  .cta .ko{display:block;font-weight:500;font-size:16px;letter-spacing:.02em;}
+  .cta .en{
+    display:block;font-family:"Cormorant Garamond",Georgia,serif;
+    font-size:10.5px;letter-spacing:.34em;text-transform:uppercase;
+    color:rgba(247,241,231,.72);margin-top:3px;text-indent:.34em;
+  }
+
+  /* ---- link rows, each with room for a photo ---- */
+  .links{display:flex;flex-direction:column;gap:10px;}
+  .row{
+    display:flex;align-items:center;gap:15px;
+    padding:11px 14px 11px 11px;
     background:var(--card);
-    border:1px solid var(--card-edge);
+    border:1px solid var(--rule-soft);
+    border-radius:3px;
+    color:var(--ink);text-decoration:none;
+    box-shadow:var(--shadow);
+    transition:transform .2s ease, border-color .2s ease;
+  }
+  .row:hover,.row:focus-visible{transform:translateY(-2px);border-color:var(--rule);}
+
+  .thumb{
+    flex:0 0 auto;
+    width:62px;height:62px;
     border-radius:2px;
-    color:var(--ink);
-    text-decoration:none;
-    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    overflow:hidden;
+    background:var(--paper-deep);
+    display:grid;place-items:center;
   }
-  .link:hover,.link:focus-visible{
-    transform:translateY(-2px);
-    box-shadow:var(--lift);
-    border-color:var(--ink-soft);
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .thumb svg{
+    width:22px;height:22px;fill:none;stroke:var(--ink-soft);
+    stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;
   }
-  .link .ico{
-    flex:0 0 auto;
-    width:22px;height:22px;
-    stroke:currentColor;fill:none;
-    stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;
-    opacity:.85;
-  }
-  .link .txt{flex:1 1 auto;min-width:0;}
-  .link .txt b{display:block;font-weight:500;font-size:14.5px;letter-spacing:-.01em;}
-  .link .txt span{
-    display:block;
-    font-family:"Jost",system-ui,sans-serif;
-    font-size:10.5px;
-    font-weight:300;
-    letter-spacing:.16em;
-    text-transform:uppercase;
-    color:var(--ink-soft);
-    margin-top:2px;
-  }
-  .link .dot{
-    flex:0 0 auto;
-    width:8px;height:8px;
-    border-radius:50%;
-    background:var(--bulb);
-    border:1px solid var(--bulb-edge);
-    opacity:0;
-    transition:opacity .18s ease;
-  }
-  .link:hover .dot,.link:focus-visible .dot{opacity:1;}
 
-  /* the one thing this page exists for — warm honey, never a dark slab */
-  .link.primary{
-    background:var(--honey);
-    border-color:var(--honey-edge);
+  .row .txt{flex:1 1 auto;min-width:0;}
+  .row .ko{display:block;font-weight:400;font-size:15.5px;letter-spacing:.01em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .row .en{
+    display:block;font-family:"Cormorant Garamond",Georgia,serif;
+    font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;
+    color:var(--ink-soft);margin-top:1px;text-indent:.3em;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   }
-  .link.primary .txt b{font-weight:700;}
-  .link.primary .txt span{color:#6B4D1E;}
-  .link.primary .dot{opacity:1;background:#FFFCF6;border-color:#FFFCF6;}
+  .row .arrow{
+    flex:0 0 auto;width:24px;height:9px;
+    stroke:var(--ink-soft);fill:none;stroke-width:1;opacity:.5;
+    transition:transform .2s ease, opacity .2s ease, stroke .2s ease;
+  }
+  .row:hover .arrow,.row:focus-visible .arrow{
+    transform:translateX(4px);opacity:1;stroke:var(--accent-deep);
+  }
 
   footer{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:7px;
-    text-align:center;
-    padding-top:6px;
+    display:flex;flex-direction:column;align-items:center;gap:10px;
+    text-align:center;padding-top:10px;
   }
-  .rule{width:46px;height:1px;background:var(--card-edge);}
   footer a{
-    font-family:"Jost",system-ui,sans-serif;
-    font-size:14px;
-    letter-spacing:.14em;
-    color:var(--ink);
-    text-decoration:none;
-    font-variant-numeric:tabular-nums;
+    font-family:"Cormorant Garamond",Georgia,serif;
+    font-size:17px;font-weight:400;letter-spacing:.22em;
+    color:var(--ink);text-decoration:none;
+    font-variant-numeric:tabular-nums lining-nums;
+    text-indent:.22em;
   }
-  footer a:hover{text-decoration:underline;}
+  footer a:hover{color:var(--accent-deep);}
   footer p{
-    margin:0;
-    font-family:"Jost",system-ui,sans-serif;
-    font-size:9.5px;
-    letter-spacing:.3em;
-    text-transform:uppercase;
-    color:var(--ink-soft);
+    margin:0;font-family:"Cormorant Garamond",Georgia,serif;
+    font-size:10px;letter-spacing:.42em;text-transform:uppercase;
+    color:var(--ink-soft);text-indent:.42em;
   }
 
-  a:focus-visible{outline:2px solid var(--ink-soft);outline-offset:3px;}
+  a:focus-visible{outline:1px solid var(--accent-deep);outline-offset:4px;}
 
-  @media (prefers-reduced-motion: reduce){
-    *{transition:none!important;animation:none!important;}
-  }
+  @media (prefers-reduced-motion: reduce){ *{transition:none!important;} }
 </style>
 
-<div class="page">
+<div class="page" id="page">
 
-  <svg class="lamp" viewBox="0 0 400 84" aria-hidden="true">
+  <svg class="lamp" viewBox="0 0 400 94" aria-hidden="true">
     <defs>
-      <radialGradient id="lamp-glow">
-        <stop offset="0%" stop-color="#E6EBA4" stop-opacity=".55"/>
-        <stop offset="55%" stop-color="#E6EBA4" stop-opacity=".18"/>
-        <stop offset="100%" stop-color="#E6EBA4" stop-opacity="0"/>
+      <radialGradient id="glow">
+        <stop offset="0%" stop-color="#EAEDA6" stop-opacity=".7"/>
+        <stop offset="45%" stop-color="#EAEDA6" stop-opacity=".22"/>
+        <stop offset="100%" stop-color="#EAEDA6" stop-opacity="0"/>
       </radialGradient>
     </defs>
-    <path class="cord" d="M400 8 L268 8 Q252 8 252 24 L252 36"/>
-    <circle cx="252" cy="60" r="30" fill="url(#lamp-glow)"/>
-    <path class="shade" d="M231 48 a21 15 0 0 1 42 0 z"/>
-    <circle class="bulb" cx="252" cy="56" r="9"/>
+    <path class="cord" d="M400 6 L276 6 Q252 6 252 30 L252 40"/>
+    <circle cx="252" cy="66" r="36" fill="url(#glow)"/>
+    <path class="shade" d="M233 52 a19 13 0 0 1 38 0 z"/>
+    <circle class="bulb" cx="252" cy="59" r="8"/>
   </svg>
+
+  <figure class="hero" id="hero" hidden>
+    <img id="hero-img" src="https://www.myowndesign.co.kr/media/portfolio/Hopyeong_Paragon_Apartment/thumb.jpg" alt="마이온디자인 시공 사진">
+  </figure>
 
   <header class="intro">
     <div class="crest">
@@ -252,6 +269,7 @@
       <div class="fallback" id="crest-fallback">MY OWN<small>DESIGN</small></div>
     </div>
     <h1>MY OWN DESIGN</h1>
+    <div class="ornament" aria-hidden="true"><i></i><b></b><i></i></div>
     <p class="tagline">당신만의 공간에,<br>변하지 않는 가치를 더하다.</p>
   </header>
 
@@ -259,66 +277,118 @@
     <a href="http://www.myowndesign.co.kr/" target="_blank" rel="noopener" aria-label="홈페이지">
       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>
     </a>
-    <a href="https://www.instagram.com/_myowndesign_official" target="_blank" rel="noopener" aria-label="인스타그램">
-      <svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/></svg>
-    </a>
     <a href="https://www.youtube.com/@%EB%A7%88%EC%9D%B4%EC%98%A8%EC%9D%B8%ED%85%8C%EB%A6%AC%EC%96%B4?sub_confirmation=1" target="_blank" rel="noopener" aria-label="유튜브">
       <svg viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.5 9.5l4.5 2.5-4.5 2.5z" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://www.instagram.com/_myowndesign_official" target="_blank" rel="noopener" aria-label="인스타그램">
+      <svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/></svg>
     </a>
     <a href="https://www.threads.com/@_myowndesign_official" target="_blank" rel="noopener" aria-label="스레드">
       <svg viewBox="0 0 24 24"><path d="M16.2 11.4c-2.6-.9-5.9-.8-5.9 1.4 0 1.5 1.5 2.2 2.7 1.8 1.5-.5 1.9-2.4 1.9-4.6 0-2.6-1.4-3.9-3.4-3.9-1.6 0-2.7.7-3.3 1.7"/><path d="M12 21c-5 0-8-3.4-8-9s3-9 8-9 8 3.4 8 9-3 9-8 9z"/></svg>
     </a>
   </nav>
 
+  <a class="cta" href="https://pf.kakao.com/_JxiWGG" target="_blank" rel="noopener">
+    <span class="ko">상담 문의하기</span>
+    <span class="en">Kakaotalk Channel</span>
+  </a>
+
   <main class="links">
-    <a class="link primary" href="https://pf.kakao.com/_JxiWGG" target="_blank" rel="noopener">
-      <svg class="ico" viewBox="0 0 24 24"><path d="M12 4c4.4 0 8 2.7 8 6.1 0 3.3-3.6 6-8 6-.6 0-1.2 0-1.7-.1L6 18.8l.9-3A6.4 6.4 0 0 1 4 10.1C4 6.7 7.6 4 12 4z"/></svg>
-      <span class="txt"><b>상담 문의하기</b><span>KAKAOTALK CHANNEL</span></span>
-      <span class="dot"></span>
+    <a class="row" href="http://www.myowndesign.co.kr/" target="_blank" rel="noopener">
+      <span class="thumb">
+        <img class="ph" src="https://www.myowndesign.co.kr/media/portfolio/Gireum_New_Town_Complex_8/thumb.jpg" alt="" hidden>
+        <svg class="ph-fb" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5"/><path d="M6 9.6V20h12V9.6"/><path d="M10 20v-5h4v5"/></svg>
+      </span>
+      <span class="txt">
+        <span class="ko">홈페이지 · 포트폴리오</span>
+        <span class="en">Portfolio</span>
+      </span>
+      <svg class="arrow" viewBox="0 0 24 9" aria-hidden="true"><path d="M0 4.5h22M18 1l4 3.5-4 3.5"/></svg>
     </a>
 
-    <a class="link" href="http://www.myowndesign.co.kr/" target="_blank" rel="noopener">
-      <svg class="ico" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5"/><path d="M6 9.6V20h12V9.6"/><path d="M10 20v-5h4v5"/></svg>
-      <span class="txt"><b>홈페이지 · 시공 포트폴리오</b><span>PORTFOLIO</span></span>
-      <span class="dot"></span>
+    <a class="row" href="https://www.youtube.com/@%EB%A7%88%EC%9D%B4%EC%98%A8%EC%9D%B8%ED%85%8C%EB%A6%AC%EC%96%B4?sub_confirmation=1" target="_blank" rel="noopener">
+      <span class="thumb">
+        <img class="ph" src="https://www.myowndesign.co.kr/media/portfolio/worldcup_hundai/thumb.jpg" alt="" hidden>
+        <svg class="ph-fb" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.5 9.5l4.5 2.5-4.5 2.5z" fill="currentColor" stroke="none"/></svg>
+      </span>
+      <span class="txt">
+        <span class="ko">유튜브 · 시공 영상</span>
+        <span class="en">Youtube</span>
+      </span>
+      <svg class="arrow" viewBox="0 0 24 9" aria-hidden="true"><path d="M0 4.5h22M18 1l4 3.5-4 3.5"/></svg>
     </a>
 
-    <a class="link" href="https://www.instagram.com/_myowndesign_official" target="_blank" rel="noopener">
-      <svg class="ico" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/></svg>
-      <span class="txt"><b>인스타그램</b><span>@_MYOWNDESIGN_OFFICIAL</span></span>
-      <span class="dot"></span>
+    <a class="row" href="https://www.instagram.com/_myowndesign_official" target="_blank" rel="noopener">
+      <span class="thumb">
+        <img class="ph" src="https://www.myowndesign.co.kr/media/portfolio/Muak_Hyundai_Apartment/thumb.jpg" alt="" hidden>
+        <svg class="ph-fb" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/></svg>
+      </span>
+      <span class="txt">
+        <span class="ko">인스타그램</span>
+        <span class="en">Instagram</span>
+      </span>
+      <svg class="arrow" viewBox="0 0 24 9" aria-hidden="true"><path d="M0 4.5h22M18 1l4 3.5-4 3.5"/></svg>
     </a>
 
-    <a class="link" href="https://www.youtube.com/@%EB%A7%88%EC%9D%B4%EC%98%A8%EC%9D%B8%ED%85%8C%EB%A6%AC%EC%96%B4?sub_confirmation=1" target="_blank" rel="noopener">
-      <svg class="ico" viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.5 9.5l4.5 2.5-4.5 2.5z" fill="currentColor" stroke="none"/></svg>
-      <span class="txt"><b>유튜브 · 시공 영상</b><span>YOUTUBE</span></span>
-      <span class="dot"></span>
-    </a>
-
-    <a class="link" href="https://www.threads.com/@_myowndesign_official" target="_blank" rel="noopener">
-      <svg class="ico" viewBox="0 0 24 24"><path d="M16.2 11.4c-2.6-.9-5.9-.8-5.9 1.4 0 1.5 1.5 2.2 2.7 1.8 1.5-.5 1.9-2.4 1.9-4.6 0-2.6-1.4-3.9-3.4-3.9-1.6 0-2.7.7-3.3 1.7"/><path d="M12 21c-5 0-8-3.4-8-9s3-9 8-9 8 3.4 8 9-3 9-8 9z"/></svg>
-      <span class="txt"><b>스레드</b><span>THREADS</span></span>
-      <span class="dot"></span>
+    <a class="row" href="https://www.threads.com/@_myowndesign_official" target="_blank" rel="noopener">
+      <span class="thumb">
+        <img class="ph" src="https://www.myowndesign.co.kr/media/portfolio/Byeollae_2nd_IPark/thumb.jpg" alt="" hidden>
+        <svg class="ph-fb" viewBox="0 0 24 24"><path d="M16.2 11.4c-2.6-.9-5.9-.8-5.9 1.4 0 1.5 1.5 2.2 2.7 1.8 1.5-.5 1.9-2.4 1.9-4.6 0-2.6-1.4-3.9-3.4-3.9-1.6 0-2.7.7-3.3 1.7"/><path d="M12 21c-5 0-8-3.4-8-9s3-9 8-9 8 3.4 8 9-3 9-8 9z"/></svg>
+      </span>
+      <span class="txt">
+        <span class="ko">스레드</span>
+        <span class="en">Threads</span>
+      </span>
+      <svg class="arrow" viewBox="0 0 24 9" aria-hidden="true"><path d="M0 4.5h22M18 1l4 3.5-4 3.5"/></svg>
     </a>
   </main>
 
   <footer>
-    <span class="rule"></span>
-    <a href="tel:031-572-2114">031 · 572 · 2114</a>
+    <a href="tel:031-572-2114">031 572 2114</a>
     <p>Consulting</p>
   </footer>
 </div>
 
 <script>
 (function(){
-  var img = document.getElementById("crest-img");
-  var fb = document.getElementById("crest-fallback");
-  function show(){ img.hidden = false; fb.hidden = true; }
-  function hide(){ img.hidden = true; fb.hidden = false; }
-  img.addEventListener("load", function(){ if (img.naturalWidth > 0) show(); });
-  img.addEventListener("error", hide);
-  // a cached image finishes before this script runs, so its load event never fires
-  if (img.complete){ if (img.naturalWidth > 0) show(); else hide(); }
+  // Every photo on this page is optional: show it once the file is really there,
+  // otherwise leave the drawn fallback in place. A cached image finishes before
+  // this script runs, so its load event never fires — check .complete too.
+  // el.hidden is an HTMLElement property — it does nothing on an <svg>,
+  // so drive the attribute directly and both kinds behave the same.
+  function setHidden(el, on){
+    if(!el) return;
+    if(on) el.setAttribute("hidden",""); else el.removeAttribute("hidden");
+  }
+  function pair(img, onOk, onFail){
+    if(!img) return;
+    img.addEventListener("load", function(){ if(img.naturalWidth > 0) onOk(); });
+    img.addEventListener("error", onFail);
+    if(img.complete){ if(img.naturalWidth > 0) onOk(); else onFail(); }
+  }
+
+  var page = document.getElementById("page");
+
+  // hero band
+  var hero = document.getElementById("hero");
+  pair(document.getElementById("hero-img"),
+    function(){ setHidden(hero,false); page.classList.add("has-hero"); },
+    function(){ setHidden(hero,true); page.classList.remove("has-hero"); });
+
+  // logo in the crest
+  var crest = document.getElementById("crest-img");
+  var crestFb = document.getElementById("crest-fallback");
+  pair(crest,
+    function(){ setHidden(crest,false); setHidden(crestFb,true); },
+    function(){ setHidden(crest,true); setHidden(crestFb,false); });
+
+  // row thumbnails
+  Array.prototype.forEach.call(document.querySelectorAll(".thumb"), function(box){
+    var im = box.querySelector(".ph"), fb = box.querySelector(".ph-fb");
+    pair(im,
+      function(){ setHidden(im,false); setHidden(fb,true); },
+      function(){ setHidden(im,true); setHidden(fb,false); });
+  });
 })();
 </script>
 </body>
