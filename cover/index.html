@@ -4,13 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>피드 커버 메이커</title>
-<meta name="description" content="인스타그램 피드 첫 장 커버와 마지막 장 메이커">
+<meta name="description" content="인스타그램 피드 첫 장, 중간 장, 마지막 장 메이커">
 <meta property="og:title" content="피드 커버 메이커">
-<meta property="og:description" content="인스타그램 피드 첫 장 커버와 마지막 장 메이커">
+<meta property="og:description" content="인스타그램 피드 첫 장, 중간 장, 마지막 장 메이커">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Serif+KR:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
 <style>
   :root{color-scheme:light dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);}
   body{margin:0;font:15px system-ui,-apple-system,sans-serif;}
@@ -195,7 +196,7 @@
   /* which slide is being made — the first choice on the page */
   .modebar{
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:repeat(3,minmax(0,1fr));
     border:1px solid var(--line);
     border-radius:4px;
     overflow:hidden;
@@ -218,6 +219,53 @@
   .modebar button b{font-size:15px;font-weight:700;color:inherit;}
   .modebar button small{font-size:11.5px;color:inherit;opacity:.8;}
   .modebar button[aria-pressed="true"]{background:var(--accent);color:#fff;}
+  @media (max-width:520px){
+    .modebar button{padding:12px 12px;}
+    .modebar button small{display:none;}
+  }
+
+  /* layout chips for the middle slide: each draws its own arrangement */
+  .layouts{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(96px,1fr));
+    gap:8px;
+  }
+  .layouts button{
+    font:inherit;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    padding:10px 6px 8px;
+    border:1px solid var(--line);
+    border-radius:3px;
+    background:var(--ground);
+    color:var(--ink-2);
+    cursor:pointer;
+    font-size:11.5px;
+    line-height:1.3;
+    text-align:center;
+  }
+  .layouts button svg{width:44px;height:55px;display:block;}
+  .layouts button svg rect{fill:currentColor;opacity:.45;}
+  .layouts button svg .t{opacity:.9;}
+  .layouts button[aria-pressed="true"]{border-color:var(--accent);color:var(--ink);box-shadow:inset 0 0 0 1px var(--accent);}
+  .layouts button[aria-pressed="true"] svg rect{fill:var(--accent);opacity:.8;}
+
+  .slotbar{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:8px;
+    margin-top:12px;
+  }
+  .slotinfo{
+    font-size:12.5px;
+    color:var(--ink-2);
+    flex:1 1 180px;
+    min-width:0;
+  }
+  .slotinfo b{color:var(--ink);font-weight:700;}
   section.panel{
     background:var(--panel);
     border:1px solid var(--line);
@@ -375,6 +423,7 @@
         <button class="act" id="btn-save" type="button">PNG 저장</button>
         <button class="act ghost" id="btn-photo" type="button">사진 바꾸기</button>
         <input type="file" id="file" accept="image/*" hidden>
+        <input type="file" id="files" accept="image/*" multiple hidden>
       </div>
       <p class="stage-note" id="dims">1080 × 1350 px · 미리보기를 클릭하거나 사진을 끌어다 놓으세요</p>
       <p class="toast" id="toast"></p>
@@ -382,9 +431,112 @@
 
     <div class="panels">
       <div class="modebar" id="mode" role="group" aria-label="만들 장 고르기">
-        <button type="button" data-v="cover" aria-pressed="true"><b>첫 장 커버</b><small>제목 · 넘기기 화살표</small></button>
-        <button type="button" data-v="outro" aria-pressed="false"><b>마지막 장</b><small>로고 · 안내 문구 · 문의</small></button>
+        <button type="button" data-v="cover" aria-pressed="true"><b>첫 장</b><small>제목 · 넘기기 화살표</small></button>
+        <button type="button" data-v="middle" aria-pressed="false"><b>중간 장</b><small>사진 배치 · 설명 글</small></button>
+        <button type="button" data-v="outro" aria-pressed="false"><b>마지막 장</b><small>로고 · 안내 · 문의</small></button>
       </div>
+
+      <section class="panel" data-mode="middle" hidden>
+        <h2>중간 장 — 배치</h2>
+        <p class="sub">사진을 어떻게 놓을지 고릅니다. 사진은 배치를 바꿔도 순서대로 따라옵니다.</p>
+        <div class="layouts" id="mlayout">
+          <button type="button" data-v="grid4" aria-pressed="true">
+            <svg viewBox="0 0 44 55"><rect x="1" y="1" width="20.5" height="17"/><rect x="22.5" y="1" width="20.5" height="17"/><rect x="1" y="19" width="20.5" height="17"/><rect x="22.5" y="19" width="20.5" height="17"/><rect class="t" x="4" y="41" width="18" height="2.4"/><rect class="t" x="4" y="46" width="36" height="1.4"/><rect class="t" x="4" y="49.5" width="30" height="1.4"/></svg>
+            사진 4 + 글
+          </button>
+          <button type="button" data-v="big2" aria-pressed="false">
+            <svg viewBox="0 0 44 55"><rect x="1" y="1" width="42" height="21"/><rect x="1" y="23" width="20.5" height="13"/><rect x="22.5" y="23" width="20.5" height="13"/><rect class="t" x="4" y="41" width="18" height="2.4"/><rect class="t" x="4" y="46" width="36" height="1.4"/><rect class="t" x="4" y="49.5" width="30" height="1.4"/></svg>
+            큰 사진 + 2 + 글
+          </button>
+          <button type="button" data-v="tall3" aria-pressed="false">
+            <svg viewBox="0 0 44 55"><rect x="1" y="1" width="23" height="35"/><rect x="25" y="1" width="18" height="17"/><rect x="25" y="19" width="18" height="17"/><rect class="t" x="4" y="41" width="18" height="2.4"/><rect class="t" x="4" y="46" width="36" height="1.4"/><rect class="t" x="4" y="49.5" width="30" height="1.4"/></svg>
+            세로 + 2 + 글
+          </button>
+          <button type="button" data-v="stack2" aria-pressed="false">
+            <svg viewBox="0 0 44 55"><rect x="1" y="1" width="42" height="26"/><rect x="1" y="28" width="42" height="26"/></svg>
+            위아래 2장
+          </button>
+          <button type="button" data-v="big2only" aria-pressed="false">
+            <svg viewBox="0 0 44 55"><rect x="1" y="1" width="42" height="32"/><rect x="1" y="34" width="20.5" height="20"/><rect x="22.5" y="34" width="20.5" height="20"/></svg>
+            큰 사진 + 2
+          </button>
+          <button type="button" data-v="beforeafter" aria-pressed="false">
+            <svg viewBox="0 0 44 55"><rect x="1" y="1" width="29" height="24"/><rect class="t" x="32" y="19" width="9" height="1.6"/><rect class="t" x="32" y="22.4" width="7" height="1.6"/><rect x="1" y="26" width="20.5" height="28"/><rect x="22.5" y="26" width="20.5" height="28"/></svg>
+            비포 / 애프터
+          </button>
+        </div>
+      </section>
+
+      <section class="panel" data-mode="middle" hidden>
+        <h2>중간 장 — 사진</h2>
+        <p class="sub">미리보기의 빈 칸을 누르면 그 칸에 사진이 들어갑니다. 사진을 <b>끌면</b> 보이는 부분이 움직입니다.</p>
+        <div class="stage-foot">
+          <button class="act" id="btn-mfill" type="button">사진 여러 장 한 번에 넣기</button>
+        </div>
+        <div class="slotbar">
+          <span class="slotinfo" id="mslotinfo">칸을 누르면 여기서 그 칸을 조절할 수 있습니다.</span>
+          <button class="act ghost" id="btn-mreplace" type="button" disabled>이 칸 사진 바꾸기</button>
+          <button class="act ghost" id="btn-mclear" type="button" disabled>이 칸 비우기</button>
+        </div>
+        <div class="grid two" style="margin-top:12px">
+          <label class="field">
+            <span>선택한 칸 확대</span>
+            <span class="rangerow"><input type="range" id="mzoom" min="100" max="250" value="100" disabled><output id="mzoom-out">1.00×</output></span>
+          </label>
+        </div>
+        <div class="grid" id="mba" style="margin-top:14px" hidden>
+          <div class="grid two">
+            <label class="field">
+              <span>비포 표시</span>
+              <input type="text" id="mbefore" maxlength="20">
+            </label>
+            <label class="field">
+              <span>애프터 표시</span>
+              <input type="text" id="mafter" maxlength="20">
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" data-mode="middle" hidden id="mtextpanel">
+        <h2>중간 장 — 글</h2>
+        <p class="sub">공간 이름은 명조로, 설명은 읽기 편한 고딕으로 들어갑니다. 길면 글자가 알아서 작아집니다.</p>
+        <div class="grid">
+          <label class="checkline"><input type="checkbox" id="mtexton" checked> 사진 아래에 글 넣기</label>
+          <label class="field">
+            <span>공간 이름</span>
+            <input type="text" id="mtitle" maxlength="40">
+          </label>
+          <label class="field">
+            <span>설명</span>
+            <textarea id="mbody" rows="5"></textarea>
+          </label>
+        </div>
+        <div class="grid two" style="margin-top:14px">
+          <label class="field">
+            <span>글 칸 높이</span>
+            <span class="rangerow"><input type="range" id="mtexth" min="18" max="45" value="26"><output id="mtexth-out">26%</output></span>
+          </label>
+        </div>
+      </section>
+
+      <section class="panel locked" data-mode="middle" hidden>
+        <h2>중간 장 고정 스타일</h2>
+        <p class="sub">모든 중간 장에 똑같이 적용돼야 게시물이 한 벌로 보입니다.</p>
+        <div class="grid two">
+          <label class="field">
+            <span>바탕색</span>
+            <span class="seg" id="mbg">
+              <button type="button" data-v="white" aria-pressed="true">흰색</button>
+              <button type="button" data-v="paper" aria-pressed="false">크림</button>
+            </span>
+          </label>
+          <label class="field">
+            <span>사진 사이 간격</span>
+            <span class="rangerow"><input type="range" id="mgap" min="0" max="30" value="10"><output id="mgap-out">10</output></span>
+          </label>
+        </div>
+      </section>
 
       <section class="panel" data-mode="outro" hidden>
         <h2>마지막 장</h2>
@@ -572,7 +724,8 @@
       <li><b>고정 스타일은 건드리지 않습니다.</b> 워터마크·서명·정렬·어둡기가 매번 같아야 격자에서 한 시리즈로 읽힙니다.</li>
       <li><b>사진은 항상 같은 성격으로.</b> 넓은 장면, 정면에 가까운 시선, 위쪽 1/3은 비어 있는 컷 — 제목이 앉을 자리입니다.</li>
       <li><b>제목은 두 줄, 각 12자 내외.</b> 첫 줄은 장소나 평수, 둘째 줄은 무엇을 했는지.</li>
-      <li><b>2장부터는 커버 없이</b> 사진만 이어 붙이고, 끝에는 위쪽 <b>마지막 장</b>으로 만든 마무리 장을 붙입니다. 문구가 저장돼 있어서 사진만 바꾸면 됩니다.</li>
+      <li><b>가운데 장은 중간 장으로.</b> 비포/애프터로 시작해서 공간마다 사진 배치 + 설명 한 장씩 이어 붙입니다. 배치·간격·바탕색은 저장되니 모든 장이 같은 틀로 나옵니다.</li>
+      <li><b>끝에는 마지막 장.</b> 문구가 저장돼 있어서 사진만 바꾸면 됩니다.</li>
     </ol>
   </div>
 </div>
@@ -616,6 +769,29 @@
   var OUTRO_KEYS = Object.keys(OUTRO_DEFAULTS);
   OUTRO_KEYS.forEach(function(k){ S[k] = OUTRO_DEFAULTS[k]; });
 
+  // middle slides: arrangement + house style are remembered; the words change every slide
+  var MIDKEY = "feedcover.middle.v1";
+  var MID_DEFAULTS = {
+    mlayout:"grid4", mbg:"white", mgap:10, mtexth:26, mtexton:true,
+    mbefore:"◀  Before", mafter:"▼  After"
+  };
+  var MID_KEYS = Object.keys(MID_DEFAULTS);
+  MID_KEYS.forEach(function(k){ S[k] = MID_DEFAULTS[k]; });
+  S.mtitle = "거실 — 가족이 함께 머무는 공간";
+  S.mbody  = "남향 창으로 들어오는 빛이 깊게 들도록 거실 벽을 비우고, 수납은 한쪽 벽면에 모았습니다. 원목 슬랫 파티션으로 현관 동선을 부드럽게 가리면서도 시선은 막히지 않게 했습니다.";
+
+  var LAYOUTS = {
+    grid4:      { n:4, text:true  },
+    big2:       { n:3, text:true  },
+    tall3:      { n:3, text:true  },
+    stack2:     { n:2, text:false },
+    big2only:   { n:3, text:false },
+    beforeafter:{ n:3, text:false }
+  };
+  // slots survive layout changes: switching from 4 to 3 keeps the 4th photo for later
+  var mid = { slots:[], sel:-1, rects:null, drag:null, target:-1 };
+  function slot(i){ if(!mid.slots[i]) mid.slots[i] = { img:null, fx:.5, fy:.5, zoom:100 }; return mid.slots[i]; }
+
   function toast(msg, tone){
     toastEl.textContent = msg || "";
     if (tone) toastEl.setAttribute("data-tone", tone); else toastEl.removeAttribute("data-tone");
@@ -632,6 +808,9 @@
       var q = {};
       OUTRO_KEYS.forEach(function(k){ q[k] = S[k]; });
       localStorage.setItem(OUTROKEY, JSON.stringify(q));
+      var m = {};
+      MID_KEYS.forEach(function(k){ m[k] = S[k]; });
+      localStorage.setItem(MIDKEY, JSON.stringify(m));
     }catch(e){}
   }
   function loadStyle(){
@@ -646,9 +825,15 @@
         var q = JSON.parse(rq);
         OUTRO_KEYS.forEach(function(k){ if(q && q[k] !== undefined) S[k] = q[k]; });
       }
+      var rm = localStorage.getItem(MIDKEY);
+      if(rm){
+        var m = JSON.parse(rm);
+        MID_KEYS.forEach(function(k){ if(m && m[k] !== undefined) S[k] = m[k]; });
+      }
+      if(!LAYOUTS[S.mlayout]) S.mlayout = "grid4";
     }catch(e){}
   }
-  function isSavedKey(k){ return STYLE_KEYS.indexOf(k) >= 0 || OUTRO_KEYS.indexOf(k) >= 0; }
+  function isSavedKey(k){ return STYLE_KEYS.indexOf(k) >= 0 || OUTRO_KEYS.indexOf(k) >= 0 || MID_KEYS.indexOf(k) >= 0; }
 
   /* ---------- logo ---------- */
   /* Trim the flat background, then optionally repaint the mark white so it
@@ -928,17 +1113,195 @@
     ctx.restore();
   }
 
-  function render(){
+  /* ---------- middle slide ---------- */
+  var SANS = '"Pretendard", "Noto Sans KR", system-ui, sans-serif';
+
+  function hasText(){ return LAYOUTS[S.mlayout].text && S.mtexton; }
+
+  function middleRects(W, H){
+    var s = W/1080;
+    var g = Math.round(S.mgap * s);
+    var x0 = g, y0 = g, pw = W - g*2;
+    var textH = hasText() ? Math.round(H * S.mtexth/100) : 0;
+    // photo band: framed by the gap on every side, minus the text strip when there is one
+    var ph = hasText() ? H - textH - y0 : H - g*2;
+    var r = [], label = null, half;
+    switch (S.mlayout){
+      case "grid4":
+        var cw = Math.floor((pw - g)/2), ch = Math.floor((ph - g)/2);
+        r.push({x:x0, y:y0, w:cw, h:ch});
+        r.push({x:x0+cw+g, y:y0, w:pw-cw-g, h:ch});
+        r.push({x:x0, y:y0+ch+g, w:cw, h:ph-ch-g});
+        r.push({x:x0+cw+g, y:y0+ch+g, w:pw-cw-g, h:ph-ch-g});
+        break;
+      case "big2":
+      case "big2only":
+        var th = Math.round((ph - g) * (S.mlayout === "big2" ? 0.6 : 0.58));
+        half = Math.floor((pw - g)/2);
+        r.push({x:x0, y:y0, w:pw, h:th});
+        r.push({x:x0, y:y0+th+g, w:half, h:ph-th-g});
+        r.push({x:x0+half+g, y:y0+th+g, w:pw-half-g, h:ph-th-g});
+        break;
+      case "tall3":
+        var lw = Math.round((pw - g) * 0.56), rh = Math.floor((ph - g)/2);
+        r.push({x:x0, y:y0, w:lw, h:ph});
+        r.push({x:x0+lw+g, y:y0, w:pw-lw-g, h:rh});
+        r.push({x:x0+lw+g, y:y0+rh+g, w:pw-lw-g, h:ph-rh-g});
+        break;
+      case "stack2":
+        half = Math.floor((ph - g)/2);
+        r.push({x:x0, y:y0, w:pw, h:half});
+        r.push({x:x0, y:y0+half+g, w:pw, h:ph-half-g});
+        break;
+      case "beforeafter":
+        var bh = Math.round((ph - g) * 0.46), bw = Math.round(pw * 0.68);
+        half = Math.floor((pw - g)/2);
+        r.push({x:x0, y:y0, w:bw, h:bh});
+        label = {x:x0+bw+g, y:y0, w:pw-bw-g, h:bh};
+        r.push({x:x0, y:y0+bh+g, w:half, h:ph-bh-g});
+        r.push({x:x0+half+g, y:y0+bh+g, w:pw-half-g, h:ph-bh-g});
+        break;
+    }
+    var text = hasText() ? {x:0, y:y0+ph, w:W, h:H-(y0+ph)} : null;
+    return { slots:r, label:label, text:text, s:s };
+  }
+
+  // where the photo sits inside its box, given pan (fx,fy) and zoom
+  function coverGeom(sl, rc){
+    var iw = sl.img.naturalWidth, ih = sl.img.naturalHeight;
+    var sc = Math.max(rc.w/iw, rc.h/ih) * (sl.zoom/100);
+    var dw = iw*sc, dh = ih*sc;
+    return { dw:dw, dh:dh, dx: rc.x + (rc.w - dw)*sl.fx, dy: rc.y + (rc.h - dh)*sl.fy };
+  }
+
+  function wrapLines(text, maxWidth){
+    var out = [];
+    String(text || "").replace(/\r/g,"").split("\n").forEach(function(para){
+      if (!para.trim()){ out.push(""); return; }
+      var words = para.split(/(\s+)/), line = "";
+      words.forEach(function(w){
+        var trial = line + w;
+        if (ctx.measureText(trial).width <= maxWidth || !line.trim()){
+          // a single word longer than the line: break it by character
+          if (ctx.measureText(trial).width > maxWidth && !line.trim()){
+            var chunk = "";
+            Array.from(w).forEach(function(ch){
+              if (ctx.measureText(chunk + ch).width > maxWidth && chunk){ out.push(chunk); chunk = ch; }
+              else chunk += ch;
+            });
+            line = chunk;
+          } else {
+            line = trial;
+          }
+        } else {
+          out.push(line.replace(/\s+$/,""));
+          line = w.replace(/^\s+/,"");
+        }
+      });
+      if (line.trim()) out.push(line.replace(/\s+$/,""));
+    });
+    return out;
+  }
+
+  function renderMiddle(W, H, exporting){
+    var L = middleRects(W, H), s = L.s;
+    mid.rects = L;
+    var paper = S.mbg === "paper";
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle = paper ? "#F7F1E7" : "#FFFFFF";
+    ctx.fillRect(0,0,W,H);
+
+    L.slots.forEach(function(rc, i){
+      var sl = mid.slots[i];
+      ctx.save();
+      ctx.beginPath(); ctx.rect(rc.x, rc.y, rc.w, rc.h); ctx.clip();
+      if (sl && sl.img){
+        var gm = coverGeom(sl, rc);
+        ctx.drawImage(sl.img, gm.dx, gm.dy, gm.dw, gm.dh);
+      } else {
+        ctx.fillStyle = paper ? "#EAE1D3" : "#EFEBE5";
+        ctx.fillRect(rc.x, rc.y, rc.w, rc.h);
+        if (!exporting){
+          ctx.fillStyle = "rgba(90,80,70,.55)";
+          ctx.textAlign = "center"; ctx.textBaseline = "middle";
+          ctx.font = "500 " + Math.round(Math.min(40, rc.h*0.12)*s + 10*s) + "px " + SANS;
+          ctx.fillText("+ 사진 " + (i+1), rc.x + rc.w/2, rc.y + rc.h/2);
+        }
+      }
+      ctx.restore();
+      if (!exporting && i === mid.sel){
+        ctx.save();
+        ctx.strokeStyle = "#D2A06A";
+        ctx.lineWidth = Math.max(3, Math.round(6*s));
+        ctx.strokeRect(rc.x + ctx.lineWidth/2, rc.y + ctx.lineWidth/2, rc.w - ctx.lineWidth, rc.h - ctx.lineWidth);
+        ctx.restore();
+      }
+    });
+
+    // before / after marker, set small in the white beside the "before" shot
+    if (L.label){
+      var lpx = Math.round(24*s), lg = Math.round(lpx*1.5);
+      ctx.save();
+      ctx.font = "500 " + lpx + "px " + SANS;
+      ctx.fillStyle = "#6F665C";
+      ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+      var lx = L.label.x + Math.round(14*s);
+      var ly = L.label.y + L.label.h - Math.round(10*s);
+      if (S.mafter)  ctx.fillText(S.mafter,  lx, ly);
+      if (S.mbefore) ctx.fillText(S.mbefore, lx, ly - (S.mafter ? lg : 0));
+      ctx.restore();
+    }
+
+    // the words under the photos: space name in serif, description in sans
+    if (L.text){
+      var T = L.text;
+      var mx = Math.round(64*s), maxW = W - mx*2;
+      var top = T.y + Math.round(46*s), bottom = T.y + T.h - Math.round(40*s);
+      var title = String(S.mtitle || "").trim();
+      ctx.save();
+      ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
+      var y = top;
+      if (title){
+        var tpx = Math.round(38*s);
+        for (var k=0;k<30;k++){
+          ctx.font = "500 " + tpx + "px " + SERIF;
+          if (ctx.measureText(title).width <= maxW || tpx <= 18*s) break;
+          tpx -= 1;
+        }
+        ctx.fillStyle = "#2F2723";
+        ctx.fillText(title, mx, y + tpx);
+        y += tpx + Math.round(26*s);
+      }
+      // shrink the description until it fits the space left
+      var bpx = Math.round(26*s), lines, lead;
+      for (var j=0;j<40;j++){
+        ctx.font = "400 " + bpx + "px " + SANS;
+        lines = wrapLines(S.mbody, maxW);
+        lead = Math.round(bpx * 1.72);
+        if (y + bpx + (lines.length-1)*lead <= bottom || bpx <= 15*s) break;
+        bpx -= 1;
+      }
+      ctx.fillStyle = "#6F665C";
+      var maxLines = Math.max(0, Math.floor((bottom - y - bpx)/lead) + 1);
+      lines.slice(0, maxLines).forEach(function(t, i){ ctx.fillText(t, mx, y + bpx + i*lead); });
+      ctx.restore();
+    }
+  }
+
+  function render(exporting){
     var dims = RATIOS[S.ratio] || RATIOS["4:5"];
     var W = dims[0], H = dims[1];
     if (canvas.width !== W || canvas.height !== H){ canvas.width = W; canvas.height = H; }
     var s = W/1080;
 
-    document.getElementById("cta").hidden = !!photos[S.mode];
-    document.getElementById("dims").textContent =
-      W + " × " + H + " px · 미리보기를 클릭하거나 사진을 끌어다 놓으세요";
+    var anyMid = mid.slots.some(function(x){ return x && x.img; });
+    document.getElementById("cta").hidden = S.mode === "middle" ? anyMid : !!photos[S.mode];
+    document.getElementById("dims").textContent = S.mode === "middle"
+      ? W + " × " + H + " px · 빈 칸을 누르면 사진을 넣고, 사진을 끌면 위치가 움직입니다"
+      : W + " × " + H + " px · 미리보기를 클릭하거나 사진을 끌어다 놓으세요";
 
     if (S.mode === "outro"){ renderOutro(W, H); return; }
+    if (S.mode === "middle"){ renderMiddle(W, H, !!exporting); return; }
 
     ctx.clearRect(0,0,W,H);
     if (photos.cover) drawPhoto(photos.cover, W, H, S.focal, S.zoom); else drawPlaceholder(W,H);
@@ -1174,8 +1537,59 @@
     Array.prototype.forEach.call(document.querySelectorAll("[data-mode]"), function(el){
       el.hidden = el.getAttribute("data-mode") !== S.mode;
     });
+    syncMiddleUI();
+    canvas.style.touchAction = S.mode === "middle" ? "none" : "auto";
     render();
   }
+
+  /* ---------- middle slide controls ---------- */
+  var mLayoutBox = document.getElementById("mlayout");
+  var mZoom = document.getElementById("mzoom"), mZoomOut = document.getElementById("mzoom-out");
+  function syncMiddleUI(){
+    Array.prototype.forEach.call(mLayoutBox.querySelectorAll("button"), function(b){
+      b.setAttribute("aria-pressed", String(b.dataset.v === S.mlayout));
+    });
+    var inMiddle = S.mode === "middle";
+    document.getElementById("mtextpanel").hidden = !inMiddle || !LAYOUTS[S.mlayout].text;
+    document.getElementById("mba").hidden = S.mlayout !== "beforeafter";
+    var n = LAYOUTS[S.mlayout].n;
+    if (mid.sel >= n) mid.sel = -1;
+    var has = mid.sel >= 0;
+    var sl = has ? slot(mid.sel) : null;
+    document.getElementById("mslotinfo").innerHTML = has
+      ? "<b>" + (mid.sel+1) + "번 칸</b> 선택됨" + (sl.img ? " · 사진을 끌어서 위치를 맞추세요" : " · 비어 있습니다")
+      : "칸을 누르면 여기서 그 칸을 조절할 수 있습니다.";
+    document.getElementById("btn-mreplace").disabled = !has;
+    document.getElementById("btn-mclear").disabled = !(has && sl.img);
+    mZoom.disabled = !(has && sl.img);
+    mZoom.value = has ? sl.zoom : 100;
+    mZoomOut.textContent = (Number(mZoom.value)/100).toFixed(2) + "×";
+  }
+  mLayoutBox.addEventListener("click", function(ev){
+    var b = ev.target.closest("button");
+    if(!b) return;
+    S.mlayout = b.dataset.v; saveStyle(); syncMiddleUI(); render();
+  });
+  mZoom.addEventListener("input", function(){
+    if (mid.sel < 0) return;
+    slot(mid.sel).zoom = Number(mZoom.value);
+    mZoomOut.textContent = (Number(mZoom.value)/100).toFixed(2) + "×";
+    render();
+  });
+  bindText("mtitle","mtitle"); bindText("mbody","mbody");
+  bindText("mbefore","mbefore"); bindText("mafter","mafter");
+  bindRange("mtexth","mtexth", function(v){ return v + "%"; });
+  bindRange("mgap","mgap", function(v){ return String(v); });
+  bindSeg("mbg","mbg");
+  (function(){
+    var el = document.getElementById("mtexton");
+    el.checked = !!S.mtexton;
+    el.addEventListener("change", function(){ S.mtexton = el.checked; saveStyle(); render(); });
+  })();
+  document.getElementById("btn-mclear").addEventListener("click", function(){
+    if (mid.sel < 0) return;
+    mid.slots[mid.sel] = null; syncMiddleUI(); render();
+  });
   modeBox.addEventListener("click", function(ev){
     var b = ev.target.closest("button");
     if(!b) return;
@@ -1185,7 +1599,7 @@
   });
   try{
     var m = sessionStorage.getItem("feedcover.mode");
-    if (m === "cover" || m === "outro") S.mode = m;
+    if (m === "cover" || m === "outro" || m === "middle") S.mode = m;
   }catch(e){}
 
   var ratioEl = document.getElementById("ratio");
@@ -1194,26 +1608,120 @@
 
   /* photo input */
   var fileEl = document.getElementById("file");
-  function loadFile(f){
+  var filesEl = document.getElementById("files");
+
+  function readImage(f, done){
     if(!f || !/^image\//.test(f.type)){ toast("이미지 파일만 올릴 수 있습니다.","warn"); return; }
     var url = URL.createObjectURL(f);
     var img = new Image();
-    var forMode = S.mode;
-    img.onload = function(){
-      photos[forMode] = img;
-      toast("");
-      render();
-    };
+    img.onload = function(){ toast(""); done(img); };
     img.onerror = function(){ URL.revokeObjectURL(url); toast("사진을 읽지 못했습니다.","warn"); };
     img.src = url;
   }
-  fileEl.addEventListener("change", function(){ if(fileEl.files[0]) loadFile(fileEl.files[0]); });
-  document.getElementById("btn-photo").addEventListener("click", function(){ fileEl.click(); });
-  document.getElementById("btn-pick").addEventListener("click", function(){ fileEl.click(); });
-  canvas.addEventListener("click", function(){ fileEl.click(); });
+  function loadFile(f){
+    var forMode = S.mode;
+    if (forMode === "middle"){
+      var target = mid.target >= 0 ? mid.target : (mid.sel >= 0 ? mid.sel : firstEmpty());
+      mid.target = -1;
+      if (target < 0) target = 0;
+      readImage(f, function(img){ putInSlot(target, img); });
+      return;
+    }
+    readImage(f, function(img){ photos[forMode] = img; render(); });
+  }
+
+  function firstEmpty(){
+    var n = LAYOUTS[S.mlayout].n;
+    for (var i=0;i<n;i++){ if(!mid.slots[i] || !mid.slots[i].img) return i; }
+    return -1;
+  }
+  function putInSlot(i, img){
+    mid.slots[i] = { img:img, fx:.5, fy:.5, zoom:100 };
+    mid.sel = i;
+    syncMiddleUI(); render();
+  }
+  // several photos at once: fill the empty boxes in reading order
+  function fillSlots(fileList){
+    var files = Array.prototype.filter.call(fileList, function(f){ return /^image\//.test(f.type); });
+    if (!files.length){ toast("이미지 파일만 올릴 수 있습니다.","warn"); return; }
+    var n = LAYOUTS[S.mlayout].n, targets = [];
+    for (var i=0;i<n && targets.length<files.length;i++){ if(!mid.slots[i] || !mid.slots[i].img) targets.push(i); }
+    // no empty boxes left: start over from the first box
+    for (var j=0; targets.length<Math.min(files.length,n); j++){ if(targets.indexOf(j)<0) targets.push(j); }
+    targets.forEach(function(t, k){ readImage(files[k], function(img){ putInSlot(t, img); }); });
+    if (files.length > n) toast("이 배치는 " + n + "칸이라 " + n + "장만 넣었습니다.","warn");
+  }
+
+  fileEl.addEventListener("change", function(){ if(fileEl.files[0]) loadFile(fileEl.files[0]); fileEl.value = ""; });
+  filesEl.addEventListener("change", function(){ if(filesEl.files.length) fillSlots(filesEl.files); filesEl.value = ""; });
+  document.getElementById("btn-photo").addEventListener("click", function(){
+    if (S.mode === "middle" && mid.sel < 0){ filesEl.click(); return; }
+    if (S.mode === "middle") mid.target = mid.sel;
+    fileEl.click();
+  });
+  document.getElementById("btn-pick").addEventListener("click", function(){
+    if (S.mode === "middle") filesEl.click(); else fileEl.click();
+  });
+  document.getElementById("btn-mfill").addEventListener("click", function(){ filesEl.click(); });
+  document.getElementById("btn-mreplace").addEventListener("click", function(){
+    if (mid.sel < 0) return;
+    mid.target = mid.sel; fileEl.click();
+  });
+
+  /* canvas: open a picker on cover/outro; pick, fill and pan boxes on the middle slide */
+  function canvasPoint(e){
+    var r = canvas.getBoundingClientRect();
+    return { x:(e.clientX - r.left) * canvas.width / r.width, y:(e.clientY - r.top) * canvas.height / r.height };
+  }
+  function hitSlot(p){
+    if (!mid.rects) return -1;
+    var rs = mid.rects.slots;
+    for (var i=0;i<rs.length;i++){
+      var rc = rs[i];
+      if (p.x >= rc.x && p.x <= rc.x+rc.w && p.y >= rc.y && p.y <= rc.y+rc.h) return i;
+    }
+    return -1;
+  }
+  canvas.addEventListener("pointerdown", function(e){
+    if (S.mode !== "middle") return;
+    var p = canvasPoint(e), i = hitSlot(p);
+    mid.sel = i;
+    if (i >= 0){
+      var sl = slot(i);
+      mid.drag = { i:i, x:p.x, y:p.y, fx:sl.fx, fy:sl.fy, moved:false, hadImg:!!sl.img };
+      try{ canvas.setPointerCapture(e.pointerId); }catch(err){}
+    }
+    syncMiddleUI(); render();
+  });
+  canvas.addEventListener("pointermove", function(e){
+    var d = mid.drag;
+    if (S.mode !== "middle" || !d) return;
+    var p = canvasPoint(e);
+    var dx = p.x - d.x, dy = p.y - d.y;
+    if (Math.abs(dx) + Math.abs(dy) > 6) d.moved = true;
+    var sl = mid.slots[d.i];
+    if (!sl || !sl.img || !d.moved) return;
+    var gm = coverGeom(sl, mid.rects.slots[d.i]);
+    var ox = gm.dw - mid.rects.slots[d.i].w, oy = gm.dh - mid.rects.slots[d.i].h;
+    // dragging the photo right reveals more of its left side
+    if (ox > 0) sl.fx = Math.min(1, Math.max(0, d.fx - dx/ox));
+    if (oy > 0) sl.fy = Math.min(1, Math.max(0, d.fy - dy/oy));
+    render();
+  });
+  function endDrag(){
+    var d = mid.drag;
+    mid.drag = null;
+    if (S.mode !== "middle" || !d) return;
+    if (!d.moved && !d.hadImg){ mid.target = d.i; fileEl.click(); }
+  }
+  canvas.addEventListener("pointerup", endDrag);
+  canvas.addEventListener("pointercancel", function(){ mid.drag = null; });
+  canvas.addEventListener("click", function(){ if (S.mode !== "middle") fileEl.click(); });
 
   /* paste an image straight from the clipboard */
   window.addEventListener("paste", function(e){
+    var t = e.target;
+    if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) return;
     var items = e.clipboardData && e.clipboardData.items;
     if(!items) return;
     for(var i=0;i<items.length;i++){
@@ -1232,7 +1740,16 @@
     dz.addEventListener(t, function(e){ e.preventDefault(); dz.classList.remove("over"); });
   });
   dz.addEventListener("drop", function(e){
-    if (e.dataTransfer && e.dataTransfer.files[0]) loadFile(e.dataTransfer.files[0]);
+    var fl = e.dataTransfer && e.dataTransfer.files;
+    if (!fl || !fl.length) return;
+    if (S.mode === "middle"){
+      // one photo dropped on a box goes into that box; several fill the empty ones
+      var i = fl.length === 1 ? hitSlot(canvasPoint(e)) : -1;
+      if (i >= 0){ mid.target = i; loadFile(fl[0]); }
+      else fillSlots(fl);
+      return;
+    }
+    loadFile(fl[0]);
   });
 
   /* reset */
@@ -1246,11 +1763,15 @@
   saveBtn.addEventListener("click", function(){
     saveBtn.disabled = true;
     toast("저장 준비 중…");
+    // draw once without the selection outline and "+ 사진" hints; toBlob snapshots right away
+    render(true);
     canvas.toBlob(function(blob){
       if(!blob){ toast("이미지를 만들지 못했습니다.","warn"); saveBtn.disabled = false; return; }
       var name = S.mode === "outro"
         ? "마지막장.png"
-        : (String(S.line1||"cover").trim().replace(/\s+/g,"-") || "cover") + "-cover.png";
+        : S.mode === "middle"
+          ? (String(S.mtitle||"").split("—")[0].trim().replace(/\s+/g,"-") || "중간장") + ".png"
+          : (String(S.line1||"cover").trim().replace(/\s+/g,"-") || "cover") + "-cover.png";
 
       function anchorSave(){
         var url = URL.createObjectURL(blob);
@@ -1285,6 +1806,7 @@
         })
         .then(function(){ saveBtn.disabled = false; });
     }, "image/png");
+    render();
   });
 
   /* fonts, then draw */
@@ -1295,6 +1817,9 @@
       document.fonts.load('900 100px "Noto Sans KR"'),
       document.fonts.load('500 100px "Noto Sans KR"'),
       document.fonts.load('400 40px "Noto Serif KR"', '마이온디자인 상담문의'),
+      document.fonts.load('500 40px "Noto Serif KR"', '거실 공간'),
+      document.fonts.load('400 26px Pretendard', '남향 창으로 들어오는 빛'),
+      document.fonts.load('500 24px Pretendard', 'Before After'),
       document.fonts.load('italic 400 40px "Instrument Serif"')
     ]).then(function(){ fontsReady = true; render(); }).catch(function(){});
   }
