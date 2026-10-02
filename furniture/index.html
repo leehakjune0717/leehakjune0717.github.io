@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MY OWN DESIGN 시스템 가구</title>
+<meta name="description" content="마이온디자인 시스템 가구 - 드레스룸, 붙박이장, 팬트리, 주방 수납까지 실측 맞춤 설계·시공">
+<meta property="og:title" content="MY OWN DESIGN 시스템 가구">
+<meta property="og:description" content="드레스룸, 붙박이장, 팬트리, 주방 수납까지 실측 맞춤 설계·시공">
+<meta property="og:type" content="website">
+<meta property="og:image" content="../images/hero-hopyeong.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Noto+Serif+KR:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<style>
+  /* Single-theme on purpose, same as the link page: a brand page looks the same to everyone. */
+  :root{
+    --paper:#F7F1E7;
+    --paper-deep:#EFE3D2;
+    --card:#FFFCF6;
+    --ink:#2F2723;
+    --ink-soft:#786A58;
+    --rule:#DDCDB5;
+    --rule-soft:#EADDC8;
+    --accent:#34302C;
+    --accent-deep:#1F1C19;
+    --wood:#B89A78;
+    --wood-soft:#E4D3BD;
+    --bulb:#EAEDA6;
+    --shadow:0 12px 30px -22px rgba(80,55,20,.55);
+    --wrap:1120px;
+    --gutter:clamp(16px,4vw,40px);
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  html{scroll-behavior:smooth;scroll-padding-top:72px;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Pretendard",-apple-system,BlinkMacSystemFont,system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    font-size:15.5px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    word-break:keep-all;
+    overflow-x:hidden;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;}
+  a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:1px solid var(--accent-deep);outline-offset:4px;}
+  [hidden]{display:none!important;}
+
+  .wrap{max-width:var(--wrap);margin:0 auto;padding-inline:var(--gutter);}
+  section{padding-block:clamp(64px,10vw,120px);}
+
+  .eyebrow{
+    display:flex;align-items:center;gap:12px;margin:0 0 18px;
+    font-size:11.5px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--ink-soft);
+  }
+  .eyebrow::before{content:"";width:28px;height:1px;background:var(--rule);}
+  h2{
+    font-family:"Noto Serif KR",serif;font-weight:500;
+    font-size:clamp(24px,3.6vw,36px);line-height:1.45;letter-spacing:-.02em;margin:0;
+    text-wrap:balance;
+  }
+  .lead{color:var(--ink-soft);margin:16px 0 0;max-width:34em;}
+  .sec-head{margin-bottom:clamp(36px,5vw,56px);}
+
+  /* ---- header ---- */
+  .top{
+    position:sticky;top:0;z-index:20;
+    background:rgba(247,241,231,.9);
+    backdrop-filter:saturate(1.2) blur(10px);-webkit-backdrop-filter:saturate(1.2) blur(10px);
+    border-bottom:1px solid transparent;transition:border-color .2s ease;
+  }
+  .top.scrolled{border-bottom-color:var(--rule-soft);}
+  .top .wrap{display:flex;align-items:center;gap:24px;height:64px;}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:auto;}
+  .brand img{height:30px;width:auto;}
+  .brand span{font-size:11px;font-weight:500;letter-spacing:.2em;color:var(--ink-soft);padding-left:10px;border-left:1px solid var(--rule);}
+  .nav{display:flex;gap:26px;}
+  .nav a{text-decoration:none;font-size:14px;color:var(--ink-soft);transition:color .2s;}
+  .nav a:hover{color:var(--ink);}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:11px 20px;border-radius:3px;text-decoration:none;font-size:14.5px;font-weight:500;
+    border:1px solid var(--accent-deep);cursor:pointer;font-family:inherit;
+    transition:filter .2s ease,transform .2s ease,background .2s ease;
+  }
+  .btn.dark{background:linear-gradient(180deg,#403B36 0%,var(--accent) 55%,#27231F 100%);color:#F5EEE3;box-shadow:0 14px 30px -18px rgba(30,24,18,.6);}
+  .btn.dark:hover{filter:brightness(1.07);transform:translateY(-1px);}
+  .btn.line{background:transparent;color:var(--ink);border-color:var(--rule);}
+  .btn.line:hover{border-color:var(--ink-soft);background:var(--card);}
+  .top .btn{padding:9px 16px;font-size:13.5px;}
+  @media (max-width:860px){ .nav{display:none;} }
+  @media (max-width:420px){ .brand span{display:none;} }
+
+  /* ---- hero ---- */
+  .hero{padding-block:clamp(28px,5vw,56px) clamp(56px,8vw,96px);}
+  .hero .wrap{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(28px,5vw,64px);align-items:center;}
+  .hero h1{
+    font-family:"Noto Serif KR",serif;font-weight:500;
+    font-size:clamp(30px,4.8vw,52px);line-height:1.38;letter-spacing:-.03em;margin:0;
+  }
+  .hero h1 em{font-style:normal;position:relative;white-space:nowrap;}
+  .hero h1 em::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.12em;height:.32em;background:var(--bulb);z-index:-1;opacity:.85;}
+  .hero p.sub{color:var(--ink-soft);margin:22px 0 32px;font-size:16px;max-width:30em;}
+  .hero .actions{display:flex;flex-wrap:wrap;gap:10px;}
+  .hero .actions .btn{padding:15px 24px;font-size:15px;}
+  .hero-photo{position:relative;margin:0;}
+  .hero-photo .frame{aspect-ratio:4/3;border-radius:3px;overflow:hidden;background:var(--paper-deep);box-shadow:var(--shadow);}
+  .hero-photo img{width:100%;height:100%;object-fit:cover;}
+  .hero-photo figcaption{
+    position:absolute;left:-14px;bottom:-22px;
+    background:var(--card);border:1px solid var(--rule-soft);border-radius:3px;box-shadow:var(--shadow);
+    padding:14px 18px;display:flex;gap:22px;
+  }
+  .hero-photo figcaption div{display:flex;flex-direction:column;line-height:1.3;}
+  .hero-photo figcaption b{font-family:"Cormorant Garamond",serif;font-weight:500;font-size:24px;}
+  .hero-photo figcaption small{font-size:11.5px;color:var(--ink-soft);}
+  @media (max-width:860px){
+    .hero .wrap{grid-template-columns:1fr;}
+    .hero-photo{order:-1;}
+    .hero-photo figcaption{left:12px;}
+  }
+
+  /* ---- products ---- */
+  .products{background:var(--card);border-block:1px solid var(--rule-soft);}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule-soft);border:1px solid var(--rule-soft);}
+  .product{background:var(--card);padding:32px 28px 30px;display:flex;flex-direction:column;gap:6px;transition:background .25s;}
+  .product:hover{background:#FFFEFA;}
+  .product svg{width:72px;height:72px;margin-bottom:18px;fill:none;stroke:var(--ink);stroke-width:1.1;stroke-linecap:round;stroke-linejoin:round;}
+  .product svg .w{fill:var(--wood-soft);stroke:none;}
+  .product h3{margin:0;font-family:"Noto Serif KR",serif;font-weight:500;font-size:19px;letter-spacing:-.01em;}
+  .product .en{font-size:11px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-soft);}
+  .product p{margin:8px 0 0;color:var(--ink-soft);font-size:14.5px;}
+  @media (max-width:860px){ .grid-3{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:540px){ .grid-3{grid-template-columns:1fr;} .product{padding:26px 22px;} }
+
+  /* ---- planner ---- */
+  .planner .wrap{display:grid;grid-template-columns:340px 1fr;gap:clamp(28px,4vw,56px);align-items:start;}
+  .controls{display:flex;flex-direction:column;gap:26px;}
+  .field label,.field .label{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;font-weight:500;margin-bottom:10px;}
+  .field output{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:500;font-variant-numeric:lining-nums tabular-nums;}
+  .field output small{font-family:"Pretendard",sans-serif;font-size:12px;color:var(--ink-soft);margin-left:3px;}
+  input[type=range]{width:100%;accent-color:var(--accent);}
+  .seg{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--rule);border-radius:3px;overflow:hidden;}
+  .seg button{
+    font:inherit;font-size:13.5px;padding:10px 6px;border:0;background:transparent;color:var(--ink-soft);cursor:pointer;
+    border-left:1px solid var(--rule);transition:background .2s,color .2s;
+  }
+  .seg button:first-child{border-left:0;}
+  .seg button[aria-pressed="true"]{background:var(--accent);color:#F5EEE3;}
+  .seg button:not([aria-pressed="true"]):hover{background:var(--card);color:var(--ink);}
+  .stage{background:var(--card);border:1px solid var(--rule-soft);border-radius:3px;box-shadow:var(--shadow);padding:clamp(18px,3vw,32px);}
+  .stage svg{width:100%;height:auto;display:block;}
+  .summary{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:20px;padding-top:18px;border-top:1px solid var(--rule-soft);font-size:14px;color:var(--ink-soft);}
+  .summary b{color:var(--ink);font-weight:500;}
+  .planner .note{font-size:12.5px;color:var(--ink-soft);margin:14px 0 0;}
+  .planner .actions{display:flex;flex-wrap:wrap;gap:10px;}
+  .toast{font-size:13px;color:var(--ink-soft);min-height:1.5em;margin:4px 0 0;}
+  @media (max-width:860px){ .planner .wrap{grid-template-columns:1fr;} }
+
+  /* ---- why ---- */
+  .why{background:var(--accent);color:#EFE6D8;}
+  .why .eyebrow{color:rgba(239,230,216,.6);}
+  .why .eyebrow::before{background:rgba(239,230,216,.3);}
+  .why .lead{color:rgba(239,230,216,.7);}
+  .points{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(20px,3vw,36px);}
+  .point{border-top:1px solid rgba(239,230,216,.25);padding-top:22px;}
+  .point .num{font-family:"Cormorant Garamond",serif;font-size:30px;line-height:1;color:var(--bulb);}
+  .point h3{font-family:"Noto Serif KR",serif;font-weight:500;font-size:18px;margin:14px 0 8px;color:#F7F1E7;}
+  .point p{margin:0;font-size:14.5px;color:rgba(239,230,216,.72);}
+  @media (max-width:860px){ .points{grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:540px){ .points{grid-template-columns:1fr;} }
+
+  /* ---- works ---- */
+  .works-grid{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:auto auto;gap:14px;}
+  .work{position:relative;margin:0;border-radius:3px;overflow:hidden;background:var(--paper-deep);box-shadow:var(--shadow);}
+  .work img{width:100%;height:100%;object-fit:cover;aspect-ratio:3/2;transition:transform .6s ease;}
+  .work:hover img{transform:scale(1.03);}
+  .work.big{grid-row:span 2;}
+  .work.big img{aspect-ratio:auto;}
+  .work figcaption{
+    position:absolute;left:0;right:0;bottom:0;padding:28px 16px 12px;
+    background:linear-gradient(180deg,rgba(31,28,25,0) 0%,rgba(31,28,25,.62) 100%);
+    color:#F7F1E7;font-size:13.5px;line-height:1.4;
+  }
+  .work figcaption small{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.8;}
+  .works-more{margin-top:28px;display:flex;justify-content:center;}
+  @media (max-width:760px){
+    .works-grid{grid-template-columns:1fr 1fr;}
+    .work.big{grid-column:span 2;grid-row:auto;}
+    .work.big img{aspect-ratio:16/10;}
+  }
+
+  /* ---- process ---- */
+  .process{background:var(--card);border-block:1px solid var(--rule-soft);}
+  .steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr);counter-reset:s;position:relative;}
+  .steps::before{content:"";position:absolute;left:0;right:0;top:22px;height:1px;background:var(--rule);}
+  .steps li{counter-increment:s;position:relative;padding-right:14px;}
+  .steps li::before{
+    content:counter(s,decimal-leading-zero);
+    display:grid;place-items:center;width:44px;height:44px;border-radius:50%;
+    background:var(--card);border:1px solid var(--rule);
+    font-family:"Cormorant Garamond",serif;font-size:17px;position:relative;
+  }
+  .steps li:last-child::before{background:var(--accent);color:#F5EEE3;border-color:var(--accent);}
+  .steps h3{font-family:"Noto Serif KR",serif;font-weight:500;font-size:17px;margin:18px 0 6px;}
+  .steps p{margin:0;font-size:14px;color:var(--ink-soft);}
+  @media (max-width:960px){
+    .steps{grid-template-columns:1fr;gap:26px;}
+    .steps::before{left:22px;right:auto;top:22px;bottom:22px;width:1px;height:auto;}
+    .steps li{display:grid;grid-template-columns:44px 1fr;column-gap:20px;padding:0;}
+    .steps li::before{grid-row:span 2;}
+    .steps h3{margin:8px 0 2px;}
+  }
+
+  /* ---- faq ---- */
+  .faq .wrap{display:grid;grid-template-columns:1fr 1.6fr;gap:clamp(28px,5vw,72px);}
+  details{border-bottom:1px solid var(--rule);}
+  details:first-child{border-top:1px solid var(--rule);}
+  summary{
+    list-style:none;cursor:pointer;padding:22px 40px 22px 0;position:relative;
+    font-family:"Noto Serif KR",serif;font-weight:500;font-size:16.5px;
+  }
+  summary::-webkit-details-marker{display:none;}
+  summary::after{
+    content:"";position:absolute;right:6px;top:50%;width:10px;height:10px;
+    border-right:1px solid var(--ink);border-bottom:1px solid var(--ink);
+    transform:translateY(-70%) rotate(45deg);transition:transform .25s;
+  }
+  details[open] summary::after{transform:translateY(-30%) rotate(-135deg);}
+  details p{margin:0 0 22px;color:var(--ink-soft);font-size:15px;max-width:40em;}
+  @media (max-width:860px){ .faq .wrap{grid-template-columns:1fr;} }
+
+  /* ---- contact ---- */
+  .contact{padding-block:clamp(56px,8vw,96px);}
+  .contact-card{
+    position:relative;overflow:hidden;
+    background:var(--card);border:1px solid var(--rule-soft);border-radius:3px;box-shadow:var(--shadow);
+    padding:clamp(32px,6vw,64px);text-align:center;
+  }
+  .contact-card::before{
+    content:"";position:absolute;left:50%;top:-140px;width:420px;height:280px;transform:translateX(-50%);
+    background:radial-gradient(closest-side,rgba(234,237,166,.55),rgba(234,237,166,0));pointer-events:none;
+  }
+  .contact-card svg.lamp{width:56px;height:46px;position:relative;margin:0 auto 18px;display:block;}
+  .contact-card h2{position:relative;}
+  .contact-card .lead{margin-inline:auto;position:relative;}
+  .contact-card .actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:30px;position:relative;}
+  .contact-card .actions .btn{padding:15px 26px;font-size:15px;}
+
+  /* ---- footer ---- */
+  footer{border-top:1px solid var(--rule-soft);padding-block:40px 56px;}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between;}
+  footer img{height:26px;width:auto;}
+  footer .meta{font-size:13px;color:var(--ink-soft);display:flex;flex-wrap:wrap;gap:6px 20px;}
+  footer .meta a{text-decoration:none;}
+  footer .meta a:hover{color:var(--ink);}
+  .socials{display:flex;gap:16px;}
+  .socials a{color:var(--ink-soft);display:grid;place-items:center;padding:4px;transition:color .2s;}
+  .socials a:hover{color:var(--ink);}
+  .socials svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.15;stroke-linecap:round;stroke-linejoin:round;}
+
+  /* ---- mobile call bar ---- */
+  .callbar{
+    position:fixed;left:0;right:0;bottom:0;z-index:30;display:none;gap:8px;
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));
+    background:rgba(247,241,231,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border-top:1px solid var(--rule-soft);
+  }
+  .callbar .btn{flex:1;padding:13px 10px;}
+  @media (max-width:640px){ .callbar{display:flex;} body{padding-bottom:76px;} .top .btn{display:none;} }
+
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none!important;}
+    .reveal{opacity:1;transform:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="brand" href="#" aria-label="MY OWN DESIGN 시스템 가구 처음으로">
+      <img src="../logo.png" alt="MY OWN DESIGN">
+      <span>SYSTEM</span>
+    </a>
+    <nav class="nav" aria-label="주요 메뉴">
+      <a href="#products">제품</a>
+      <a href="#planner">구성 미리보기</a>
+      <a href="#works">시공 사례</a>
+      <a href="#process">진행 과정</a>
+      <a href="#faq">자주 묻는 질문</a>
+    </nav>
+    <a class="btn dark" href="https://pf.kakao.com/_JxiWGG" target="_blank" rel="noopener">상담 문의</a>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">System Furniture</p>
+        <h1>벽 한 면이<br><em>수납이 되는</em> 일,<br>집에 꼭 맞게.</h1>
+        <p class="sub">드레스룸, 붙박이장, 팬트리, 주방 수납까지. 마이온디자인은 현장을 직접 실측하고, 생활 방식에 맞춰 칸을 나누고, 설계부터 시공까지 한 번에 책임집니다.</p>
+        <div class="actions">
+          <a class="btn dark" href="https://pf.kakao.com/_JxiWGG" target="_blank" rel="noopener">카카오톡 상담하기</a>
+          <a class="btn line" href="#planner">우리 집 구성 미리보기</a>
+        </div>
+      </div>
+      <figure class="hero-photo">
+        <div class="frame"><img src="../images/hero-hopyeong.jpg" alt="마이온디자인 시공 현장 - 아일랜드 주방과 거실"></div>
+        <figcaption>
+          <div><b>1 : 1</b><small>실측 맞춤 설계</small></div>
+          <div><b>One-stop</b><small>설계 · 제작 · 시공</small></div>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="products" id="products">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Line-up</p>
+        <h2>공간마다 다른 수납,<br>한 가지 기준으로 짓습니다.</h2>
+        <p class="lead">모든 제품은 규격품이 아니라 현장 치수에 맞춰 모듈을 나눕니다. 천장 높이, 창과 문 위치, 콘센트 하나까지 반영합니다.</p>
+      </div>
+      <div class="grid-3 reveal">
+        <article class="product">
+          <svg viewBox="0 0 72 72" aria-hidden="true"><rect class="w" x="10" y="10" width="52" height="54"/><rect x="10" y="10" width="52" height="54"/><path d="M27 10v54M45 10v54M10 22h52M14 28h9M31 28h10M14 32l2 12M18 32v14M22 32l-1 10M45 44h17M45 52h17M51 48h5M51 56h5"/></svg>
+          <span class="en">Dress Room</span>
+          <h3>드레스룸</h3>
+          <p>긴 옷, 짧은 옷, 접는 옷, 가방과 액세서리. 옷의 종류와 양을 먼저 세고 칸을 나눕니다.</p>
+        </article>
+        <article class="product">
+          <svg viewBox="0 0 72 72" aria-hidden="true"><rect class="w" x="12" y="8" width="48" height="58"/><rect x="12" y="8" width="48" height="58"/><path d="M28 8v58M44 8v58M25 34v6M31 34v6M41 34v6M47 34v6M12 60h48"/></svg>
+          <span class="en">Built-in Closet</span>
+          <h3>붙박이장</h3>
+          <p>벽과 천장에 빈틈 없이 맞춰 넣어 먼지 쌓일 곳을 없앱니다. 문 마감과 손잡이는 공간 톤에 맞춰 고릅니다.</p>
+        </article>
+        <article class="product">
+          <svg viewBox="0 0 72 72" aria-hidden="true"><rect class="w" x="14" y="8" width="44" height="58"/><rect x="14" y="8" width="44" height="58"/><path d="M14 22h44M14 36h44M14 50h44M20 18h6v4h-6zM30 16h5v6h-5zM40 31h10v5H40zM20 44h12v6H20zM40 45h7v5h-7z"/></svg>
+          <span class="en">Pantry</span>
+          <h3>팬트리</h3>
+          <p>생수, 장본 물건, 청소기까지 한곳에. 무거운 것은 아래, 자주 쓰는 것은 눈높이에 둡니다.</p>
+        </article>
+        <article class="product">
+          <svg viewBox="0 0 72 72" aria-hidden="true"><rect class="w" x="8" y="38" width="56" height="26"/><path d="M8 38h56v26H8zM8 10h56v16H8zM8 46h56M27 38v26M45 38v26M27 10v16M45 10v16M14 32h44"/></svg>
+          <span class="en">Kitchen Storage</span>
+          <h3>주방 · 키큰장</h3>
+          <p>상·하부장과 키큰장, 가전장을 하나의 선으로 맞춥니다. 밥솥과 정수기 자리도 미리 계획합니다.</p>
+        </article>
+        <article class="product">
+          <svg viewBox="0 0 72 72" aria-hidden="true"><rect class="w" x="10" y="8" width="52" height="40"/><path d="M10 8h52v40H10zM10 21h52M10 34h52M36 8v40M14 13v8M18 15v6M22 13v8M40 26v8M44 27v7M50 24v10M6 48h60M14 48v18M58 48v18"/></svg>
+          <span class="en">Study &amp; Shelf</span>
+          <h3>서재 · 책장</h3>
+          <p>책 크기에 맞춘 선반 높이, 처지지 않는 선반 폭. 책상과 책장을 한 벽에 붙여 넣을 수도 있습니다.</p>
+        </article>
+        <article class="product">
+          <svg viewBox="0 0 72 72" aria-hidden="true"><rect class="w" x="20" y="8" width="42" height="58"/><path d="M20 8h42v58H20zM20 46h42M20 52h42M41 8v38M20 22h21M20 34h21M8 66h56M10 66V42"/></svg>
+          <span class="en">Entrance</span>
+          <h3>현관 수납</h3>
+          <p>신발장 하부를 띄워 자주 신는 신발을 두고, 우산과 유모차 자리까지 함께 설계합니다.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANNER -->
+  <section class="planner" id="planner">
+    <div class="wrap">
+      <div class="controls reveal">
+        <div>
+          <p class="eyebrow">Preview</p>
+          <h2>우리 집 벽에<br>미리 넣어 보기</h2>
+          <p class="lead">벽 폭과 천장 높이를 넣으면, 대략 몇 칸으로 나뉘는지 보여 드립니다.</p>
+        </div>
+
+        <div class="field">
+          <div class="label" id="type-label">공간</div>
+          <div class="seg" role="group" aria-labelledby="type-label" id="type">
+            <button type="button" data-v="dress" aria-pressed="true">드레스룸</button>
+            <button type="button" data-v="closet" aria-pressed="false">붙박이장</button>
+            <button type="button" data-v="pantry" aria-pressed="false">팬트리</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="w">벽 폭 <output id="w-out" for="w">240<small>cm</small></output></label>
+          <input type="range" id="w" min="90" max="600" step="10" value="240">
+        </div>
+
+        <div class="field">
+          <label for="h">천장 높이 <output id="h-out" for="h">230<small>cm</small></output></label>
+          <input type="range" id="h" min="210" max="270" step="5" value="230">
+        </div>
+
+        <div class="actions">
+          <button type="button" class="btn line" id="copy">구성 내용 복사</button>
+          <a class="btn dark" href="https://pf.kakao.com/_JxiWGG" target="_blank" rel="noopener" id="ask">이 구성으로 상담</a>
+        </div>
+        <p class="toast" id="toast" role="status" aria-live="polite"></p>
+      </div>
+
+      <div class="stage reveal">
+        <svg id="elev" viewBox="0 0 800 530" role="img" aria-label="시스템 가구 정면 구성 예시"></svg>
+        <div class="summary" id="summary"></div>
+        <p class="note">※ 참고용 예시입니다. 실제 칸 나누기와 구성은 실측 후 생활 방식에 맞춰 함께 정합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="why">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Why My Own Design</p>
+        <h2>인테리어를 하는 팀이<br>가구를 짓는 이유</h2>
+        <p class="lead">가구만 보는 것이 아니라 벽, 조명, 바닥과 함께 봅니다. 그래서 공간에 붙어 있는 것처럼 들어갑니다.</p>
+      </div>
+      <div class="points reveal">
+        <div class="point">
+          <div class="num">01</div>
+          <h3>직접 실측</h3>
+          <p>현장을 직접 방문해 벽의 기울기와 천장 높이 차이까지 잽니다. 도면은 그 숫자에서 시작합니다.</p>
+        </div>
+        <div class="point">
+          <div class="num">02</div>
+          <h3>생활 맞춤 설계</h3>
+          <p>가족 수, 옷의 양, 키와 손 닿는 높이를 듣고 칸을 나눕니다. 같은 평면이어도 같은 가구는 없습니다.</p>
+        </div>
+        <div class="point">
+          <div class="num">03</div>
+          <h3>인테리어와 한 톤</h3>
+          <p>도어 컬러와 손잡이, 간접 조명까지 공간 전체의 톤에 맞춰 함께 제안합니다.</p>
+        </div>
+        <div class="point">
+          <div class="num">04</div>
+          <h3>시공 후에도</h3>
+          <p>설치로 끝나지 않습니다. 사용하면서 생기는 문 틀어짐이나 조정은 연락 주시면 살펴 드립니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKS -->
+  <section class="works" id="works">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Works</p>
+        <h2>마이온디자인이 지은 공간</h2>
+        <p class="lead">더 많은 현장은 홈페이지 포트폴리오와 인스타그램에서 보실 수 있습니다.</p>
+      </div>
+      <div class="works-grid reveal">
+        <figure class="work big">
+          <img src="../images/hero-hopyeong.jpg" alt="호평 현장 - 아일랜드 주방과 거실" loading="lazy">
+          <figcaption><small>Hopyeong</small>호평 · 주방 아일랜드와 거실</figcaption>
+        </figure>
+        <figure class="work">
+          <img src="../images/thumb-hyehwa-kitchen.jpg" alt="혜화 현장 - 원목 톤 주방 수납" loading="lazy">
+          <figcaption><small>Hyehwa</small>혜화 · 주방 수납</figcaption>
+        </figure>
+        <figure class="work">
+          <img src="../images/thumb-hyehwa-living.jpg" alt="혜화 현장 - 거실" loading="lazy">
+          <figcaption><small>Hyehwa</small>혜화 · 거실</figcaption>
+        </figure>
+        <figure class="work">
+          <img src="../images/thumb-hopyeong-living.jpg" alt="호평 현장 - 거실" loading="lazy">
+          <figcaption><small>Hopyeong</small>호평 · 거실</figcaption>
+        </figure>
+        <figure class="work">
+          <img src="../images/thumb-hopyeong-bedroom.jpg" alt="호평 현장 - 침실" loading="lazy">
+          <figcaption><small>Hopyeong</small>호평 · 침실</figcaption>
+        </figure>
+      </div>
+      <div class="works-more">
+        <a class="btn line" href="http://www.myowndesign.co.kr/" target="_blank" rel="noopener">포트폴리오 더 보기 →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="process">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Process</p>
+        <h2>상담부터 설치까지,<br>여섯 단계</h2>
+      </div>
+      <ol class="steps reveal">
+        <li><h3>상담</h3><p>카카오톡이나 전화로 공간과 원하는 구성을 알려 주세요. 평면도나 사진이 있으면 더 좋습니다.</p></li>
+        <li><h3>실측</h3><p>현장을 방문해 정확한 치수와 설치 조건을 확인합니다.</p></li>
+        <li><h3>설계 · 견적</h3><p>내부 구성과 마감재를 정하고 도면과 견적을 드립니다.</p></li>
+        <li><h3>제작</h3><p>확정된 도면대로 현장 치수에 맞춰 제작합니다.</p></li>
+        <li><h3>시공</h3><p>약속한 날 설치하고, 문 간격과 수평을 맞춘 뒤 정리까지 마칩니다.</p></li>
+        <li><h3>사후 관리</h3><p>사용 중 불편한 점이 생기면 언제든 연락 주세요.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" id="faq">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">FAQ</p>
+        <h2>자주 묻는 질문</h2>
+        <p class="lead">여기 없는 내용은 편하게 물어봐 주세요.</p>
+      </div>
+      <div class="reveal">
+        <details>
+          <summary>견적은 어떻게 받나요?</summary>
+          <p>카카오톡으로 공간 사진과 대략의 치수, 원하는 구성을 보내 주시면 먼저 예상 범위를 안내해 드립니다. 정확한 견적은 실측 후 도면과 함께 드립니다.</p>
+        </details>
+        <details>
+          <summary>가구만 따로 시공할 수도 있나요?</summary>
+          <p>네. 전체 인테리어 없이 드레스룸이나 붙박이장만 단독으로 진행하실 수 있습니다. 인테리어와 함께 진행하시면 조명과 마감까지 한 번에 맞출 수 있습니다.</p>
+        </details>
+        <details>
+          <summary>상담부터 설치까지 얼마나 걸리나요?</summary>
+          <p>구성과 수량, 일정에 따라 달라집니다. 이사나 입주 날짜가 정해져 있다면 상담 때 먼저 말씀해 주세요. 일정에 맞춰 순서를 잡아 드립니다.</p>
+        </details>
+        <details>
+          <summary>살고 있는 집에도 설치가 되나요?</summary>
+          <p>가능합니다. 설치 당일 짐을 옮겨야 하는 범위와 보양 방법을 미리 안내해 드립니다.</p>
+        </details>
+        <details>
+          <summary>도어 색상이나 손잡이를 고를 수 있나요?</summary>
+          <p>네. 샘플을 보시면서 공간 톤에 맞춰 함께 고릅니다. 손잡이 없이 홈을 파거나 푸시 방식으로 여는 것도 가능합니다.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="contact-card reveal">
+        <svg class="lamp" viewBox="0 0 56 46" aria-hidden="true">
+          <path d="M28 0v10" stroke="#2F2723" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+          <path d="M14 26a14 12 0 0 1 28 0z" fill="#2F2723"/>
+          <circle cx="28" cy="31" r="7" fill="#EAEDA6"/>
+        </svg>
+        <h2>우리 집에 맞는 수납,<br>지금 이야기해 보세요.</h2>
+        <p class="lead">공간 사진 한 장이면 충분합니다. 무엇을 넣고 싶은지만 알려 주세요.</p>
+        <div class="actions">
+          <a class="btn dark" href="https://pf.kakao.com/_JxiWGG" target="_blank" rel="noopener">카카오톡 상담하기</a>
+          <a class="btn line" href="tel:031-572-2114">전화 031 572 2114</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="../logo.png" alt="MY OWN DESIGN">
+    <div class="meta">
+      <a href="tel:031-572-2114">T. 031 572 2114</a>
+      <a href="http://www.myowndesign.co.kr/" target="_blank" rel="noopener">myowndesign.co.kr</a>
+      <a href="../">링크 모음</a>
+    </div>
+    <nav class="socials" aria-label="소셜 계정">
+      <a href="https://www.youtube.com/@%EB%A7%88%EC%9D%B4%EC%98%A8%EC%9D%B8%ED%85%8C%EB%A6%AC%EC%96%B4?sub_confirmation=1" target="_blank" rel="noopener" aria-label="유튜브">
+        <svg viewBox="0 0 24 24"><rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10.5 9.5l4.5 2.5-4.5 2.5z" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://www.instagram.com/_myowndesign_official" target="_blank" rel="noopener" aria-label="인스타그램">
+        <svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://www.threads.com/@_myowndesign_official" target="_blank" rel="noopener" aria-label="스레드">
+        <svg viewBox="0 0 24 24"><path d="M16.2 11.4c-2.6-.9-5.9-.8-5.9 1.4 0 1.5 1.5 2.2 2.7 1.8 1.5-.5 1.9-2.4 1.9-4.6 0-2.6-1.4-3.9-3.4-3.9-1.6 0-2.7.7-3.3 1.7"/><path d="M12 21c-5 0-8-3.4-8-9s3-9 8-9 8 3.4 8 9-3 9-8 9z"/></svg>
+      </a>
+    </nav>
+  </div>
+</footer>
+
+<div class="callbar">
+  <a class="btn line" href="tel:031-572-2114">전화</a>
+  <a class="btn dark" href="https://pf.kakao.com/_JxiWGG" target="_blank" rel="noopener">카카오톡 상담</a>
+</div>
+
+<script>
+(function(){
+  // ---- sticky header hairline ----
+  var top = document.getElementById("top");
+  function onScroll(){ top.classList.toggle("scrolled", window.scrollY > 8); }
+  window.addEventListener("scroll", onScroll, {passive:true}); onScroll();
+
+  // ---- reveal on scroll ----
+  var els = document.querySelectorAll(".reveal");
+  if("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, {rootMargin:"0px 0px -8% 0px"});
+    els.forEach(function(el){ io.observe(el); });
+  } else {
+    els.forEach(function(el){ el.classList.add("in"); });
+  }
+
+  // ---- planner: front elevation sketch ----
+  var NS = "http://www.w3.org/2000/svg";
+  var svg = document.getElementById("elev");
+  var wIn = document.getElementById("w"), hIn = document.getElementById("h");
+  var wOut = document.getElementById("w-out"), hOut = document.getElementById("h-out");
+  var typeBox = document.getElementById("type");
+  var summary = document.getElementById("summary");
+  var toast = document.getElementById("toast");
+  var type = "dress";
+  var NAMES = {dress:"드레스룸", closet:"붙박이장", pantry:"팬트리"};
+  var MAX_MODULE = {dress:100, closet:90, pantry:80};
+  var C = {ink:"#2F2723", soft:"#786A58", rule:"#DDCDB5", wood:"#E4D3BD", wood2:"#D5BF9F", bulb:"#EAEDA6", card:"#FFFCF6"};
+
+  function el(name, attrs, parent){
+    var n = document.createElementNS(NS, name);
+    for(var k in attrs) n.setAttribute(k, attrs[k]);
+    (parent || svg).appendChild(n);
+    return n;
+  }
+
+  // what goes inside each module, by position — keeps neighbouring modules different
+  function patternFor(t, i, n){
+    if(t === "dress"){
+      if(n === 1) return "long";
+      var seq = ["long","double","drawers","shelves","double"];
+      return seq[i % seq.length];
+    }
+    if(t === "closet"){
+      var s2 = ["long","double","shelves"];
+      return s2[i % s2.length];
+    }
+    var s3 = ["shelves","tall","shelves","drawers"];
+    return s3[i % s3.length];
+  }
+
+  function rod(g, x, y, w){
+    el("line", {x1:x+6, y1:y, x2:x+w-6, y2:y, stroke:C.ink, "stroke-width":2, "stroke-linecap":"round"}, g);
+    var count = Math.max(2, Math.floor(w/14));
+    for(var k=0;k<count;k++){
+      var hx = x + 10 + k*((w-20)/(count-1 || 1));
+      el("path", {d:"M"+hx+" "+(y)+" l0 6", stroke:C.soft, "stroke-width":1}, g);
+    }
+  }
+  function hanging(g, x, y, w, h){
+    // soft garment silhouettes
+    var count = Math.max(2, Math.floor(w/14));
+    for(var k=0;k<count;k++){
+      var hx = x + 10 + k*((w-20)/(count-1 || 1));
+      var len = h * (0.55 + 0.35*((k*37)%10)/10);
+      el("rect", {x:hx-4, y:y+6, width:8, height:len, rx:3, fill:C.wood2, opacity:.55}, g);
+    }
+  }
+  function shelves(g, x, y, w, h, n){
+    for(var k=1;k<n;k++){
+      var sy = y + h*k/n;
+      el("line", {x1:x, y1:sy, x2:x+w, y2:sy, stroke:C.ink, "stroke-width":1}, g);
+    }
+  }
+  function drawers(g, x, y, w, h, n){
+    for(var k=0;k<n;k++){
+      var dy = y + h*k/n;
+      el("rect", {x:x+3, y:dy+3, width:w-6, height:h/n-6, fill:C.card, stroke:C.ink, "stroke-width":1}, g);
+      el("line", {x1:x+w/2-8, y1:dy+h/n/2, x2:x+w/2+8, y2:dy+h/n/2, stroke:C.soft, "stroke-width":1.5, "stroke-linecap":"round"}, g);
+    }
+  }
+
+  function fillModule(g, kind, x, y, w, h){
+    var top = h*0.14; // upper storage band
+    shelves(g, x, y, w, top*2, 2);
+    var by = y + top, bh = h - top;
+    if(kind === "long"){
+      rod(g, x, by+10, w); hanging(g, x, by+10, w, bh*0.85);
+    } else if(kind === "double"){
+      rod(g, x, by+10, w); hanging(g, x, by+10, w, bh*0.36);
+      el("line", {x1:x, y1:by+bh/2, x2:x+w, y2:by+bh/2, stroke:C.ink, "stroke-width":1}, g);
+      rod(g, x, by+bh/2+10, w); hanging(g, x, by+bh/2+10, w, bh*0.36);
+    } else if(kind === "drawers"){
+      shelves(g, x, by, w, bh*0.55, 3);
+      el("line", {x1:x, y1:by+bh*0.55, x2:x+w, y2:by+bh*0.55, stroke:C.ink, "stroke-width":1}, g);
+      drawers(g, x, by+bh*0.55, w, bh*0.45, 3);
+    } else if(kind === "tall"){
+      el("rect", {x:x+w*0.25, y:by+bh*0.45, width:w*0.5, height:bh*0.55-4, rx:6, fill:"none", stroke:C.soft, "stroke-width":1, "stroke-dasharray":"3 3"}, g);
+      shelves(g, x, by, w, bh*0.45, 3);
+      el("line", {x1:x, y1:by+bh*0.45, x2:x+w, y2:by+bh*0.45, stroke:C.ink, "stroke-width":1}, g);
+    } else {
+      shelves(g, x, by, w, bh, 6);
+    }
+  }
+
+  function render(){
+    var wcm = +wIn.value, hcm = +hIn.value;
+    wOut.firstChild.nodeValue = wcm; hOut.firstChild.nodeValue = hcm;
+    while(svg.firstChild) svg.removeChild(svg.firstChild);
+
+    var n = Math.max(1, Math.ceil(wcm / MAX_MODULE[type]));
+    var each = wcm / n;
+
+    // fit the wall into the drawing area at one shared scale
+    var areaW = 720, areaH = 420;
+    var scale = Math.min(areaW / 600, areaH / 270);
+    var W = wcm*scale, H = hcm*scale;
+    var ox = (800 - W)/2, oy = 24 + (areaH - H);
+
+    // ceiling + floor lines
+    el("line", {x1:20, y1:oy-1, x2:780, y2:oy-1, stroke:C.rule, "stroke-width":1, "stroke-dasharray":"4 4"});
+    el("line", {x1:20, y1:oy+H, x2:780, y2:oy+H, stroke:C.ink, "stroke-width":1.2});
+    // a soft glow from the ceiling, like the lamp on the link page
+    var defs = el("defs", {});
+    var rg = el("radialGradient", {id:"g"}, defs);
+    el("stop", {offset:"0%", "stop-color":C.bulb, "stop-opacity":".55"}, rg);
+    el("stop", {offset:"100%", "stop-color":C.bulb, "stop-opacity":"0"}, rg);
+    el("ellipse", {cx:400, cy:oy, rx:Math.max(160, W*0.6), ry:70, fill:"url(#g)"});
+
+    // carcass
+    el("rect", {x:ox, y:oy, width:W, height:H, fill:C.wood, stroke:C.ink, "stroke-width":1.4});
+    var mw = W / n;
+    for(var i=0;i<n;i++){
+      var g = el("g", {});
+      var x = ox + i*mw;
+      fillModule(g, patternFor(type, i, n), x+4, oy+4, mw-8, H-8);
+      if(i>0) el("line", {x1:x, y1:oy, x2:x, y2:oy+H, stroke:C.ink, "stroke-width":1.4});
+      // module width tick
+      var t = el("text", {x:x+mw/2, y:oy+H+22, "text-anchor":"middle", "font-size":12, fill:C.soft, "font-family":"Pretendard, system-ui, sans-serif"});
+      t.textContent = Math.round(each) + "";
+    }
+    // overall dimension line
+    var dy = oy + H + 44;
+    el("path", {d:"M"+ox+" "+(dy-5)+"v10M"+(ox+W)+" "+(dy-5)+"v10M"+ox+" "+dy+"H"+(ox+W), stroke:C.ink, "stroke-width":1, fill:"none"});
+    var tt = el("text", {x:ox+W/2, y:dy+18, "text-anchor":"middle", "font-size":13, fill:C.ink, "font-family":"Pretendard, system-ui, sans-serif"});
+    tt.textContent = "W " + wcm + " cm";
+    // height dimension
+    var hx = ox - 18;
+    el("path", {d:"M"+(hx-5)+" "+oy+"h10M"+(hx-5)+" "+(oy+H)+"h10M"+hx+" "+oy+"V"+(oy+H), stroke:C.ink, "stroke-width":1, fill:"none"});
+    var ht = el("text", {x:hx-8, y:oy+H/2, "text-anchor":"middle", "font-size":13, fill:C.ink, "font-family":"Pretendard, system-ui, sans-serif", transform:"rotate(-90 "+(hx-8)+" "+(oy+H/2)+")"});
+    ht.textContent = "H " + hcm + " cm";
+
+    svg.setAttribute("aria-label", NAMES[type]+" 정면 구성 예시, 폭 "+wcm+"cm, 높이 "+hcm+"cm, "+n+"칸");
+    summary.innerHTML =
+      "<span>공간 <b>"+NAMES[type]+"</b></span>"+
+      "<span>크기 <b>"+wcm+" × "+hcm+" cm</b></span>"+
+      "<span>구성 <b>"+n+"칸</b> · 칸당 약 <b>"+Math.round(each)+" cm</b></span>";
+    return {type:NAMES[type], w:wcm, h:hcm, n:n, each:Math.round(each)};
+  }
+
+  var state = render();
+  wIn.addEventListener("input", function(){ state = render(); });
+  hIn.addEventListener("input", function(){ state = render(); });
+  typeBox.addEventListener("click", function(e){
+    var b = e.target.closest("button"); if(!b) return;
+    type = b.getAttribute("data-v");
+    typeBox.querySelectorAll("button").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+    state = render();
+  });
+
+  function message(){
+    return "[시스템 가구 상담 문의]\n공간: "+state.type+"\n벽 폭: "+state.w+"cm\n천장 높이: "+state.h+"cm\n예상 구성: "+state.n+"칸 (칸당 약 "+state.each+"cm)";
+  }
+  function copy(text){
+    if(navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(text);
+    return new Promise(function(res, rej){
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.setAttribute("readonly",""); ta.style.position="fixed"; ta.style.opacity="0";
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy") ? res() : rej(); }catch(err){ rej(err); }
+      document.body.removeChild(ta);
+    });
+  }
+  var toastTimer;
+  function say(t){ toast.textContent = t; clearTimeout(toastTimer); toastTimer = setTimeout(function(){ toast.textContent = ""; }, 4000); }
+  document.getElementById("copy").addEventListener("click", function(){
+    copy(message()).then(function(){ say("복사했어요. 카카오톡 상담창에 붙여넣어 보내 주세요."); },
+                         function(){ say("복사가 안 되는 환경이에요. 화면 내용을 그대로 알려 주세요."); });
+  });
+  // carry the sketch into the chat: copy first, then open Kakao
+  document.getElementById("ask").addEventListener("click", function(){
+    copy(message()).then(function(){ say("구성 내용을 복사했어요. 상담창에 붙여넣어 주세요."); }, function(){});
+  });
+})();
+</script>
+</body>
+</html>
