@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>MY OWN DESIGN 시스템 가구</title>
-<meta name="description" content="마이온디자인 시스템 가구 - 드레스룸, 붙박이장, 팬트리, 주방 수납까지 실측 맞춤 설계·시공">
-<meta property="og:title" content="MY OWN DESIGN 시스템 가구">
+<title>온디자인 시스템가구</title>
+<meta name="description" content="온디자인 시스템가구 - 드레스룸, 붙박이장, 팬트리, 주방 수납까지 실측 맞춤 설계·시공">
+<meta property="og:title" content="온디자인 시스템가구">
 <meta property="og:description" content="드레스룸, 붙박이장, 팬트리, 주방 수납까지 실측 맞춤 설계·시공">
 <meta property="og:type" content="website">
 <meta property="og:image" content="../images/hero-hopyeong.jpg">
@@ -76,8 +76,13 @@
   .top.scrolled{border-bottom-color:var(--rule-soft);}
   .top .wrap{display:flex;align-items:center;gap:24px;height:64px;}
   .brand{display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:auto;}
-  .brand img{height:30px;width:auto;}
-  .brand span{font-size:11px;font-weight:500;letter-spacing:.2em;color:var(--ink-soft);padding-left:10px;border-left:1px solid var(--rule);}
+  /* wordmark: the lamp from the MY OWN DESIGN logo hanging over the name */
+  .mark{display:inline-flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none;}
+  .mark svg{width:26px;height:28px;flex:0 0 auto;}
+  .mark .name{display:flex;flex-direction:column;line-height:1.05;}
+  .mark .name b{font-family:"Cormorant Garamond",Georgia,serif;font-weight:500;font-size:20px;letter-spacing:.22em;}
+  .mark .name small{font-size:9.5px;font-weight:500;letter-spacing:.36em;color:var(--ink-soft);margin-top:3px;}
+  .mark .ko{font-size:12px;color:var(--ink-soft);padding-left:12px;margin-left:2px;border-left:1px solid var(--rule);}
   .nav{display:flex;gap:26px;}
   .nav a{text-decoration:none;font-size:14px;color:var(--ink-soft);transition:color .2s;}
   .nav a:hover{color:var(--ink);}
@@ -93,7 +98,7 @@
   .btn.line:hover{border-color:var(--ink-soft);background:var(--card);}
   .top .btn{padding:9px 16px;font-size:13.5px;}
   @media (max-width:860px){ .nav{display:none;} }
-  @media (max-width:420px){ .brand span{display:none;} }
+  @media (max-width:480px){ .mark .ko{display:none;} }
 
   /* ---- hero ---- */
   .hero{padding-block:clamp(28px,5vw,56px) clamp(56px,8vw,96px);}
@@ -234,22 +239,70 @@
   details p{margin:0 0 22px;color:var(--ink-soft);font-size:15px;max-width:40em;}
   @media (max-width:860px){ .faq .wrap{grid-template-columns:1fr;} }
 
-  /* ---- contact ---- */
-  .contact{padding-block:clamp(56px,8vw,96px);}
-  .contact-card{
-    position:relative;overflow:hidden;
-    background:var(--card);border:1px solid var(--rule-soft);border-radius:3px;box-shadow:var(--shadow);
-    padding:clamp(32px,6vw,64px);text-align:center;
+  /* ---- order: mirrors the CONTACT page on myowndesign.co.kr ---- */
+  .order{background:var(--paper-deep);border-top:1px solid var(--rule-soft);}
+  .order .wrap{max-width:760px;}
+  .order-head{text-align:center;margin-bottom:40px;}
+  .order-head h2{font-family:"Pretendard",sans-serif;font-weight:500;font-size:clamp(24px,3.4vw,32px);letter-spacing:.24em;text-indent:.24em;}
+  .order-head .bar{width:44px;height:1px;background:var(--ink);margin:18px auto;}
+  .order-head p{margin:0;color:var(--ink-soft);font-size:14px;}
+  .box{background:var(--card);border:1px solid var(--rule);padding:22px 24px;margin-bottom:16px;}
+  .box h3{font-size:14px;font-weight:600;margin:0 0 12px;}
+  .box ul{margin:0;padding-left:16px;font-size:13.5px;color:var(--ink-soft);line-height:1.9;}
+  .box p{margin:0 0 6px;font-size:13.5px;color:var(--ink-soft);}
+  .box .agree{border-top:1px solid var(--rule-soft);margin-top:16px;padding-top:14px;}
+  .agree{display:flex;gap:10px;align-items:center;font-size:13.5px;color:var(--ink);cursor:pointer;}
+  .agree input{width:16px;height:16px;margin:0;accent-color:var(--accent);}
+  .grp{font-size:12px;letter-spacing:.2em;color:var(--ink-soft);padding:30px 0 10px;border-bottom:1px solid var(--rule);margin-bottom:22px;}
+  .f{margin-bottom:20px;}
+  .f label,.f .lb{display:block;font-size:13.5px;font-weight:600;margin-bottom:8px;}
+  .f .lb .note{display:inline;font-weight:400;}
+  .req{color:#B5533C;margin-left:3px;font-weight:600;}
+  .f input[type=text],.f input[type=tel],.f input[type=email],.f input[type=date],.f textarea,.f select{
+    width:100%;font:inherit;font-size:14.5px;color:var(--ink);
+    background:var(--card);border:1px solid var(--rule);border-radius:0;padding:11px 14px;min-height:44px;
+    transition:border-color .2s;
   }
-  .contact-card::before{
-    content:"";position:absolute;left:50%;top:-140px;width:420px;height:280px;transform:translateX(-50%);
-    background:radial-gradient(closest-side,rgba(234,237,166,.55),rgba(234,237,166,0));pointer-events:none;
+  .f input::placeholder,.f textarea::placeholder{color:#B3A692;}
+  .f input:focus,.f textarea:focus,.f select:focus{outline:none;border-color:var(--ink);}
+  .f textarea{min-height:130px;resize:vertical;line-height:1.6;}
+  .f [aria-invalid="true"]{border-color:#B5533C;}
+  .row3{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:10px;align-items:center;color:var(--ink-soft);}
+  .row3 input{min-width:0;}
+  .cols3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .cols2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chips label{margin:0;font-weight:400;font-size:13.5px;cursor:pointer;position:relative;}
+  .chips input{position:absolute;opacity:0;pointer-events:none;}
+  .chips span{display:inline-block;padding:9px 14px;background:var(--card);border:1px solid var(--rule);color:var(--ink);transition:background .2s,color .2s,border-color .2s;}
+  .chips input:checked + span{background:var(--accent);border-color:var(--accent);color:#F5EEE3;}
+  .chips input:focus-visible + span{outline:1px solid var(--accent-deep);outline-offset:3px;}
+  .note{font-size:12.5px;color:var(--ink-soft);margin:8px 0 0;}
+  .submit{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:34px;}
+  .submit .btn{min-width:240px;padding:15px 24px;border-radius:0;}
+  .submit .sub-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;}
+  .submit .sub-actions .btn{min-width:0;padding:11px 18px;font-size:13.5px;}
+  .form-err{color:#B5533C;font-size:13.5px;min-height:1.4em;margin:12px 0 0;text-align:center;}
+  .sent{margin-top:16px;padding:16px 18px;border:1px dashed var(--rule);background:var(--card);font-size:13.5px;color:var(--ink-soft);text-align:center;}
+  .sent b{color:var(--ink);font-weight:500;}
+  .info{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px;padding-top:22px;border-top:1px solid var(--rule);}
+  .info small{display:block;font-size:11px;letter-spacing:.2em;color:var(--ink-soft);margin-bottom:4px;}
+  .info a{font-size:14px;text-decoration:none;color:var(--ink);overflow-wrap:anywhere;}
+  @media (max-width:560px){
+    .cols3,.cols2,.info{grid-template-columns:1fr;}
+    .box{padding:18px;}
   }
-  .contact-card svg.lamp{width:56px;height:46px;position:relative;margin:0 auto 18px;display:block;}
-  .contact-card h2{position:relative;}
-  .contact-card .lead{margin-inline:auto;position:relative;}
-  .contact-card .actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:30px;position:relative;}
-  .contact-card .actions .btn{padding:15px 26px;font-size:15px;}
+
+  /* ---- floating kakao, same as the homepage ---- */
+  .kakao-fab{
+    position:fixed;right:22px;bottom:22px;z-index:25;
+    display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:99px;
+    background:#FEE500;color:#191600;font-weight:600;font-size:14.5px;text-decoration:none;
+    box-shadow:0 10px 24px -10px rgba(0,0,0,.4);transition:transform .2s ease;
+  }
+  .kakao-fab:hover{transform:translateY(-2px);}
+  .kakao-fab svg{width:20px;height:20px;fill:#191600;}
+  @media (max-width:640px){ .kakao-fab{display:none;} }
 
   /* ---- footer ---- */
   footer{border-top:1px solid var(--rule-soft);padding-block:40px 56px;}
@@ -286,18 +339,16 @@
 
 <header class="top" id="top">
   <div class="wrap">
-    <a class="brand" href="#" aria-label="MY OWN DESIGN 시스템 가구 처음으로">
-      <img src="../logo.png" alt="MY OWN DESIGN">
-      <span>SYSTEM</span>
-    </a>
+    <a class="mark brand" href="#" aria-label="온디자인 시스템가구 처음으로"><svg viewBox="0 0 26 28" aria-hidden="true"><path d="M13 0v8" stroke="#2F2723" stroke-width="1.5" stroke-linecap="round" opacity=".6"/><path d="M3 18a10 9 0 0 1 20 0z" fill="#2F2723"/><circle cx="13" cy="21.5" r="5" fill="#EAEDA6"/></svg><span class="name"><b>ON DESIGN</b><small>SYSTEM FURNITURE</small></span><span class="ko">온디자인 시스템가구</span></a>
     <nav class="nav" aria-label="주요 메뉴">
       <a href="#products">제품</a>
       <a href="#planner">구성 미리보기</a>
       <a href="#works">시공 사례</a>
       <a href="#process">진행 과정</a>
       <a href="#faq">자주 묻는 질문</a>
+      <a href="#order">주문 신청</a>
     </nav>
-    <a class="btn dark" href="https://pf.kakao.com/_JxiWGG" target="_blank" rel="noopener">상담 문의</a>
+    <a class="btn line" href="#order">주문 신청</a>
   </div>
 </header>
 
@@ -308,14 +359,14 @@
       <div>
         <p class="eyebrow">System Furniture</p>
         <h1>벽 한 면이<br><em>수납이 되는</em> 일,<br>집에 꼭 맞게.</h1>
-        <p class="sub">드레스룸, 붙박이장, 팬트리, 주방 수납까지. 마이온디자인은 현장을 직접 실측하고, 생활 방식에 맞춰 칸을 나누고, 설계부터 시공까지 한 번에 책임집니다.</p>
+        <p class="sub">드레스룸, 붙박이장, 팬트리, 주방 수납까지. 온디자인 시스템가구는 현장을 직접 실측하고, 생활 방식에 맞춰 칸을 나누고, 설계부터 시공까지 한 번에 책임집니다.</p>
         <div class="actions">
           <a class="btn dark" href="https://pf.kakao.com/_JxiWGG" target="_blank" rel="noopener">카카오톡 상담하기</a>
-          <a class="btn line" href="#planner">우리 집 구성 미리보기</a>
+          <a class="btn line" href="#order">주문 신청서 쓰기</a>
         </div>
       </div>
       <figure class="hero-photo">
-        <div class="frame"><img src="../images/hero-hopyeong.jpg" alt="마이온디자인 시공 현장 - 아일랜드 주방과 거실"></div>
+        <div class="frame"><img src="../images/hero-hopyeong.jpg" alt="온디자인 시공 현장 - 아일랜드 주방과 거실"></div>
         <figcaption>
           <div><b>1 : 1</b><small>실측 맞춤 설계</small></div>
           <div><b>One-stop</b><small>설계 · 제작 · 시공</small></div>
@@ -404,7 +455,7 @@
 
         <div class="actions">
           <button type="button" class="btn line" id="copy">구성 내용 복사</button>
-          <a class="btn dark" href="https://pf.kakao.com/_JxiWGG" target="_blank" rel="noopener" id="ask">이 구성으로 상담</a>
+          <a class="btn dark" href="#order" id="ask">이 구성으로 주문 신청</a>
         </div>
         <p class="toast" id="toast" role="status" aria-live="polite"></p>
       </div>
@@ -421,7 +472,7 @@
   <section class="why">
     <div class="wrap">
       <div class="sec-head reveal">
-        <p class="eyebrow">Why My Own Design</p>
+        <p class="eyebrow">Why On Design</p>
         <h2>인테리어를 하는 팀이<br>가구를 짓는 이유</h2>
         <p class="lead">가구만 보는 것이 아니라 벽, 조명, 바닥과 함께 봅니다. 그래서 공간에 붙어 있는 것처럼 들어갑니다.</p>
       </div>
@@ -455,7 +506,7 @@
     <div class="wrap">
       <div class="sec-head reveal">
         <p class="eyebrow">Works</p>
-        <h2>마이온디자인이 지은 공간</h2>
+        <h2>온디자인이 지은 공간</h2>
         <p class="lead">더 많은 현장은 홈페이지 포트폴리오와 인스타그램에서 보실 수 있습니다.</p>
       </div>
       <div class="works-grid reveal">
@@ -537,21 +588,133 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section class="contact" id="contact">
+  <!-- ORDER -->
+  <section class="order" id="order">
     <div class="wrap">
-      <div class="contact-card reveal">
-        <svg class="lamp" viewBox="0 0 56 46" aria-hidden="true">
-          <path d="M28 0v10" stroke="#2F2723" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
-          <path d="M14 26a14 12 0 0 1 28 0z" fill="#2F2723"/>
-          <circle cx="28" cy="31" r="7" fill="#EAEDA6"/>
-        </svg>
-        <h2>우리 집에 맞는 수납,<br>지금 이야기해 보세요.</h2>
-        <p class="lead">공간 사진 한 장이면 충분합니다. 무엇을 넣고 싶은지만 알려 주세요.</p>
-        <div class="actions">
-          <a class="btn dark" href="https://pf.kakao.com/_JxiWGG" target="_blank" rel="noopener">카카오톡 상담하기</a>
-          <a class="btn line" href="tel:031-572-2114">전화 031 572 2114</a>
+      <div class="order-head">
+        <h2>ORDER</h2>
+        <div class="bar"></div>
+        <p>주문 신청서를 남겨 주시면 담당자가 확인 후 연락드립니다.</p>
+      </div>
+
+      <form id="order-form" novalidate>
+        <div class="box">
+          <h3>안내사항</h3>
+          <ul>
+            <li>실측 전 안내드리는 금액은 예상 범위이며, 정확한 견적은 실측 후 확정됩니다.</li>
+            <li>빠른 상담을 위해 공간 사진이나 평면도를 함께 보내 주세요. (이메일 첨부 또는 카카오톡)</li>
+            <li>가벼운 문의는 카카오톡 상담이 가장 빠릅니다.</li>
+            <li>신청 내용 확인 후 담당자가 순서대로 연락드립니다.</li>
+          </ul>
         </div>
+        <div class="box">
+          <h3>개인정보처리방침</h3>
+          <p>온디자인 시스템가구는 고객님의 개인정보를 중요하게 여기며, 관련 법령을 준수합니다.</p>
+          <p>수집 항목은 성함, 연락처, 이메일, 설치 주소, 공간 정보, 문의 내용이며, 상담 진행과 견적 안내를 위해서만 사용합니다.</p>
+          <p>수집한 개인정보는 상담 목적을 달성한 뒤 지체 없이 파기합니다. 동의하지 않으실 수 있으나, 이 경우 상담 진행이 어렵습니다.</p>
+          <label class="agree"><input type="checkbox" id="o-agree"> 개인정보 수집 및 이용에 동의합니다.<span class="req">*</span></label>
+        </div>
+
+        <div class="grp">고객 정보</div>
+        <div class="f"><label for="o-name">성함<span class="req">*</span></label><input type="text" id="o-name" autocomplete="name" placeholder="홍길동"></div>
+        <div class="f">
+          <span class="lb" id="o-tel-lb">연락처<span class="req">*</span></span>
+          <div class="row3" role="group" aria-labelledby="o-tel-lb">
+            <input type="tel" id="o-tel1" inputmode="numeric" maxlength="3" value="010" aria-label="연락처 앞자리">
+            <span>-</span>
+            <input type="tel" id="o-tel2" inputmode="numeric" maxlength="4" placeholder="0000" aria-label="연락처 가운데 자리">
+            <span>-</span>
+            <input type="tel" id="o-tel3" inputmode="numeric" maxlength="4" placeholder="0000" aria-label="연락처 끝자리">
+          </div>
+        </div>
+        <div class="f"><label for="o-email">이메일</label><input type="email" id="o-email" autocomplete="email" placeholder="example@email.com"></div>
+        <div class="f">
+          <label for="o-from">유입경로</label>
+          <select id="o-from">
+            <option value="">선택해 주세요</option>
+            <option>네이버 블로그</option>
+            <option>인스타그램</option>
+            <option>유튜브</option>
+            <option>네이버 검색</option>
+            <option>지인 소개</option>
+            <option>마이온디자인 홈페이지</option>
+            <option>기타</option>
+          </select>
+        </div>
+
+        <div class="grp">설치 정보</div>
+        <div class="f"><label for="o-addr">설치 주소<span class="req">*</span></label><input type="text" id="o-addr" autocomplete="street-address" placeholder="예) 경기도 남양주시 별내동 OO아파트 101동"></div>
+        <div class="f">
+          <span class="lb" id="o-space-lb">설치 공간<span class="req">*</span> <span class="note">(여러 개 선택 가능)</span></span>
+          <div class="chips" role="group" aria-labelledby="o-space-lb" id="o-space">
+            <label><input type="checkbox" value="드레스룸"><span>드레스룸</span></label>
+            <label><input type="checkbox" value="붙박이장"><span>붙박이장</span></label>
+            <label><input type="checkbox" value="팬트리"><span>팬트리</span></label>
+            <label><input type="checkbox" value="주방·키큰장"><span>주방·키큰장</span></label>
+            <label><input type="checkbox" value="서재·책장"><span>서재·책장</span></label>
+            <label><input type="checkbox" value="현관 수납"><span>현관 수납</span></label>
+            <label><input type="checkbox" value="기타"><span>기타</span></label>
+          </div>
+        </div>
+        <div class="f">
+          <span class="lb" id="o-size-lb">설치 벽 크기 <span class="note">(cm, 아는 만큼만)</span></span>
+          <div class="cols3" role="group" aria-labelledby="o-size-lb">
+            <input type="text" id="o-w" inputmode="numeric" placeholder="폭" aria-label="폭 cm">
+            <input type="text" id="o-h" inputmode="numeric" placeholder="높이" aria-label="높이 cm">
+            <input type="text" id="o-d" inputmode="numeric" placeholder="깊이" aria-label="깊이 cm">
+          </div>
+        </div>
+        <div class="f cols2">
+          <div><label for="o-date1">희망 설치일</label><input type="date" id="o-date1"></div>
+          <div><label for="o-date2">입주 예정일</label><input type="date" id="o-date2"></div>
+        </div>
+        <div class="f">
+          <span class="lb" id="o-home-lb">주거 형태</span>
+          <div class="chips" role="radiogroup" aria-labelledby="o-home-lb" id="o-home">
+            <label><input type="radio" name="home" value="아파트"><span>아파트</span></label>
+            <label><input type="radio" name="home" value="빌라"><span>빌라</span></label>
+            <label><input type="radio" name="home" value="단독주택"><span>단독주택</span></label>
+            <label><input type="radio" name="home" value="오피스텔"><span>오피스텔</span></label>
+            <label><input type="radio" name="home" value="상가·사무실"><span>상가·사무실</span></label>
+            <label><input type="radio" name="home" value="기타"><span>기타</span></label>
+          </div>
+        </div>
+        <div class="f">
+          <span class="lb" id="o-budget-lb">예산</span>
+          <div class="chips" role="radiogroup" aria-labelledby="o-budget-lb" id="o-budget">
+            <label><input type="radio" name="budget" value="300만원 이하"><span>300만원 이하</span></label>
+            <label><input type="radio" name="budget" value="300~500만원"><span>300~500만원</span></label>
+            <label><input type="radio" name="budget" value="500~1,000만원"><span>500~1,000만원</span></label>
+            <label><input type="radio" name="budget" value="1,000만원 이상"><span>1,000만원 이상</span></label>
+            <label><input type="radio" name="budget" value="미정"><span>미정</span></label>
+          </div>
+        </div>
+
+        <div class="grp">문의 사항</div>
+        <div class="f">
+          <label for="o-msg">문의 내용<span class="req">*</span></label>
+          <textarea id="o-msg" placeholder="원하시는 구성, 도어 색상, 지금 불편한 점, 꼭 넣고 싶은 물건 등을 자유롭게 적어 주세요."></textarea>
+        </div>
+        <div class="f">
+          <span class="lb">평면도 · 참고 사진</span>
+          <p class="note">사진과 평면도는 이메일을 보낼 때 첨부하시거나, 카카오톡으로 보내 주세요.</p>
+        </div>
+
+        <div class="submit">
+          <button type="submit" class="btn dark" data-via="mail">이메일로 주문 신청하기</button>
+          <div class="sub-actions">
+            <button type="submit" class="btn line" data-via="copy">복사해서 카톡으로 보내기</button>
+            <a class="btn line" href="tel:031-572-2114">전화로 주문하기</a>
+          </div>
+        </div>
+        <p class="form-err" id="o-err" role="alert"></p>
+        <div class="sent" id="o-sent" role="status" hidden></div>
+      </form>
+
+      <div class="info">
+        <div><small>TEL</small><a href="tel:031-572-2114">031-572-2114</a></div>
+        <div><small>EMAIL</small><a href="mailto:leehak7017@naver.com">leehak7017@naver.com</a><br><a href="mailto:kyu5107@naver.com">kyu5107@naver.com</a></div>
+        <div><small>KAKAOTALK</small><a href="https://pf.kakao.com/_JxiWGG" target="_blank" rel="noopener">카카오톡 채널 상담</a></div>
       </div>
     </div>
   </section>
@@ -559,11 +722,12 @@
 
 <footer>
   <div class="wrap">
-    <img src="../logo.png" alt="MY OWN DESIGN">
+    <a class="mark" href="#" aria-label="온디자인 시스템가구 처음으로"><svg viewBox="0 0 26 28" aria-hidden="true"><path d="M13 0v8" stroke="#2F2723" stroke-width="1.5" stroke-linecap="round" opacity=".6"/><path d="M3 18a10 9 0 0 1 20 0z" fill="#2F2723"/><circle cx="13" cy="21.5" r="5" fill="#EAEDA6"/></svg><span class="name"><b>ON DESIGN</b><small>SYSTEM FURNITURE</small></span></a>
     <div class="meta">
       <a href="tel:031-572-2114">T. 031 572 2114</a>
       <a href="http://www.myowndesign.co.kr/" target="_blank" rel="noopener">myowndesign.co.kr</a>
-      <a href="../">링크 모음</a>
+      <a href="https://blog.naver.com/own_system" target="_blank" rel="noopener">블로그</a>
+      <a href="../">MY OWN DESIGN</a>
     </div>
     <nav class="socials" aria-label="소셜 계정">
       <a href="https://www.youtube.com/@%EB%A7%88%EC%9D%B4%EC%98%A8%EC%9D%B8%ED%85%8C%EB%A6%AC%EC%96%B4?sub_confirmation=1" target="_blank" rel="noopener" aria-label="유튜브">
@@ -579,9 +743,12 @@
   </div>
 </footer>
 
+<a class="kakao-fab" href="https://pf.kakao.com/_JxiWGG" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5c-5 0-9 3.1-9 7 0 2.5 1.7 4.7 4.2 6l-1 3.8 4.3-2.9c.5.1 1 .1 1.5.1 5 0 9-3.1 9-7s-4-7-9-7z"/></svg>카카오톡 상담</a>
+
 <div class="callbar">
   <a class="btn line" href="tel:031-572-2114">전화</a>
-  <a class="btn dark" href="https://pf.kakao.com/_JxiWGG" target="_blank" rel="noopener">카카오톡 상담</a>
+  <a class="btn line" href="#order">주문 신청</a>
+  <a class="btn dark" href="https://pf.kakao.com/_JxiWGG" target="_blank" rel="noopener">카톡 상담</a>
 </div>
 
 <script>
@@ -775,9 +942,94 @@
     copy(message()).then(function(){ say("복사했어요. 카카오톡 상담창에 붙여넣어 보내 주세요."); },
                          function(){ say("복사가 안 되는 환경이에요. 화면 내용을 그대로 알려 주세요."); });
   });
-  // carry the sketch into the chat: copy first, then open Kakao
+  // carry the sketch into the order form
+  var form = document.getElementById("order-form");
   document.getElementById("ask").addEventListener("click", function(){
-    copy(message()).then(function(){ say("구성 내용을 복사했어요. 상담창에 붙여넣어 주세요."); }, function(){});
+    form.querySelector("#o-w").value = state.w;
+    form.querySelector("#o-h").value = state.h;
+    form.querySelectorAll('#o-space input').forEach(function(c){ if(c.value === state.type) c.checked = true; });
+  });
+
+  // ---- order form: no server, so it goes out by mail or by clipboard ----
+  var EMAILS = "leehak7017@naver.com,kyu5107@naver.com";
+  var err = document.getElementById("o-err"), sent = document.getElementById("o-sent");
+  var via = "mail";
+  form.querySelectorAll('button[type=submit]').forEach(function(b){
+    b.addEventListener("click", function(){ via = b.getAttribute("data-via"); });
+  });
+  function $(id){ return form.querySelector(id); }
+  function val(id){ return $(id).value.trim(); }
+  function picked(sel){ return Array.prototype.map.call(form.querySelectorAll(sel+" input:checked"), function(c){ return c.value; }); }
+  function tel(){ return [val("#o-tel1"), val("#o-tel2"), val("#o-tel3")].join("-"); }
+  function size(){
+    return [["폭","#o-w"],["높이","#o-h"],["깊이","#o-d"]]
+      .filter(function(p){ return val(p[1]); })
+      .map(function(p){ return p[0]+" "+val(p[1])+"cm"; }).join(" × ");
+  }
+  function orderText(){
+    var dash = function(v){ return v || "-"; };
+    return [
+      "[온디자인 시스템가구 주문 신청]",
+      "",
+      "■ 고객 정보",
+      "성함: "+val("#o-name"),
+      "연락처: "+tel(),
+      "이메일: "+dash(val("#o-email")),
+      "유입경로: "+dash(val("#o-from")),
+      "",
+      "■ 설치 정보",
+      "설치 주소: "+val("#o-addr"),
+      "설치 공간: "+picked("#o-space").join(", "),
+      "벽 크기: "+dash(size()),
+      "희망 설치일: "+dash(val("#o-date1")),
+      "입주 예정일: "+dash(val("#o-date2")),
+      "주거 형태: "+dash(picked("#o-home")[0]),
+      "예산: "+dash(picked("#o-budget")[0]),
+      "",
+      "■ 문의 내용",
+      val("#o-msg")
+    ].join("\n");
+  }
+  // only digits in the number boxes, and hop to the next phone box when one is full
+  ["#o-tel1","#o-tel2","#o-tel3","#o-w","#o-h","#o-d"].forEach(function(id, k, all){
+    $(id).addEventListener("input", function(e){
+      var t = e.target; t.value = t.value.replace(/\D/g, "");
+      if(k < 2 && t.value.length >= t.maxLength) $(all[k+1]).focus();
+    });
+  });
+  function mark(el, bad){ el.setAttribute("aria-invalid", bad ? "true" : "false"); return bad; }
+  function check(){
+    var bad = [], first = null;
+    function need(ok, label, el){ if(!ok){ bad.push(label); if(!first) first = el; } }
+    need(!mark($("#o-name"), !val("#o-name")), "성함", $("#o-name"));
+    var telOk = val("#o-tel1").length >= 2 && val("#o-tel2").length >= 3 && val("#o-tel3").length === 4;
+    mark($("#o-tel2"), !telOk); mark($("#o-tel3"), !telOk);
+    need(telOk, "연락처", $("#o-tel2"));
+    need(!mark($("#o-addr"), !val("#o-addr")), "설치 주소", $("#o-addr"));
+    need(picked("#o-space").length > 0, "설치 공간", $("#o-space input"));
+    need(!mark($("#o-msg"), !val("#o-msg")), "문의 내용", $("#o-msg"));
+    need($("#o-agree").checked, "개인정보 수집 동의", $("#o-agree"));
+    err.textContent = bad.length ? bad.join(", ")+" 항목을 확인해 주세요." : "";
+    if(first) first.focus();
+    return !bad.length;
+  }
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    if(!check()) return;
+    var text = orderText();
+    sent.hidden = false;
+    if(via === "mail"){
+      var subject = "[주문 신청] " + val("#o-name") + " / " + picked("#o-space").join(", ");
+      copy(text).catch(function(){});
+      location.href = "mailto:"+EMAILS+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(text);
+      sent.innerHTML = "메일 앱이 열리면 사진을 첨부하고 <b>보내기</b>를 눌러 주세요.<br>메일 앱이 열리지 않으면 신청 내용이 복사되어 있으니, 네이버 메일에서 <b>leehak7017@naver.com, kyu5107@naver.com</b>으로 붙여넣어 보내 주세요.";
+    } else {
+      copy(text).then(function(){
+        sent.innerHTML = "신청 내용을 복사했어요. <a href=\"https://pf.kakao.com/_JxiWGG\" target=\"_blank\" rel=\"noopener\"><b>카카오톡 채널 열기 →</b></a> 상담창에 붙여넣고 사진도 함께 보내 주세요.";
+      }, function(){
+        sent.textContent = "복사가 안 되는 환경이에요. 이메일로 신청하시거나 031-572-2114로 전화 주세요.";
+      });
+    }
   });
 })();
 </script>
