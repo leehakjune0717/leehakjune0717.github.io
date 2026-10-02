@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>블로그 꾸미기 키트</title>
+<meta name="description" content="온디자인 시스템가구 네이버 블로그 적용용 타이틀·위젯·배너와 설정 방법">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<style>
+  :root{
+    --paper:#F7F1E7;--paper-deep:#EFE3D2;--card:#FFFCF6;
+    --ink:#2F2723;--ink-soft:#786A58;--rule:#DDCDB5;--rule-soft:#EADDC8;--accent:#34302C;
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:"Pretendard",system-ui,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:15px;line-height:1.75;word-break:keep-all;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:860px;margin:0 auto;padding:48px 16px 80px;}
+  h1{font-size:clamp(24px,4vw,32px);font-weight:600;letter-spacing:-.02em;margin:0 0 6px;}
+  .sub{color:var(--ink-soft);margin:0 0 40px;}
+  .step{background:var(--card);border:1px solid var(--rule-soft);padding:clamp(18px,4vw,30px);margin-bottom:18px;}
+  .step h2{font-size:18px;font-weight:600;margin:0 0 4px;display:flex;gap:10px;align-items:baseline;}
+  .step h2 span{font-size:12px;letter-spacing:.2em;color:var(--ink-soft);font-weight:500;}
+  .step p,.step li{color:var(--ink-soft);font-size:14.5px;}
+  .step ol{padding-left:20px;margin:10px 0;}
+  .path{display:inline-block;background:var(--paper-deep);padding:1px 8px;color:var(--ink);font-size:13.5px;}
+  .preview{margin:16px 0;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-start;}
+  .preview img{max-width:100%;height:auto;border:1px solid var(--rule-soft);display:block;}
+  .dl{font-size:13px;color:var(--ink);}
+  .code{position:relative;margin:12px 0 22px;}
+  .code pre{margin:0;background:var(--accent);color:#F1E9DC;padding:16px 16px 16px;font-size:12.5px;line-height:1.6;overflow-x:auto;white-space:pre-wrap;word-break:break-all;}
+  .code button{position:absolute;top:8px;right:8px;font:inherit;font-size:12.5px;padding:5px 12px;border:1px solid rgba(241,233,220,.4);background:transparent;color:#F1E9DC;cursor:pointer;}
+  .code button:hover{background:rgba(241,233,220,.12);}
+  .label{font-size:13px;font-weight:600;margin-top:18px;}
+  .tip{border-left:2px solid var(--rule);padding-left:12px;font-size:13.5px;color:var(--ink-soft);margin:14px 0 0;}
+  a{color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>네이버 블로그 꾸미기 키트</h1>
+  <p class="sub">blog.naver.com/own_system에 홈페이지와 같은 스킨, 카톡 문의 창구, 주문 신청 버튼을 넣는 방법입니다. 네이버 블로그는 직접 만든 입력 폼을 넣을 수 없어서, 버튼을 누르면 <a href="../#order">주문 신청서 페이지</a>로 이동하도록 연결합니다.</p>
+
+  <section class="step">
+    <h2><span>STEP 1</span>타이틀 이미지 (PC)</h2>
+    <div class="preview"><img src="title.png" alt="온디자인 시스템가구 블로그 타이틀 이미지" width="966" height="320"></div>
+    <p class="dl"><a href="title.png" download>title.png 내려받기</a> · 966 × 320 px</p>
+    <ol>
+      <li>블로그 <span class="path">관리 → 꾸미기 설정 → 세부 디자인 설정</span>으로 들어갑니다.</li>
+      <li>왼쪽 <span class="path">타이틀</span>에서 디자인을 <b>직접등록</b>으로 바꾸고 title.png를 올립니다.</li>
+      <li>블로그 제목 글자 표시는 끄고(이미지에 이미 들어 있습니다), 영역 높이를 320으로 맞춘 뒤 적용합니다.</li>
+      <li>배경색은 <span class="path">#F7F1E7</span>로 지정하면 홈페이지와 같은 바탕이 됩니다.</li>
+    </ol>
+  </section>
+
+  <section class="step">
+    <h2><span>STEP 2</span>사이드바 위젯: 주문 · 카톡 · 전화</h2>
+    <div class="preview">
+      <img src="widget-order.png" alt="주문 신청서 위젯" width="170" height="150">
+      <img src="widget-kakao.png" alt="카카오톡 상담 위젯" width="170" height="64">
+      <img src="widget-tel.png" alt="전화 주문 위젯" width="170" height="64">
+    </div>
+    <ol>
+      <li><span class="path">관리 → 꾸미기 설정 → 레이아웃·위젯 설정</span>으로 들어갑니다.</li>
+      <li>아래쪽 <b>위젯 직접등록</b>을 누르고, 위젯 이름과 아래 코드를 붙여 넣습니다. 세 개를 각각 등록합니다.</li>
+      <li>등록한 위젯을 사이드바 맨 위로 끌어 올린 뒤 적용합니다.</li>
+    </ol>
+
+    <div class="label">① 주문 신청 위젯 (이름: 주문 신청)</div>
+    <div class="code"><pre id="c1">&lt;a href="https://link.myowndesign.co.kr/furniture/#order" target="_blank"&gt;&lt;img src="https://link.myowndesign.co.kr/furniture/blog-kit/widget-order.png" width="170" height="150" alt="시스템가구 주문 신청서"&gt;&lt;/a&gt;</pre><button type="button" data-copy="c1">복사</button></div>
+
+    <div class="label">② 카카오톡 상담 위젯 (이름: 카톡 상담)</div>
+    <div class="code"><pre id="c2">&lt;a href="https://pf.kakao.com/_JxiWGG" target="_blank"&gt;&lt;img src="https://link.myowndesign.co.kr/furniture/blog-kit/widget-kakao.png" width="170" height="64" alt="카카오톡 상담"&gt;&lt;/a&gt;</pre><button type="button" data-copy="c2">복사</button></div>
+
+    <div class="label">③ 전화 위젯 (이름: 전화 주문)</div>
+    <div class="code"><pre id="c3">&lt;a href="tel:031-572-2114"&gt;&lt;img src="https://link.myowndesign.co.kr/furniture/blog-kit/widget-tel.png" width="170" height="64" alt="전화 031-572-2114"&gt;&lt;/a&gt;</pre><button type="button" data-copy="c3">복사</button></div>
+    <p class="tip">위젯은 PC 블로그에서만 보입니다. 모바일은 STEP 3의 배너와 STEP 4의 공지글로 안내합니다.</p>
+  </section>
+
+  <section class="step">
+    <h2><span>STEP 3</span>글 하단 배너 (모바일에서도 보임)</h2>
+    <div class="preview"><img src="post-banner.png" alt="주문 신청 안내 배너" width="900" height="300"></div>
+    <p class="dl"><a href="post-banner.png" download>post-banner.png 내려받기</a></p>
+    <ol>
+      <li>글을 쓸 때 맨 아래에 post-banner.png를 사진으로 넣습니다.</li>
+      <li>사진을 선택하고 <b>링크</b> 버튼을 눌러 주소를 넣습니다: <span class="path">https://link.myowndesign.co.kr/furniture/#order</span></li>
+      <li>사진 아래에 글로 한 번 더 적어 두면 좋습니다: “주문 신청서 ▶ 링크 / 카톡 상담 ▶ pf.kakao.com/_JxiWGG / 전화 031-572-2114”</li>
+    </ol>
+  </section>
+
+  <section class="step">
+    <h2><span>STEP 4</span>공지글과 블로그 소개</h2>
+    <ol>
+      <li>“주문·상담 안내” 글을 하나 써서 STEP 3 배너와 링크를 넣고 <b>공지로 등록</b>합니다. 블로그 첫 화면 위쪽에 고정됩니다.</li>
+      <li><span class="path">관리 → 기본 설정 → 블로그 정보</span>의 소개글에 한 줄을 넣습니다.</li>
+    </ol>
+    <div class="code"><pre id="c4">드레스룸·붙박이장·팬트리 실측 맞춤 시공 | 주문 신청 link.myowndesign.co.kr/furniture | 카톡 상담 pf.kakao.com/_JxiWGG | ☎ 031-572-2114</pre><button type="button" data-copy="c4">복사</button></div>
+  </section>
+</div>
+<script>
+document.querySelectorAll("[data-copy]").forEach(function(b){
+  b.addEventListener("click", function(){
+    var text = document.getElementById(b.getAttribute("data-copy")).textContent;
+    function done(){ b.textContent = "복사됨"; setTimeout(function(){ b.textContent = "복사"; }, 1600); }
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(done, function(){ b.textContent = "직접 선택해 복사"; });
+    } else {
+      var r = document.createRange(); r.selectNodeContents(document.getElementById(b.getAttribute("data-copy")));
+      var s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      try{ document.execCommand("copy"); done(); }catch(e){ b.textContent = "직접 선택해 복사"; }
+    }
+  });
+});
+</script>
+</body>
+</html>
