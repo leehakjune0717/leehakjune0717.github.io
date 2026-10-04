@@ -1,0 +1,20 @@
+{
+  "handle": "@mool_jumeok",
+  "height_cm": 184,
+  "weight_kg": 90,
+  "build": "근육형 · 어깨 넓음 · 허벅지 있음",
+  "usual_size": {
+    "top": "XL",
+    "bottom": "34",
+    "shoes": "280"
+  },
+  "concept": "물주먹이라는 이름의 근육형 남자, 미니멀 스트릿",
+  "next_look_number": 1,
+  "post_days": [
+    "월",
+    "수",
+    "금"
+  ],
+  "post_time": "20:00",
+  "display_name": "물주먹"
+}

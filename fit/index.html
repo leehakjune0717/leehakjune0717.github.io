@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>사이즈 카드 메이커</title>
+<meta name="description" content="인스타그램 캐러셀 마지막 장에 넣는 착용 사이즈 카드 메이커">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css">
+<style>
+  :root{
+    color-scheme:light dark;
+    --ground:#EEECE8;--panel:#FFFFFF;--panel-2:#F5F3F0;
+    --ink:#1A1918;--ink-2:#6E6A64;--line:#DAD6D0;
+    --accent:#1A1918;--on-accent:#FFFFFF;--stage:#D6D2CB;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#121211;--panel:#1B1A19;--panel-2:#222120;
+      --ink:#ECEAE6;--ink-2:#9A958E;--line:#302E2C;
+      --accent:#ECEAE6;--on-accent:#121211;--stage:#0B0B0A;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#121211;--panel:#1B1A19;--panel-2:#222120;
+    --ink:#ECEAE6;--ink-2:#9A958E;--line:#302E2C;
+    --accent:#ECEAE6;--on-accent:#121211;--stage:#0B0B0A;
+  }
+  *,*::before,*::after{box-sizing:border-box;}
+  [hidden]{display:none!important;}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:"Pretendard",system-ui,-apple-system,"Malgun Gothic",sans-serif;font-size:14px;line-height:1.6;word-break:keep-all;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1120px;margin:0 auto;padding:32px 16px 64px;}
+  header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;padding-bottom:18px;border-bottom:1px solid var(--line);}
+  h1{font-family:"Space Grotesk","Pretendard",sans-serif;font-weight:700;font-size:clamp(26px,5vw,40px);line-height:1.05;letter-spacing:-.02em;margin:0;}
+  header p{margin:0;color:var(--ink-2);font-size:13px;max-width:44ch;}
+  .layout{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:28px;align-items:start;margin-top:24px;}
+  @media (max-width:860px){.layout{grid-template-columns:minmax(0,1fr);}}
+  .stage{position:sticky;top:12px;background:var(--stage);border:1px solid var(--line);padding:16px;display:flex;flex-direction:column;gap:12px;}
+  @media (max-width:860px){.stage{position:static;}}
+  canvas{display:block;width:100%;height:auto;background:#222;box-shadow:0 18px 40px -24px rgba(0,0,0,.6);}
+  .row{display:flex;flex-wrap:wrap;gap:8px;}
+  button.act{font:inherit;font-weight:600;font-size:13px;padding:10px 16px;border:1px solid var(--accent);background:var(--accent);color:var(--on-accent);cursor:pointer;}
+  button.act.ghost{background:transparent;color:var(--ink);border-color:var(--line);}
+  button.act:disabled{opacity:.5;cursor:default;}
+  .note{font-size:12px;color:var(--ink-2);margin:0;}
+  .toast{font-size:12.5px;color:var(--ink-2);min-height:1.4em;margin:0;}
+  .panels{display:flex;flex-direction:column;gap:16px;min-width:0;}
+  section.panel{background:var(--panel);border:1px solid var(--line);padding:18px;}
+  .panel h2{margin:0 0 4px;font-family:"Space Grotesk",sans-serif;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;}
+  .panel .sub{margin:0 0 14px;font-size:12px;color:var(--ink-2);}
+  .grid{display:grid;gap:12px;}
+  .grid.two{grid-template-columns:1fr 1fr;}
+  .grid.three{grid-template-columns:repeat(3,minmax(0,1fr));}
+  @media (max-width:520px){.grid.two{grid-template-columns:1fr;}}
+  label.field{display:flex;flex-direction:column;gap:5px;min-width:0;}
+  label.field > span{font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--ink-2);}
+  input[type=text],input[type=number],select{font:inherit;font-size:14px;width:100%;min-width:0;padding:9px 10px;border:1px solid var(--line);background:var(--panel-2);color:var(--ink);border-radius:0;}
+  input[type=range]{width:100%;accent-color:var(--ink);}
+  .seg{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:8px;}
+  .seg button{font:inherit;font-size:13px;padding:10px 8px;border:1px solid var(--line);background:var(--panel-2);color:var(--ink-2);cursor:pointer;display:flex;align-items:center;gap:8px;justify-content:center;}
+  .seg button i{width:14px;height:14px;display:inline-block;border:1px solid rgba(128,128,128,.5);flex:none;}
+  .seg button[aria-pressed="true"]{border-color:var(--ink);color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);}
+  .items{display:flex;flex-direction:column;gap:10px;}
+  .item{display:grid;grid-template-columns:96px minmax(0,1fr) minmax(0,1.3fr) 76px;gap:8px;align-items:end;}
+  @media (max-width:560px){
+    .item{grid-template-columns:1fr 1fr;padding-bottom:10px;border-bottom:1px dashed var(--line);}
+  }
+  .photo-ctl[aria-disabled="true"]{opacity:.45;pointer-events:none;}
+  .guide{margin-top:36px;background:var(--panel);border:1px solid var(--line);padding:22px;}
+  .guide h2{margin:0 0 8px;font-size:16px;}
+  .guide ol{margin:0;padding-left:20px;color:var(--ink-2);}
+  .guide li{margin:4px 0;}
+  .guide b{color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>SIZE CARD</h1>
+    <p>캐러셀 마지막 장에 넣는 착용 사이즈 카드입니다. 키·몸무게·계정 이름은 저장돼서 다음 게시물에도 그대로 나오고, 아이템만 바꾸면 됩니다.</p>
+  </header>
+
+  <div class="layout">
+    <div class="stage">
+      <canvas id="card" width="1080" height="1350" role="img" aria-label="사이즈 카드 미리보기"></canvas>
+      <div class="row">
+        <button class="act" id="btn-save" type="button">PNG 저장</button>
+        <button class="act ghost" id="btn-photo" type="button">배경 사진 고르기</button>
+        <button class="act ghost" id="btn-nophoto" type="button" hidden>사진 빼기</button>
+        <input type="file" id="file" accept="image/*" hidden>
+      </div>
+      <p class="note">1080 × 1350 px (인스타 4:5) · 사진은 저장되지 않습니다</p>
+      <p class="toast" id="toast" role="status"></p>
+    </div>
+
+    <div class="panels">
+      <section class="panel">
+        <h2>Profile</h2>
+        <p class="sub">한 번 넣으면 계속 유지됩니다.</p>
+        <div class="grid two">
+          <label class="field"><span>계정 이름</span><input type="text" id="handle" placeholder="@184.fit"></label>
+          <label class="field"><span>룩 번호</span><input type="text" id="look" placeholder="LOOK 01"></label>
+        </div>
+        <div class="grid three" style="margin-top:12px">
+          <label class="field"><span>키 (cm)</span><input type="number" id="height" inputmode="numeric" placeholder="184"></label>
+          <label class="field"><span>몸무게 (kg)</span><input type="number" id="weight" inputmode="numeric" placeholder="90"></label>
+          <label class="field"><span>평소 사이즈</span><input type="text" id="usual" placeholder="XL"></label>
+        </div>
+        <label class="field" style="margin-top:12px"><span>체형 메모</span><input type="text" id="build" placeholder="근육형 · 어깨 넓음 · 허벅지 있음"></label>
+      </section>
+
+      <section class="panel">
+        <h2>Items</h2>
+        <p class="sub">비워 둔 줄은 카드에 나오지 않습니다. 최대 6개.</p>
+        <div class="items" id="items"></div>
+        <div class="row" style="margin-top:12px">
+          <button class="act ghost" id="btn-clear" type="button">아이템 비우기</button>
+        </div>
+        <label class="field" style="margin-top:14px"><span>한 줄 코멘트 (선택)</span><input type="text" id="memo" placeholder="상의는 한 치수 크게, 바지는 정사이즈"></label>
+      </section>
+
+      <section class="panel">
+        <h2>Style</h2>
+        <p class="sub">피드 톤에 맞춰 고르세요. 배경 사진을 넣으면 사진 위에 정보가 올라갑니다.</p>
+        <div class="seg" id="theme" role="group" aria-label="카드 색">
+          <button type="button" data-v="concrete"><i style="background:#C9C4BC"></i>콘크리트</button>
+          <button type="button" data-v="bone"><i style="background:#EDE8DF"></i>본</button>
+          <button type="button" data-v="khaki"><i style="background:#8A8270"></i>카키</button>
+          <button type="button" data-v="charcoal"><i style="background:#1D1C1A"></i>차콜</button>
+        </div>
+        <div class="photo-ctl grid three" id="photo-ctl" style="margin-top:14px" aria-disabled="true">
+          <label class="field"><span>사진 확대</span><input type="range" id="zoom" min="100" max="250" value="100"></label>
+          <label class="field"><span>좌우 위치</span><input type="range" id="px" min="0" max="100" value="50"></label>
+          <label class="field"><span>위아래 위치</span><input type="range" id="py" min="0" max="100" value="40"></label>
+        </div>
+        <label class="field photo-ctl" id="dim-ctl" style="margin-top:12px" aria-disabled="true"><span>사진 어둡게</span><input type="range" id="dim" min="20" max="90" value="62"></label>
+      </section>
+    </div>
+  </div>
+
+  <section class="guide">
+    <h2>쓰는 순서</h2>
+    <ol>
+      <li><b>처음 한 번</b> 계정 이름, 키, 몸무게, 평소 사이즈, 체형 메모를 넣습니다.</li>
+      <li><b>게시물마다</b> 아이템 줄만 바꾸고 룩 번호를 올립니다. (LOOK 01 → LOOK 02)</li>
+      <li>단색 카드가 기본입니다. 그날 찍은 사진 중 하나를 배경으로 넣으면 캐러셀 흐름이 더 자연스럽습니다.</li>
+      <li>PNG 저장 후 캐러셀의 <b>마지막 장</b>으로 올립니다. 사진 7~12장 + 음악 + 사이즈 카드 순서입니다.</li>
+    </ol>
+  </section>
+</div>
+
+<script>
+(function(){
+  var KEY = "sizecard.v1";
+  var SLOTS = ["CAP","OUTER","TOP","PANTS","SHOES","ACC"];
+  var LABELS = ["CAP","OUTER","TOP","INNER","PANTS","SHORTS","SHOES","BAG","ACC"];
+  var THEMES = {
+    concrete:{bg:"#C9C4BC",ink:"#1C1B19",soft:"rgba(28,27,25,.58)",rule:"rgba(28,27,25,.28)",grain:.05},
+    bone:{bg:"#EDE8DF",ink:"#1C1B19",soft:"rgba(28,27,25,.55)",rule:"rgba(28,27,25,.22)",grain:.035},
+    khaki:{bg:"#8A8270",ink:"#F3EFE7",soft:"rgba(243,239,231,.7)",rule:"rgba(243,239,231,.32)",grain:.06},
+    charcoal:{bg:"#1D1C1A",ink:"#EDE8DF",soft:"rgba(237,232,223,.6)",rule:"rgba(237,232,223,.24)",grain:.05}
+  };
+
+  var S = {
+    handle:"@184.fit", look:"LOOK 01", height:"184", weight:"90", usual:"XL",
+    build:"근육형 · 어깨 넓음", memo:"", theme:"concrete",
+    zoom:100, px:50, py:40, dim:62,
+    items:[
+      {label:"CAP",brand:"",name:"",size:""},
+      {label:"OUTER",brand:"",name:"",size:""},
+      {label:"TOP",brand:"",name:"",size:""},
+      {label:"PANTS",brand:"",name:"",size:""},
+      {label:"SHOES",brand:"",name:"",size:""},
+      {label:"ACC",brand:"",name:"",size:""}
+    ]
+  };
+  var photo = null;
+
+  try{
+    var raw = localStorage.getItem(KEY);
+    if(raw){
+      var o = JSON.parse(raw);
+      Object.keys(S).forEach(function(k){ if(o[k] !== undefined) S[k] = o[k]; });
+      if(!Array.isArray(S.items) || S.items.length !== SLOTS.length){
+        S.items = SLOTS.map(function(l){ return {label:l,brand:"",name:"",size:""}; });
+      }
+    }
+  }catch(e){}
+  function persist(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+
+  var canvas = document.getElementById("card");
+  var ctx = canvas.getContext("2d");
+  var W = canvas.width, H = canvas.height, PAD = 84;
+  var NUM = '"Space Grotesk","Pretendard",sans-serif';
+  var KR = '"Pretendard",system-ui,sans-serif';
+
+  // build item rows
+  var itemsBox = document.getElementById("items");
+  S.items.forEach(function(it, i){
+    var row = document.createElement("div");
+    row.className = "item";
+    var opts = LABELS.map(function(l){ return '<option'+(l===it.label?' selected':'')+'>'+l+'</option>'; }).join("");
+    row.innerHTML =
+      '<label class="field"><span>종류</span><select data-i="'+i+'" data-k="label">'+opts+'</select></label>'+
+      '<label class="field"><span>브랜드</span><input type="text" data-i="'+i+'" data-k="brand"></label>'+
+      '<label class="field"><span>제품명</span><input type="text" data-i="'+i+'" data-k="name"></label>'+
+      '<label class="field"><span>사이즈</span><input type="text" data-i="'+i+'" data-k="size"></label>';
+    itemsBox.appendChild(row);
+    row.querySelectorAll("input").forEach(function(inp){ inp.value = it[inp.dataset.k] || ""; });
+  });
+  itemsBox.addEventListener("input", function(ev){
+    var t = ev.target; if(!t.dataset.k) return;
+    S.items[+t.dataset.i][t.dataset.k] = t.value; persist(); render();
+  });
+
+  ["handle","look","height","weight","usual","build","memo"].forEach(function(id){
+    var el = document.getElementById(id);
+    el.value = S[id] || "";
+    el.addEventListener("input", function(){ S[id] = el.value; persist(); render(); });
+  });
+  ["zoom","px","py","dim"].forEach(function(id){
+    var el = document.getElementById(id);
+    el.value = S[id];
+    el.addEventListener("input", function(){ S[id] = +el.value; persist(); render(); });
+  });
+
+  var themeBox = document.getElementById("theme");
+  function syncTheme(){
+    themeBox.querySelectorAll("button").forEach(function(b){ b.setAttribute("aria-pressed", String(b.dataset.v === S.theme)); });
+  }
+  themeBox.addEventListener("click", function(ev){
+    var b = ev.target.closest("button"); if(!b) return;
+    S.theme = b.dataset.v; persist(); syncTheme(); render();
+  });
+  syncTheme();
+
+  document.getElementById("btn-clear").addEventListener("click", function(){
+    S.items.forEach(function(it){ it.brand = ""; it.name = ""; it.size = ""; });
+    itemsBox.querySelectorAll("input").forEach(function(inp){ inp.value = ""; });
+    persist(); render(); toast("아이템을 비웠습니다.");
+  });
+
+  // photo
+  var fileIn = document.getElementById("file");
+  document.getElementById("btn-photo").addEventListener("click", function(){ fileIn.click(); });
+  canvas.addEventListener("click", function(){ if(!photo) fileIn.click(); });
+  fileIn.addEventListener("change", function(){ if(fileIn.files[0]) loadPhoto(fileIn.files[0]); fileIn.value = ""; });
+  canvas.addEventListener("dragover", function(e){ e.preventDefault(); });
+  canvas.addEventListener("drop", function(e){
+    e.preventDefault();
+    var f = e.dataTransfer.files && e.dataTransfer.files[0];
+    if(f && /^image\//.test(f.type)) loadPhoto(f);
+  });
+  document.getElementById("btn-nophoto").addEventListener("click", function(){ photo = null; syncPhoto(); render(); });
+  function loadPhoto(f){
+    var url = URL.createObjectURL(f);
+    var img = new Image();
+    img.onload = function(){ photo = img; syncPhoto(); render(); };
+    img.onerror = function(){ toast("사진을 열지 못했습니다.","warn"); };
+    img.src = url;
+  }
+  function syncPhoto(){
+    document.getElementById("btn-nophoto").hidden = !photo;
+    document.getElementById("btn-photo").textContent = photo ? "사진 바꾸기" : "배경 사진 고르기";
+    document.getElementById("photo-ctl").setAttribute("aria-disabled", String(!photo));
+    document.getElementById("dim-ctl").setAttribute("aria-disabled", String(!photo));
+    canvas.style.cursor = photo ? "default" : "pointer";
+  }
+  syncPhoto();
+
+  // drawing helpers
+  function spaced(px){ if("letterSpacing" in ctx) ctx.letterSpacing = px + "px"; }
+  function fit(text, max){
+    text = String(text || "");
+    if(ctx.measureText(text).width <= max) return text;
+    while(text.length > 1 && ctx.measureText(text + "…").width > max) text = text.slice(0, -1);
+    return text + "…";
+  }
+  function grain(alpha){
+    // fixed-seed speckle so the card looks printed, not flat
+    var seed = 7;
+    function rnd(){ seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+    ctx.save();
+    for(var i = 0; i < 9000; i++){
+      ctx.fillStyle = rnd() > .5 ? "rgba(255,255,255,"+alpha+")" : "rgba(0,0,0,"+alpha+")";
+      ctx.fillRect(rnd() * W, rnd() * H, 2, 2);
+    }
+    ctx.restore();
+  }
+
+  function render(){
+    var T = THEMES[S.theme] || THEMES.concrete;
+    var ink = T.ink, soft = T.soft, rule = T.rule;
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.clearRect(0,0,W,H);
+
+    if(photo){
+      var z = S.zoom / 100;
+      var sc = Math.max(W / photo.width, H / photo.height) * z;
+      var dw = photo.width * sc, dh = photo.height * sc;
+      ctx.drawImage(photo, (W - dw) * S.px / 100, (H - dh) * S.py / 100, dw, dh);
+      var d = S.dim / 100;
+      var g = ctx.createLinearGradient(0, 0, 0, H);
+      g.addColorStop(0, "rgba(0,0,0,"+(d*.55)+")");
+      g.addColorStop(.35, "rgba(0,0,0,"+(d*.25)+")");
+      g.addColorStop(.6, "rgba(0,0,0,"+(d*.8)+")");
+      g.addColorStop(1, "rgba(0,0,0,"+Math.min(.95, d*1.25)+")");
+      ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+      ink = "#F4F1EB"; soft = "rgba(244,241,235,.72)"; rule = "rgba(244,241,235,.3)";
+    } else {
+      ctx.fillStyle = T.bg; ctx.fillRect(0,0,W,H);
+      grain(T.grain);
+    }
+
+    ctx.textBaseline = "alphabetic";
+
+    // top bar
+    ctx.fillStyle = ink; ctx.font = "500 30px " + NUM; spaced(1);
+    ctx.textAlign = "left"; ctx.fillText(fit(S.handle, 560), PAD, 128);
+    ctx.textAlign = "right"; ctx.fillStyle = soft; ctx.font = "500 26px " + NUM; spaced(4);
+    ctx.fillText(String(S.look || "").toUpperCase(), W - PAD, 128);
+    ctx.fillStyle = rule; ctx.fillRect(PAD, 158, W - PAD*2, 2);
+
+    // items, laid out from the bottom up
+    var items = S.items.filter(function(it){ return (it.brand || it.name || it.size); });
+    var footY = H - PAD;
+    var hasMemo = !!String(S.memo || "").trim();
+    var rowH = 118;
+    var listBottom = footY - (hasMemo ? 74 : 20);
+    var listTop = listBottom - items.length * rowH;
+
+    items.forEach(function(it, i){
+      var top = listTop + i * rowH;
+      ctx.fillStyle = rule; ctx.fillRect(PAD, top, W - PAD*2, 1.5);
+      var sizeW = 0;
+      if(it.size){
+        ctx.font = "700 54px " + NUM; spaced(0);
+        sizeW = ctx.measureText(String(it.size).toUpperCase()).width;
+        ctx.textAlign = "right"; ctx.fillStyle = ink;
+        ctx.fillText(fit(String(it.size).toUpperCase(), 260), W - PAD, top + 82);
+        sizeW = Math.min(sizeW, 260);
+      }
+      var textMax = W - PAD*2 - 190 - sizeW - 30;
+      ctx.textAlign = "left";
+      ctx.fillStyle = soft; ctx.font = "500 22px " + NUM; spaced(4);
+      ctx.fillText(it.label, PAD, top + 50);
+      ctx.fillStyle = ink; ctx.font = "700 34px " + KR; spaced(-.5);
+      ctx.fillText(fit(it.brand || it.name, textMax), PAD + 190, top + 52);
+      if(it.brand && it.name){
+        ctx.fillStyle = soft; ctx.font = "400 26px " + KR; spaced(0);
+        ctx.fillText(fit(it.name, textMax), PAD + 190, top + 92);
+      }
+    });
+    if(items.length){ ctx.fillStyle = rule; ctx.fillRect(PAD, listBottom, W - PAD*2, 1.5); }
+
+    if(hasMemo){
+      ctx.textAlign = "left"; ctx.fillStyle = soft; ctx.font = "400 27px " + KR; spaced(0);
+      ctx.fillText(fit("— " + S.memo, W - PAD*2), PAD, footY);
+    }
+
+    // big stats: top block on a plain card, just above the list on a photo
+    var statBase = photo ? Math.max(380, listTop - 96) : Math.min(470, Math.max(360, listTop - 140));
+    var h = String(S.height || "").trim(), w = String(S.weight || "").trim();
+    ctx.textAlign = "left"; ctx.fillStyle = ink;
+    ctx.font = "700 196px " + NUM; spaced(-8);
+    var x = PAD - 6;
+    if(h){ ctx.fillText(h, x, statBase); x += ctx.measureText(h).width + 18; }
+    if(h && w){
+      ctx.font = "400 150px " + NUM; spaced(0); ctx.fillStyle = soft;
+      ctx.fillText("/", x, statBase - 10); x += ctx.measureText("/").width + 18;
+      ctx.font = "700 196px " + NUM; spaced(-8); ctx.fillStyle = ink;
+    }
+    if(w){ ctx.fillText(w, x, statBase); }
+
+    var meta = [];
+    if(h || w) meta.push((h ? "CM" : "") + (h && w ? " · " : "") + (w ? "KG" : ""));
+    if(String(S.usual || "").trim()) meta.push("USUAL " + String(S.usual).toUpperCase());
+    ctx.font = "500 24px " + NUM; spaced(4); ctx.fillStyle = soft;
+    ctx.fillText(meta.join("   "), PAD, statBase + 52);
+    if(String(S.build || "").trim()){
+      ctx.font = "500 30px " + KR; spaced(0); ctx.fillStyle = ink;
+      ctx.fillText(fit(S.build, W - PAD*2), PAD, statBase + 100);
+    }
+    spaced(0);
+  }
+
+  // save
+  var toastEl = document.getElementById("toast");
+  var toastTimer;
+  function toast(msg){ toastEl.textContent = msg; clearTimeout(toastTimer); toastTimer = setTimeout(function(){ toastEl.textContent = ""; }, 3200); }
+
+  var saveBtn = document.getElementById("btn-save");
+  saveBtn.addEventListener("click", function(){
+    saveBtn.disabled = true;
+    render();
+    canvas.toBlob(function(blob){
+      saveBtn.disabled = false;
+      if(!blob){ toast("이미지를 만들지 못했습니다."); return; }
+      var name = "size-" + (String(S.look || "card").trim().replace(/\s+/g, "-").toLowerCase() || "card") + ".png";
+      var file = null;
+      try{ file = new File([blob], name, {type:"image/png"}); }catch(e){}
+      var touch = window.matchMedia && matchMedia("(pointer: coarse)").matches;
+      // on phones the share sheet is the way into the photo library
+      if(touch && file && navigator.canShare && navigator.canShare({files:[file]})){
+        navigator.share({files:[file]}).then(function(){ toast("저장했습니다."); }, function(err){
+          if(err && err.name === "AbortError") toast("취소했습니다."); else download(blob, name);
+        });
+        return;
+      }
+      download(blob, name);
+    }, "image/png");
+  });
+  function download(blob, name){
+    try{
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+      toast("저장했습니다.");
+    }catch(e){ toast("미리보기를 길게 눌러(또는 우클릭) 이미지 저장을 쓰세요."); }
+  }
+
+  render();
+  if(document.fonts && document.fonts.load){
+    Promise.all([
+      document.fonts.load('700 196px "Space Grotesk"', "18490"),
+      document.fonts.load('500 30px "Space Grotesk"', "@184.fit LOOK"),
+      document.fonts.load('700 34px Pretendard', "브랜드"),
+      document.fonts.load('400 26px Pretendard', "제품명"),
+      document.fonts.load('500 30px Pretendard', "근육형 어깨")
+    ]).then(render, render);
+  }
+})();
+</script>
+</body>
+</html>
