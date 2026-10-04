@@ -11,7 +11,12 @@
      SHOES / Dr. Martens / 1460 부츠 / 280
      ```
 2. Claude 데스크톱 앱에서 이 레포를 열고 "fashion 폴더 올려줘"라고 말한다.
-3. 캡션, 게시 순서, 사이즈 카드를 만들어 Buffer 대기열에 예약하고, 결과를 보고한다.
+3. 캡션, 게시 순서, 사이즈 카드를 만들어 Meta Business Suite에서 예약하고, 결과를 보고한다.
 
 계정 정보와 요일·시간은 `profile.json`, 말투는 `voice.md`에서 바꾼다.
 자세한 작업 순서는 `CLAUDE.md`에 있다.
+
+## 처음 한 번 해 둘 것
+- 인스타그램 계정을 **프로페셔널(크리에이터) 계정**으로 전환한다.
+- Facebook 페이지를 만들어 인스타그램과 연결한다. (Meta Business Suite 예약에 필요)
+- 앱의 브라우저에서 business.facebook.com에 로그인해 둔다. 로그인이 풀리면 Claude가 로그인을 요청한다.
