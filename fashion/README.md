@@ -17,13 +17,13 @@
 자세한 작업 순서는 `CLAUDE.md`에 있다.
 
 ## 처음 한 번 해 둘 것
-- 인스타 `mooljumeok`을 프로페셔널(크리에이터) 계정으로 전환한다. (완료)
-- business.facebook.com(Meta Business Suite)에 접속해 `mooljumeok` 인스타 계정을 연결한다. Facebook 페이지 연결을 요구하면 안내대로 페이지를 만들어 연결한다.
+- 인스타 `mool_jumeok`을 프로페셔널(크리에이터) 계정으로 전환한다. (완료)
+- business.facebook.com(Meta Business Suite)에 접속해 `mool_jumeok` 인스타 계정을 연결한다. Facebook 페이지 연결을 요구하면 안내대로 페이지를 만들어 연결한다.
 - 앱의 브라우저에 Meta Business Suite를 로그인해 둔다. 로그인이 풀리면 Claude가 로그인을 요청한다.
 - 인테리어 계정은 계속 Buffer를 쓴다. 두 도구가 섞이지 않는다.
 
 ## 계정 소개 문구 (프로필에 붙여 넣기)
-표시 이름: `물주먹`  /  계정 이름: `mooljumeok`
+표시 이름: `물주먹`  /  계정 이름: `mool_jumeok`
 ```
 물주먹 · 184/90
 운동은 하는데 이름은 물주먹
