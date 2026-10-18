@@ -126,11 +126,12 @@
     font-family:"Cormorant Garamond",Georgia,"Times New Roman",serif;
     font-weight:500;
     /* wide tracking eats width fast — keep the name on one line at phone width */
-    font-size:clamp(19px,6.3vw,28px);
-    letter-spacing:.3em;
+    /* 2026-10-18 전달받은 조합: Cormorant Garamond Medium, 자간 더 넓게 (.3em → .42em) */
+    font-size:clamp(17px,5.5vw,26px);
+    letter-spacing:.42em;
     line-height:1.2;
     margin:0;
-    text-indent:.3em;
+    text-indent:.42em;
     white-space:nowrap;
   }
 
@@ -142,7 +143,7 @@
   .ornament b{width:5px;height:5px;transform:rotate(45deg);background:var(--accent);}
 
   .tagline{
-    margin:0;font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;font-weight:400;font-size:13.5px;line-height:2.3;
+    margin:0;font-family:"Noto Serif KR","Apple SD Gothic Neo",serif;font-weight:400;font-size:12.5px;line-height:2.7; /* 슬로건: 작게, 행간 여유 있게 */
     color:var(--ink-soft);letter-spacing:.01em;
   }
 
