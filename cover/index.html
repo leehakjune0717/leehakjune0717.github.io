@@ -266,6 +266,38 @@
     min-width:0;
   }
   .slotinfo b{color:var(--ink);font-weight:700;}
+
+  /* colour swatches: rainbow row(s) plus a free picker at the end */
+  .swatches{display:flex;flex-wrap:wrap;gap:7px;align-items:center;}
+  .swatches .row-break{flex-basis:100%;height:0;}
+  .swatches button,
+  .swatches .custom{
+    width:30px;height:30px;
+    border-radius:50%;
+    border:1px solid rgba(0,0,0,.18);
+    background:var(--c);
+    padding:0;
+    cursor:pointer;
+    position:relative;
+    flex:0 0 auto;
+  }
+  .swatches button[aria-pressed="true"],
+  .swatches .custom[data-on="true"]{
+    outline:2px solid var(--accent);
+    outline-offset:2px;
+  }
+  .swatches .custom{
+    background:conic-gradient(#E5484D,#F2994A,#F5C542,#3FA46A,#3B82F6,#4F46E5,#9B51E0,#E5484D);
+    overflow:hidden;
+  }
+  .swatches .custom input{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    opacity:0;cursor:pointer;border:0;padding:0;
+  }
+  .swatches .custom:focus-within{outline:2px solid var(--accent);outline-offset:2px;}
+  .swatch-label{font-size:12px;color:var(--ink-2);margin-left:4px;}
+  .contrast-note{margin:8px 0 0;font-size:12px;color:var(--accent);}
   section.panel{
     background:var(--panel);
     border:1px solid var(--line);
@@ -290,8 +322,8 @@
   .grid.two{grid-template-columns:1fr 1fr;}
   @media (max-width:520px){ .grid.two{grid-template-columns:1fr;} }
 
-  label.field{display:flex;flex-direction:column;gap:6px;min-width:0;}
-  label.field > span{
+  .field{display:flex;flex-direction:column;gap:6px;min-width:0;}
+  .field > span{
     font-size:11px;
     font-weight:500;
     letter-spacing:.1em;
@@ -523,12 +555,23 @@
       <section class="panel locked" data-mode="middle" hidden>
         <h2>중간 장 고정 스타일</h2>
         <p class="sub">모든 중간 장에 똑같이 적용돼야 게시물이 한 벌로 보입니다.</p>
-        <div class="grid two">
+        <div class="grid">
+          <div class="field">
+            <span>바탕색 <span class="swatch-label" id="mbgcolor-name"></span></span>
+            <div class="swatches" id="mbgcolor"></div>
+          </div>
+          <div class="field">
+            <span>글씨 색 <span class="swatch-label" id="mtcolor-name"></span></span>
+            <div class="swatches" id="mtcolor"></div>
+            <p class="contrast-note" id="mcontrast" hidden>글씨 색이 바탕색과 비슷해서 잘 안 읽힐 수 있습니다.</p>
+          </div>
+        </div>
+        <div class="grid two" style="margin-top:16px">
           <label class="field">
-            <span>바탕색</span>
-            <span class="seg" id="mbg">
-              <button type="button" data-v="white" aria-pressed="true">흰색</button>
-              <button type="button" data-v="paper" aria-pressed="false">크림</button>
+            <span>공간 이름 글씨체</span>
+            <span class="seg" id="mfont">
+              <button type="button" data-v="serif" aria-pressed="true">명조</button>
+              <button type="button" data-v="sans" aria-pressed="false">고딕</button>
             </span>
           </label>
           <label class="field">
@@ -574,10 +617,10 @@
             <span class="rangerow"><input type="range" id="ologosize" min="16" max="60" value="36"><output id="ologosize-out">36%</output></span>
           </label>
           <label class="field">
-            <span>글자 색</span>
-            <span class="seg" id="otext">
-              <button type="button" data-v="light" aria-pressed="true">흰색</button>
-              <button type="button" data-v="dark" aria-pressed="false">먹색</button>
+            <span>글씨체</span>
+            <span class="seg" id="ofont">
+              <button type="button" data-v="serif" aria-pressed="true">명조</button>
+              <button type="button" data-v="sans" aria-pressed="false">고딕</button>
             </span>
           </label>
           <label class="field">
@@ -587,6 +630,10 @@
               <button type="button" data-v="light" aria-pressed="false">흰색</button>
             </span>
           </label>
+        </div>
+        <div class="field" style="margin-top:16px">
+          <span>글씨 색 <span class="swatch-label" id="otcolor-name"></span></span>
+          <div class="swatches" id="otcolor"></div>
         </div>
         <div class="grid two" style="margin-top:14px">
           <label class="checkline"><input type="checkbox" id="ogray" checked> 사진 흑백으로</label>
@@ -657,6 +704,10 @@
             <span>서명 (제목 아래)</span>
             <input type="text" id="byline" maxlength="30" value="BY MYOWNDESIGN">
           </label>
+        </div>
+        <div class="field" style="margin-top:14px">
+          <span>글씨 색 (제목 · 서명 · 화살표) <span class="swatch-label" id="tcolor-name"></span></span>
+          <div class="swatches" id="tcolor"></div>
         </div>
 
         <div class="grid two" style="margin-top:14px">
@@ -756,7 +807,8 @@
     arrow:true, rule:true, grain:true, dots:false,
     logosize:26, logopos:"right", logowhite:true, logoshadow:true,
     focal:50, zoom:100,
-    mode:"cover"
+    mode:"cover",
+    tcolor:"#FFFFFF"
   };
 
   var OUTRO_DEFAULTS = {
@@ -764,7 +816,7 @@
     obody:"마이온디자인의 다양한 시공 사례를\n더 자세히 보고 싶으시다면,\n홈페이지와 유튜브를\n살펴보세요.",
     ocontact:"-  상담문의 : 프로필 링크",
     oblur:6, owash:42, ofocal:50, ologosize:36,
-    otext:"light", ologo:"dark", ogray:true, ograin:true
+    otcolor:"#FFFFFF", ofont:"serif", ologo:"dark", ogray:true, ograin:true
   };
   var OUTRO_KEYS = Object.keys(OUTRO_DEFAULTS);
   OUTRO_KEYS.forEach(function(k){ S[k] = OUTRO_DEFAULTS[k]; });
@@ -772,7 +824,7 @@
   // middle slides: arrangement + house style are remembered; the words change every slide
   var MIDKEY = "feedcover.middle.v1";
   var MID_DEFAULTS = {
-    mlayout:"grid4", mbg:"white", mgap:10, mtexth:26, mtexton:true,
+    mlayout:"grid4", mbgcolor:"#FFFFFF", mtcolor:"#2F2723", mfont:"serif", mgap:10, mtexth:26, mtexton:true,
     mbefore:"◀  Before", mafter:"▼  After"
   };
   var MID_KEYS = Object.keys(MID_DEFAULTS);
@@ -799,7 +851,7 @@
 
   /* ---------- persistence (style only) ---------- */
   var STYLE_KEYS = ["byline","ratio","align","scrim","tsize","weight","arrow","rule","grain","dots",
-                    "logosize","logopos","logowhite","logoshadow"];
+                    "logosize","logopos","logowhite","logoshadow","tcolor"];
   function saveStyle(){
     try{
       var o = {};
@@ -824,11 +876,13 @@
       if(rq){
         var q = JSON.parse(rq);
         OUTRO_KEYS.forEach(function(k){ if(q && q[k] !== undefined) S[k] = q[k]; });
+        if (q && q.otcolor === undefined && q.otext === "dark") S.otcolor = "#2F2723";
       }
       var rm = localStorage.getItem(MIDKEY);
       if(rm){
         var m = JSON.parse(rm);
         MID_KEYS.forEach(function(k){ if(m && m[k] !== undefined) S[k] = m[k]; });
+        if (m && m.mbgcolor === undefined && m.mbg === "paper") S.mbgcolor = "#F7F1E7";
       }
       if(!LAYOUTS[S.mlayout]) S.mlayout = "grid4";
     }catch(e){}
@@ -928,6 +982,37 @@
     img.src = src;
   }
 
+  /* ---------- colour ---------- */
+  var RAINBOW = [
+    ["#E5484D","빨강"],["#F2994A","주황"],["#F5C542","노랑"],["#3FA46A","초록"],
+    ["#3B82F6","파랑"],["#4F46E5","남색"],["#9B51E0","보라"]
+  ];
+  var TEXT_SWATCHES = [["#FFFFFF","흰색"],["#2F2723","먹색"]].concat(RAINBOW);
+  // backgrounds: soft tints first (they sit well behind photos), then the full-strength row
+  var BG_SWATCHES = [
+    ["#FFFFFF","흰색"],["#F7F1E7","크림"],
+    ["#FBE4E4","연한 빨강"],["#FDEBDB","연한 주황"],["#FFF4CC","연한 노랑"],["#E2F3E8","연한 초록"],
+    ["#E1ECFD","연한 파랑"],["#E5E4FA","연한 남색"],["#F0E5FB","연한 보라"],
+    null,
+    ["#2F2723","먹색"]
+  ].concat(RAINBOW);
+
+  function hexRgb(hex){
+    var h = String(hex || "#000").replace("#","");
+    if (h.length === 3) h = h.split("").map(function(c){ return c+c; }).join("");
+    var n = parseInt(h, 16) || 0;
+    return [(n>>16)&255, (n>>8)&255, n&255];
+  }
+  function rgba(hex, a){ var c = hexRgb(hex); return "rgba(" + c[0] + "," + c[1] + "," + c[2] + "," + a + ")"; }
+  function luma(hex){
+    var c = hexRgb(hex).map(function(v){ v/=255; return v <= .03928 ? v/12.92 : Math.pow((v+.055)/1.055, 2.4); });
+    return .2126*c[0] + .7152*c[1] + .0722*c[2];
+  }
+  function contrast(a, b){
+    var x = luma(a), y = luma(b);
+    return (Math.max(x,y) + .05) / (Math.min(x,y) + .05);
+  }
+
   /* ---------- drawing ---------- */
   function fitFont(text, weight, maxWidth, startPx){
     var px = startPx;
@@ -964,10 +1049,11 @@
   /* ---------- closing slide ---------- */
   var SERIF = '"Noto Serif KR", "Nanum Myeongjo", serif';
 
-  function fitSerif(lines, weight, maxWidth, startPx){
+  function fitSerif(lines, weight, maxWidth, startPx, fam){
     var px = startPx;
+    fam = fam || SERIF;
     for(var i=0;i<60 && px>12;i++){
-      ctx.font = weight + " " + px + "px " + SERIF;
+      ctx.font = weight + " " + px + "px " + fam;
       var ok = lines.every(function(t){ return ctx.measureText(t).width <= maxWidth; });
       if (ok) break;
       px -= Math.max(1, Math.round(px*0.04));
@@ -1011,15 +1097,17 @@
 
     // wash: a warm grey veil, deeper for white type, paler for dark type
     var wash = S.owash/100;
-    var light = S.otext === "light";
+    // pale type gets a deeper veil behind it, dark type a paler one
+    var light = luma(S.otcolor) > .35;
+    var OFAM = S.ofont === "sans" ? SANS : SERIF;
     ctx.fillStyle = light ? "rgba(78,72,66," + wash.toFixed(3) + ")"
                           : "rgba(242,237,229," + wash.toFixed(3) + ")";
     ctx.fillRect(0,0,W,H);
 
     if (S.ograin) drawGrain(W,H);
 
-    var ink  = light ? "rgba(255,253,249,.95)" : "rgba(40,35,31,.92)";
-    var ink2 = light ? "rgba(255,253,249,.86)" : "rgba(40,35,31,.80)";
+    var ink  = rgba(S.otcolor, .95);
+    var ink2 = rgba(S.otcolor, .86);
     var margin = Math.round(96*s);
     var maxW = W - margin*2;
 
@@ -1030,8 +1118,8 @@
     // 1) top line, set to the right
     var oq = String(S.oq || "").trim();
     if (oq){
-      var qpx = fitSerif([oq], 400, maxW, Math.round(34*s));
-      ctx.font = "400 " + qpx + "px " + SERIF;
+      var qpx = fitSerif([oq], 400, maxW, Math.round(34*s), OFAM);
+      ctx.font = "400 " + qpx + "px " + OFAM;
       ctx.fillStyle = ink2;
       ctx.textAlign = "right";
       ctx.fillText(oq, W - margin, Math.round(H*0.105) + qpx);
@@ -1056,7 +1144,7 @@
     // 3) body, left-aligned, generous leading
     var lines = String(S.obody || "").replace(/\r/g,"").split("\n");
     while (lines.length && !lines[lines.length-1].trim()) lines.pop();
-    var bpx = fitSerif(lines.length ? lines : [""], 400, maxW, Math.round(34*s));
+    var bpx = fitSerif(lines.length ? lines : [""], 400, maxW, Math.round(34*s), OFAM);
     var lead = Math.round(bpx * 1.72);
     var contact = String(S.ocontact || "").trim();
     var contactGap = contact ? Math.round(bpx*2.6) : 0;
@@ -1065,7 +1153,7 @@
     var bottomLimit = Math.round(H*0.90);
     var startY = Math.max(logoBottom + Math.round(H*0.08), bottomLimit - blockH);
 
-    ctx.font = "400 " + bpx + "px " + SERIF;
+    ctx.font = "400 " + bpx + "px " + OFAM;
     ctx.fillStyle = ink;
     ctx.textAlign = "left";
     lines.forEach(function(t, i){
@@ -1074,8 +1162,8 @@
 
     // 4) contact line
     if (contact){
-      var cpx = fitSerif([contact], 400, maxW, Math.round(bpx*0.94));
-      ctx.font = "400 " + cpx + "px " + SERIF;
+      var cpx = fitSerif([contact], 400, maxW, Math.round(bpx*0.94), OFAM);
+      ctx.font = "400 " + cpx + "px " + OFAM;
       ctx.fillStyle = ink2;
       ctx.fillText(contact, margin, startY + bpx + (lines.length-1)*lead + contactGap);
     }
@@ -1087,8 +1175,7 @@
       var dx0 = W/2 - (n-1)*gap/2, dy0 = H - Math.round(26*s);
       for (var i=0;i<n;i++){
         ctx.beginPath();
-        ctx.fillStyle = i===n-1 ? (light ? "rgba(255,255,255,.95)" : "rgba(40,35,31,.9)")
-                                : (light ? "rgba(255,255,255,.4)"  : "rgba(40,35,31,.3)");
+        ctx.fillStyle = i===n-1 ? rgba(S.otcolor, .95) : rgba(S.otcolor, .38);
         ctx.arc(dx0 + i*gap, dy0, r, 0, Math.PI*2);
         ctx.fill();
       }
@@ -1206,9 +1293,9 @@
   function renderMiddle(W, H, exporting){
     var L = middleRects(W, H), s = L.s;
     mid.rects = L;
-    var paper = S.mbg === "paper";
+    var bg = S.mbgcolor, darkBg = luma(bg) < .35;
     ctx.clearRect(0,0,W,H);
-    ctx.fillStyle = paper ? "#F7F1E7" : "#FFFFFF";
+    ctx.fillStyle = bg;
     ctx.fillRect(0,0,W,H);
 
     L.slots.forEach(function(rc, i){
@@ -1219,10 +1306,11 @@
         var gm = coverGeom(sl, rc);
         ctx.drawImage(sl.img, gm.dx, gm.dy, gm.dw, gm.dh);
       } else {
-        ctx.fillStyle = paper ? "#EAE1D3" : "#EFEBE5";
+        // empty box: the background, one shade deeper (or lighter on a dark ground)
+        ctx.fillStyle = darkBg ? "rgba(255,255,255,.10)" : "rgba(40,30,20,.07)";
         ctx.fillRect(rc.x, rc.y, rc.w, rc.h);
         if (!exporting){
-          ctx.fillStyle = "rgba(90,80,70,.55)";
+          ctx.fillStyle = darkBg ? "rgba(255,255,255,.6)" : "rgba(90,80,70,.55)";
           ctx.textAlign = "center"; ctx.textBaseline = "middle";
           ctx.font = "500 " + Math.round(Math.min(40, rc.h*0.12)*s + 10*s) + "px " + SANS;
           ctx.fillText("+ 사진 " + (i+1), rc.x + rc.w/2, rc.y + rc.h/2);
@@ -1243,7 +1331,7 @@
       var lpx = Math.round(24*s), lg = Math.round(lpx*1.5);
       ctx.save();
       ctx.font = "500 " + lpx + "px " + SANS;
-      ctx.fillStyle = "#6F665C";
+      ctx.fillStyle = rgba(S.mtcolor, .8);
       ctx.textAlign = "left"; ctx.textBaseline = "alphabetic";
       var lx = L.label.x + Math.round(14*s);
       var ly = L.label.y + L.label.h - Math.round(10*s);
@@ -1263,12 +1351,13 @@
       var y = top;
       if (title){
         var tpx = Math.round(38*s);
+        var tfont = S.mfont === "sans" ? "600 " : "500 ", tfam = S.mfont === "sans" ? SANS : SERIF;
         for (var k=0;k<30;k++){
-          ctx.font = "500 " + tpx + "px " + SERIF;
+          ctx.font = tfont + tpx + "px " + tfam;
           if (ctx.measureText(title).width <= maxW || tpx <= 18*s) break;
           tpx -= 1;
         }
-        ctx.fillStyle = "#2F2723";
+        ctx.fillStyle = S.mtcolor;
         ctx.fillText(title, mx, y + tpx);
         y += tpx + Math.round(26*s);
       }
@@ -1281,7 +1370,7 @@
         if (y + bpx + (lines.length-1)*lead <= bottom || bpx <= 15*s) break;
         bpx -= 1;
       }
-      ctx.fillStyle = "#6F665C";
+      ctx.fillStyle = rgba(S.mtcolor, .8);
       var maxLines = Math.max(0, Math.floor((bottom - y - bpx)/lead) + 1);
       lines.slice(0, maxLines).forEach(function(t, i){ ctx.fillText(t, mx, y + bpx + i*lead); });
       ctx.restore();
@@ -1330,7 +1419,7 @@
     // hairline
     var y = Math.round(H*0.115);
     if (S.rule){
-      ctx.fillStyle = "rgba(255,255,255,.55)";
+      ctx.fillStyle = rgba(S.tcolor, .55);
       var rw = Math.round(W*0.30);
       ctx.fillRect(centered ? Math.round(W/2 - rw/2) : margin, y, rw, Math.max(1, Math.round(2*s)));
       y += Math.round(46*s);
@@ -1349,9 +1438,9 @@
     ctx.font = S.weight + " " + px + 'px "Noto Sans KR", system-ui, sans-serif';
 
     ctx.save();
-    ctx.shadowColor = "rgba(0,0,0,.35)";
-    ctx.shadowBlur = Math.round(24*s);
-    ctx.fillStyle = "#ffffff";
+    // a dark halo lifts pale type off a photo; on dark type it only muddies the edges
+    if (luma(S.tcolor) > .35){ ctx.shadowColor = "rgba(0,0,0,.35)"; ctx.shadowBlur = Math.round(24*s); }
+    ctx.fillStyle = S.tcolor;
     var lh = Math.round(px*1.2);
     var y1 = y + px;
     if (t1) ctx.fillText(t1, anchorX, y1);
@@ -1365,7 +1454,7 @@
     // swipe arrow
     if (S.arrow){
       ctx.save();
-      ctx.strokeStyle = "rgba(255,255,255,.92)";
+      ctx.strokeStyle = rgba(S.tcolor, .92);
       ctx.lineWidth = Math.max(2, Math.round(4*s));
       ctx.lineCap = "square";
       var ax1, ax2, ay;
@@ -1390,7 +1479,7 @@
 
     // byline
     if (S.byline){
-      ctx.fillStyle = "rgba(255,255,255,.82)";
+      ctx.fillStyle = rgba(S.tcolor, .85);
       ctx.font = 'italic 400 ' + Math.round(px*0.36) + 'px "Instrument Serif", "Noto Sans KR", serif';
       ctx.fillText(S.byline, anchorX, lastY + Math.round(px*0.72));
     }
@@ -1473,6 +1562,47 @@
     sync();
   }
 
+  /* colour swatches: preset buttons + a free picker that remembers any colour */
+  function bindSwatches(id, key, list){
+    var box = document.getElementById(id);
+    var nameEl = document.getElementById(id + "-name");
+    list.forEach(function(it){
+      if (!it){ var br = document.createElement("span"); br.className = "row-break"; box.appendChild(br); return; }
+      var b = document.createElement("button");
+      b.type = "button"; b.dataset.v = it[0]; b.title = it[1];
+      b.setAttribute("aria-label", it[1]);
+      b.style.setProperty("--c", it[0]);
+      box.appendChild(b);
+    });
+    var custom = document.createElement("label");
+    custom.className = "custom"; custom.title = "직접 고르기";
+    var picker = document.createElement("input");
+    picker.type = "color"; picker.setAttribute("aria-label", "색 직접 고르기");
+    custom.appendChild(picker); box.appendChild(custom);
+    function sync(){
+      var v = String(S[key]).toUpperCase(), hit = null;
+      Array.prototype.forEach.call(box.querySelectorAll("button"), function(b){
+        var on = b.dataset.v.toUpperCase() === v;
+        b.setAttribute("aria-pressed", String(on));
+        if (on) hit = b.title;
+      });
+      custom.dataset.on = String(!hit);
+      picker.value = /^#[0-9A-F]{6}$/.test(v) ? v.toLowerCase() : "#ffffff";
+      if (nameEl) nameEl.textContent = "· " + (hit || ("직접 고른 색 " + v));
+      if (typeof checkContrast === "function") checkContrast();
+    }
+    function set(v){ S[key] = v.toUpperCase(); sync(); saveStyle(); render(); }
+    box.addEventListener("click", function(ev){
+      var b = ev.target.closest("button"); if (b) set(b.dataset.v);
+    });
+    picker.addEventListener("input", function(){ set(picker.value); });
+    sync();
+  }
+  function checkContrast(){
+    var note = document.getElementById("mcontrast");
+    if (note) note.hidden = contrast(S.mbgcolor, S.mtcolor) >= 2.2;
+  }
+
   loadStyle();
 
   bindText("line1","line1"); bindText("line2","line2");
@@ -1513,6 +1643,7 @@
     if (savedLogo) setLogoFromSrc(savedLogo, false);
   } catch(e){}
   bindSeg("align","align"); bindSeg("weight","weight");
+  bindSwatches("tcolor","tcolor", TEXT_SWATCHES);
 
   /* closing slide controls */
   bindText("oq","oq"); bindText("obody","obody"); bindText("ocontact","ocontact");
@@ -1520,7 +1651,8 @@
   bindRange("owash","owash", function(v){ return v + "%"; });
   bindRange("ofocal","ofocal", function(v){ return v + "%"; });
   bindRange("ologosize","ologosize", function(v){ return v + "%"; });
-  bindSeg("otext","otext"); bindSeg("ologo","ologo");
+  bindSeg("ofont","ofont"); bindSeg("ologo","ologo");
+  bindSwatches("otcolor","otcolor", TEXT_SWATCHES);
   bindCheck("ogray","ogray"); bindCheck("ograin","ograin");
   document.getElementById("btn-oreset").addEventListener("click", function(){
     try{ localStorage.removeItem(OUTROKEY); }catch(e){}
@@ -1580,7 +1712,9 @@
   bindText("mbefore","mbefore"); bindText("mafter","mafter");
   bindRange("mtexth","mtexth", function(v){ return v + "%"; });
   bindRange("mgap","mgap", function(v){ return String(v); });
-  bindSeg("mbg","mbg");
+  bindSeg("mfont","mfont");
+  bindSwatches("mbgcolor","mbgcolor", BG_SWATCHES);
+  bindSwatches("mtcolor","mtcolor", TEXT_SWATCHES);
   (function(){
     var el = document.getElementById("mtexton");
     el.checked = !!S.mtexton;
